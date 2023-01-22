@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko-front
+spec:
+  containers:
+  - name: kaniko-front
+    image: gcr.io/kaniko-project/executor:latest
+    imagePullPolicy: Always
+    args:
+    - "--dockerfile=Dockerfile"
+    - "--context=git://github.com/deagwon97/bdg-blog-front.git"
+    - "--destination=516218207558.dkr.ecr.ap-northeast-2.amazonaws.com/bdg-front-prod:latest"
+    - "--cache=true"
+    envFrom:
+    - secretRef:
+        name: kaniko-secret
+  restartPolicy: Never
+  volumes:
+  - name: docker-config
+    configMap:
+      name: docker-config

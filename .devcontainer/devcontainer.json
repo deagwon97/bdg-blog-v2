@@ -1,0 +1,54 @@
+{
+  "name": "bdg-blog",
+  "dockerComposeFile": ["./docker-compose.yml"],
+  "service": "bdg-blog",
+  "shutdownAction": "stopCompose",
+  "settings": {
+    "eslint.nodePath": "/workdir/src/.yarn/sdks",
+    "prettier.prettierPath": "/workdir/src/.yarn/sdks/prettier/index.js",
+    "typescript.tsdk": "/workdir/src/.yarn/sdks/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    // "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "editor.formatOnPaste": false, // required
+    "editor.formatOnType": false, // required
+    "editor.formatOnSave": true, // optional
+
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "autoimport.autoComplete": true,
+    "autoimport.filesToScan": "**/*.{ts,tsx}",
+    "autoimport.spaceBetweenBraces": true,
+    "emmet.triggerExpansionOnTab": true,
+    "[prisma]": {
+      "editor.defaultFormatter": "Prisma.prisma"
+    }
+  },
+  "extensions": [
+    "ms-vscode.vscode-typescript-next",
+    "arcanis.vscode-zipfs",
+    "rvest.vs-code-prettier-eslint",
+    "esbenp.prettier-vscode",
+    "willstakayama.vscode-nextjs-snippets",
+    "foxundermoon.next-js",
+    "steoates.autoimport",
+    "mhutchie.git-graph",
+    "Prisma.prisma",
+    "Shuyoou.ts-react-snippets",
+    "donjayamanne.githistory"
+  ],
+  "workspaceFolder": "/workdir"
+}

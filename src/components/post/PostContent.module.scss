@@ -1,0 +1,43 @@
+.postContainer {
+  max-width: 800px;
+  width: 100%;
+  .createdAt {
+    text-align: end;
+    padding: 30px 0px;
+  }
+  a {
+    color: rgb(108, 153, 230);
+  }
+  pre {
+    width: 100%;
+    overflow-x: scroll;
+    background: rgb(29, 31, 33);
+    border-radius: 0.3em;
+    code {
+      color: rgb(197, 200, 198);
+      background: rgb(29, 31, 33);
+      text-shadow: rgba(0, 0, 0, 0.3) 0px 1px;
+      overflow: scroll;
+    }
+  }
+
+  p {
+    line-height: 1.5;
+    code {
+      font-size: 1rem;
+      color: rgb(230, 120, 108);
+      background-color: #e2e2e2;
+      padding: 0 0.2rem;
+      border-radius: 0.3rem;
+    }
+  }
+  img {
+    display: flex;
+    max-width: 100%;
+    margin: auto;
+    object-fit: cover;
+    align-self: center;
+  }
+  text-overflow: clip;
+  overflow-wrap: break-word;
+}

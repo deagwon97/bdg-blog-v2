@@ -1,0 +1,29 @@
+.background {
+  margin-bottom: 20px;
+  .head {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .scrollBlock {
+    display: grid;
+    width: 100%;
+    overflow-x: scroll;
+    .itemsBox {
+      display: inline-block;
+      min-width: 100%;
+      width: 100%;
+      .items {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: left;
+        .item {
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+}
