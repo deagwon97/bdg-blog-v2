@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bdg-blog-v2
+  name: bdg-blog-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bdg-blog-v2
+  template:
+    metadata:
+      labels:
+        app: bdg-blog-v2
+    spec:
+      containers:
+      - name: bdg-blog-v2
+        image: bdg-blog-v2
+        imagePullPolicy: Always
+        ports:
+          - name: web
+            containerPort: 80
