@@ -20,6 +20,9 @@ spec:
         ports:
           - name: web
             containerPort: 3000
+        envFrom:
+            - secretRef:
+                name: bdg-blog-v2
       serviceAccountName: bdg-blog-regcred 
       imagePullSecrets:
         - name: bdg-blog-regcred 

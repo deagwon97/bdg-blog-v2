@@ -1,4 +1,5 @@
-01create-secret.sh
+02create-secret.sh
+01nextjs.env
 
 lib-cov
 *.seed
