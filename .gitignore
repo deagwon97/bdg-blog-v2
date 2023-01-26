@@ -1,3 +1,5 @@
+01create-secret.sh
+
 lib-cov
 *.seed
 *.log

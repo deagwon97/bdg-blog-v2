@@ -15,8 +15,11 @@ spec:
     spec:
       containers:
       - name: bdg-blog-v2
-        image: bdg-blog-v2
+        image: harbor.deagwon.com/bdg-blog/bdg-blog-v2:latest
         imagePullPolicy: Always
         ports:
           - name: web
-            containerPort: 80
+            containerPort: 3000
+      serviceAccountName: bdg-blog-regcred 
+      imagePullSecrets:
+        - name: bdg-blog-regcred 

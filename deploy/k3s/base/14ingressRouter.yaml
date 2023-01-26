@@ -1,0 +1,36 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-careerdive-redirect
+  namespace: bdg-blog-v2
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`v2.deagwon.com`)
+      kind: Rule
+      services:
+        - name: bdg-blog-v2
+          port: 3000
+      middlewares:
+        - name: redirectscheme
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-bdg-blog-v2
+  namespace: bdg-blog-v2
+  annotations:
+    cert-manager.io/issuer: careerdive-issuer
+spec:
+  entryPoints:
+    - websecure
+    - web
+  routes:
+    - match: Host(`v2.deagwon.com`)
+      kind: Rule
+      services:
+        - name: bdg-blog-v2
+          port: 3000
+  tls:
+    secretName: bdg-blog-v2-crt-secret

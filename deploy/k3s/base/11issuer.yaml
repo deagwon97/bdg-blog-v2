@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: bdg-blog-v2-issuer
+  namespace: bdg-blog-v2
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: azaz09112@naver.com
+    privateKeySecretRef:
+      name: bdg-blog-v2-issuer
+    solvers:
+    - http01:
+        ingress:
+           class: traefik-cert-manager
