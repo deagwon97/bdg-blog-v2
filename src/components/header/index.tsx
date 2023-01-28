@@ -25,6 +25,10 @@ export const Header: React.FC<HeaderProps> = (props) => {
     if (window.scrollY !== 0 || firstTime) {
       height = maxHeight - window.scrollY
       height = height > minHeight ? height : minHeight
+      console.log('maxHeight: ', maxHeight)
+      console.log('minHeight: ', minHeight)
+      console.log('window.scrollY: ', window.scrollY)
+      console.log('height: ', height)
       setBannerHeight(height)
       fakeHeight = height + window.scrollY
       fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
@@ -33,7 +37,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   }
 
   useEffect(() => {
-    window.scroll({ top: 0, left: 400 - 55, behavior: 'smooth' })
+    window.scroll({ top: 0, left: 400 - 55 })
   }, [])
 
   useEffect(() => {
