@@ -3,7 +3,7 @@ LABEL builder=true
 COPY ./src /workdir/src
 WORKDIR /workdir/src
 RUN npm install -g npm@9.3.1 && npm install --global yarn --force && npm install -g prisma
-RUN yarn install --production --frozen-lockfile
+RUN yarn install
 RUN yarn build
 
 FROM node:16 AS server

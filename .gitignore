@@ -1,4 +1,5 @@
 02create-secret.sh
+21kaniko-secret
 01nextjs.env
 
 lib-cov

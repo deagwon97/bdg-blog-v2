@@ -15,7 +15,14 @@ const LoginForm = () => {
 
   const onClickLogin = () => {
     onLogin(email, password).then((res) => {
-      console.log(res)
+      if (res.valid) {
+        localStorage.setItem('id', JSON.stringify(res.id))
+        localStorage.setItem('email', JSON.stringify(res.email))
+        localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
+        localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+      } else {
+        alert('로그인 실패')
+      }
     })
   }
 
