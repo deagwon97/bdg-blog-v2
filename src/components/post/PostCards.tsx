@@ -74,17 +74,6 @@ const PostCards: React.FC<PostProps> = (props) => {
   })
 
   useEffect(() => {
-    onLogin('bdg@deagwon.com', 'bumagnetar621').then((res) => {
-      if (res) {
-        localStorage.setItem('id', JSON.stringify(res.id))
-        localStorage.setItem('email', JSON.stringify(res.email))
-        localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
-        localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
-      }
-    })
-  }, [])
-
-  useEffect(() => {
     setCurrentPageIdx(1)
     setPosts(props.posts)
   }, [isMobile, props])
