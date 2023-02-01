@@ -43,17 +43,17 @@ export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
   return pageNumbers
 }
 
-type CreatePost = (title: string, content: string) => Promise<Post>
-export const createPost: CreatePost = async (
-  title: string,
-  summary: string,
-  content: string
-) => {
-  let post = await prisma.post.create({
-    data: {
-      title: title,
-      content: content
-    }
-  })
-  return post
-}
+// type CreatePost = (title: string, content: string) => Promise<Post>
+// export const createPost: CreatePost = async (
+//   title: string,
+//   summary: string,
+//   content: string
+// ) => {
+//   let post = await prisma.post.create({
+//     data: {
+//       title: title,
+//       content: content
+//     }
+//   })
+//   return post
+// }

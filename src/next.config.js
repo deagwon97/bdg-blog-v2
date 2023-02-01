@@ -12,18 +12,6 @@ const nextConfig = {
   }
 }
 
-const redirects = {
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/main/',
-        permanent: true
-      }
-    ]
-  }
-}
-
 module.exports = {
   ...nextConfig,
   ...withTelefunc(),

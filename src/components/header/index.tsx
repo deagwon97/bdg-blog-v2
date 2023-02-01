@@ -1,6 +1,6 @@
 import styles from './header.module.scss'
 import Image from 'next/image'
-import logoutIcon from 'assets/header/logout-icon.svg'
+import loginIcon from 'assets/header/login-icon.svg'
 
 import writeIcon from 'assets/header/write-icon.svg'
 import Head from 'next/head'
@@ -25,10 +25,6 @@ export const Header: React.FC<HeaderProps> = (props) => {
     if (window.scrollY !== 0 || firstTime) {
       height = maxHeight - window.scrollY
       height = height > minHeight ? height : minHeight
-      console.log('maxHeight: ', maxHeight)
-      console.log('minHeight: ', minHeight)
-      console.log('window.scrollY: ', window.scrollY)
-      console.log('height: ', height)
       setBannerHeight(height)
       fakeHeight = height + window.scrollY
       fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
@@ -81,25 +77,29 @@ export const Header: React.FC<HeaderProps> = (props) => {
       />
       <div className={styles.background} style={{ height: bannerHeight }}>
         <div className={styles.content}>
-          <Link href="/main">
+          <Link href="/main/">
             <div className={styles.title}>bdg.blog</div>
           </Link>
           <div className={styles.icons}>
-            <Image
-              alt="writeIcon"
-              style={{ height: 30, width: 30, marginLeft: 40 }}
-              src={writeIcon}
-            />
-            <Image
-              alt="logoutIcon"
-              style={{
-                height: 28,
-                width: 28,
-                marginLeft: 40,
-                marginRight: 20
-              }}
-              src={logoutIcon}
-            />
+            <Link href="/post/create/">
+              <Image
+                alt="writeIcon"
+                style={{ height: 30, width: 30, marginLeft: 40 }}
+                src={writeIcon}
+              />
+            </Link>
+            <Link href="/login/">
+              <Image
+                alt="loginIcon"
+                style={{
+                  height: 24,
+                  width: 24,
+                  marginLeft: 40,
+                  marginRight: 20
+                }}
+                src={loginIcon}
+              />
+            </Link>
           </div>
         </div>
       </div>

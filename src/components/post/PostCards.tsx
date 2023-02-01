@@ -10,6 +10,7 @@ import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
 import { onLoadPostListPageSortByDate } from 'server/service/post.telefunc'
+import { onLogin } from 'server/service/user.telefunc'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
@@ -73,9 +74,20 @@ const PostCards: React.FC<PostProps> = (props) => {
   })
 
   useEffect(() => {
+    onLogin('bdg@deagwon.com', 'bumagnetar621').then((res) => {
+      if (res) {
+        localStorage.setItem('id', JSON.stringify(res.id))
+        localStorage.setItem('email', JSON.stringify(res.email))
+        localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
+        localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+      }
+    })
+  }, [])
+
+  useEffect(() => {
     setCurrentPageIdx(1)
     setPosts(props.posts)
-  }, [isMobile])
+  }, [isMobile, props])
 
   useEffect(() => {
     if (!isMobile) {
@@ -95,7 +107,14 @@ const PostCards: React.FC<PostProps> = (props) => {
         })
       }
     }
-  }, [currentPageIdx, lastFirstButtonIdx, lastButtonCount])
+  }, [
+    props.posts,
+    currentPageIdx,
+    lastFirstButtonIdx,
+    lastButtonCount,
+    buttonCount,
+    isMobile
+  ])
 
   const handlePageChange = (pageIdx: number) => {
     if (pageIdx < 1) {

@@ -1,0 +1,19 @@
+.background {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  margin-top: 5px;
+  padding: 0 16px 0 16px;
+  .contentBox {
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    min-width: 240px;
+    .title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  }
+}

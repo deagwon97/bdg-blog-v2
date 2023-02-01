@@ -1,3 +1,8 @@
+import { useEffect } from 'react'
+
 export default function Home() {
-  return <>{/* <Main /> */}</>
+  useEffect(() => {
+    window.location.href = '/home'
+  }, [])
+  return <></>
 }
