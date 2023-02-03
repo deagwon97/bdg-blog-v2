@@ -3,9 +3,11 @@
 import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import { Header } from 'components/header'
-import { useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import PostContent from 'components/post/PostContent'
 import styles from './create.module.scss'
+import useComponentSize from 'tools/useComponentSize'
+import { onCreatedPost } from 'server/service/post.telefunc'
 
 export default function PostCreatePage() {
   useEffect(() => {
@@ -24,6 +26,13 @@ export default function PostCreatePage() {
   const titleRef = useRef<HTMLTextAreaElement>(null)
   const contentRef = useRef<HTMLTextAreaElement>(null)
 
+  let ref = useRef() as MutableRefObject<HTMLInputElement>
+  let size = useComponentSize(ref)
+
+  useEffect(() => {
+    console.log(size.width)
+  }, [size])
+
   const onHandler = () => {
     if (titleRef.current && contentRef.current) {
       setPost({
@@ -37,8 +46,9 @@ export default function PostCreatePage() {
   return (
     <>
       <Header isMain={false} />
-      <div className={styles.background}>
+      <div className={styles.background} ref={ref}>
         <br />
+
         <div className={styles.container}>
           <textarea
             placeholder="제목을 입력하세요..."
@@ -56,17 +66,28 @@ export default function PostCreatePage() {
                 onChange={onHandler}
               />
             </div>
-            <div className={styles.contentBox}>
-              <PostContent post={post} />
+
+            {size.width > 800 && (
+              <div className={styles.contentBox}>
+                <PostContent post={post} />
+              </div>
+            )}
+          </div>
+          {size.width > 800 && (
+            <div>
+              <div
+                onClick={() => {
+                  console.log(post.title)
+                  onCreatedPost(post.title, post.content || '')
+                }}
+                className={styles.saveButton}>
+                저장하기
+              </div>
             </div>
-          </div>
-          <hr />
-          <div>
-            <div className={styles.saveButton}>저장하기</div>
-          </div>
+          )}
+          <br />
         </div>
       </div>
-      <Footer />
     </>
   )
 }

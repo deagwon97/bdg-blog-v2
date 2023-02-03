@@ -1,6 +1,7 @@
 import styles from './header.module.scss'
 import Image from 'next/image'
 import loginIcon from 'assets/header/login-icon.svg'
+import logoutIcon from 'assets/header/logout-icon.svg'
 
 import writeIcon from 'assets/header/write-icon.svg'
 import Head from 'next/head'
@@ -17,8 +18,9 @@ type HeaderProps = {
 export const Header: React.FC<HeaderProps> = (props) => {
   const [bannerHeight, setBannerHeight] = useState<number>(minHeight)
   const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(minHeight)
-
   const [firstTime, setFirstTime] = useState<boolean>(true)
+  const [accessToken, setAccessToken] = useState<string>('')
+
   let height = maxHeight
   let fakeHeight = maxHeight
   const handleScroll = () => {
@@ -64,6 +66,21 @@ export const Header: React.FC<HeaderProps> = (props) => {
     }
   }, [firstTime, props])
 
+  //get access token from local storage
+  useEffect(() => {
+    let token = localStorage.getItem('accessToken')
+    console.log(token)
+    if (token !== null) {
+      setAccessToken(token)
+    }
+  }, [])
+
+  const clearLocalStorage = () => {
+    localStorage.clear()
+    setAccessToken('')
+    window.location.reload()
+  }
+
   return (
     <>
       <Head>
@@ -80,26 +97,43 @@ export const Header: React.FC<HeaderProps> = (props) => {
           <Link href="/main/">
             <div className={styles.title}>bdg.blog</div>
           </Link>
+
           <div className={styles.icons}>
-            <Link href="/post/create/">
+            {accessToken && (
+              <Link href="/post/create/">
+                <Image
+                  alt="writeIcon"
+                  style={{ height: 30, width: 30, marginLeft: 40 }}
+                  src={writeIcon}
+                />
+              </Link>
+            )}
+            {!accessToken ? (
+              <Link href="/login/">
+                <Image
+                  alt="loginIcon"
+                  style={{
+                    height: 30,
+                    width: 30,
+                    marginLeft: 40,
+                    marginRight: 20
+                  }}
+                  src={loginIcon}
+                />
+              </Link>
+            ) : (
               <Image
-                alt="writeIcon"
-                style={{ height: 30, width: 30, marginLeft: 40 }}
-                src={writeIcon}
-              />
-            </Link>
-            <Link href="/login/">
-              <Image
-                alt="loginIcon"
+                alt="logoutIcon"
                 style={{
-                  height: 24,
-                  width: 24,
+                  height: 30,
+                  width: 30,
                   marginLeft: 40,
                   marginRight: 20
                 }}
-                src={loginIcon}
+                onClick={clearLocalStorage}
+                src={logoutIcon}
               />
-            </Link>
+            )}
           </div>
         </div>
       </div>

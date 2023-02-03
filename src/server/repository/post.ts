@@ -20,7 +20,7 @@ export const getPostListPageSortByDate: GetPostListPageSortByDate = async (
   return posts
 }
 
-type GetPost = (id: number) => Promise<Post>
+export type GetPost = (id: number) => Promise<Post>
 export const getPost: GetPost = async (id: number) => {
   let post = await prisma.post.findUnique({
     where: {
@@ -43,17 +43,17 @@ export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
   return pageNumbers
 }
 
-// type CreatePost = (title: string, content: string) => Promise<Post>
-// export const createPost: CreatePost = async (
-//   title: string,
-//   summary: string,
-//   content: string
-// ) => {
-//   let post = await prisma.post.create({
-//     data: {
-//       title: title,
-//       content: content
-//     }
-//   })
-//   return post
-// }
+export type CreatePost = (title: string, content: string) => Promise<Post>
+
+export const createPost: CreatePost = async (
+  title: string,
+  content: string
+) => {
+  let post = await prisma.post.create({
+    data: {
+      title: title,
+      content: content
+    }
+  })
+  return post
+}

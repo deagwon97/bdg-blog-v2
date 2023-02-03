@@ -10,7 +10,6 @@ import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
 import { onLoadPostListPageSortByDate } from 'server/service/post.telefunc'
-import { onLogin } from 'server/service/user.telefunc'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
