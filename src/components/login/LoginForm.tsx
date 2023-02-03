@@ -20,9 +20,10 @@ const LoginForm = () => {
         localStorage.setItem('email', JSON.stringify(res.email))
         localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
         localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
-      } else {
-        alert('로그인 실패')
+        window.location.href = '/main'
+        return
       }
+      alert('로그인 오류')
     })
   }
 
