@@ -1,7 +1,6 @@
 import { telefunc, config } from 'telefunc'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import assert from 'assert'
-import { getUser } from 'server/telefunc/getUser'
+import { checkUser } from 'server/telefunc/getUser'
 
 config.telefuncUrl = '/api/_telefunc'
 
@@ -9,9 +8,14 @@ export default async function telefuncMiddleware(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { url, method, body } = req
-  assert(url && method)
-  const context = { user: getUser(req) }
-  const httpResponse = await telefunc({ url, method, body, context })
+  const userId = await checkUser(req)
+  const httpResponse = await telefunc({
+    context: {
+      userId
+    },
+    url: req.url as string,
+    method: req.method as string,
+    body: req.body
+  })
   res.status(httpResponse.statusCode).send(httpResponse.body)
 }

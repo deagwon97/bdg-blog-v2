@@ -20,3 +20,18 @@ export const generateRefreshToken: GenerateToken = (id: number) => {
     expiresIn: '7d'
   })
 }
+
+export type DecodeToken = (token: string) => { userId: number; valid: boolean }
+export const decodeAccessToken: DecodeToken = (token: string) => {
+  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + 'access') as jwt.Secret
+  let decoded = { id: -1 }
+  let valid = false
+  try {
+    decoded = jwt.verify(token, secret) as { id: number }
+  } catch (error) {
+    console.log(error)
+    return { userId: decoded.id, valid: valid }
+  }
+  valid = true
+  return { userId: decoded.id, valid: valid }
+}

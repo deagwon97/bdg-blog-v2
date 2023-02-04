@@ -44,7 +44,6 @@ export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
 }
 
 export type CreatePost = (title: string, content: string) => Promise<Post>
-
 export const createPost: CreatePost = async (
   title: string,
   content: string
@@ -53,6 +52,17 @@ export const createPost: CreatePost = async (
     data: {
       title: title,
       content: content
+    }
+  })
+  return post
+}
+
+//delete post
+export type DeletePost = (id: number) => Promise<Post>
+export const deletePost: DeletePost = async (id: number) => {
+  let post = await prisma.post.delete({
+    where: {
+      id: id
     }
   })
   return post

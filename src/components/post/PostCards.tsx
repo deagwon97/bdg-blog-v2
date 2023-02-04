@@ -26,7 +26,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   // 페이징 버튼 개수
   let buttonCount = 5
   // 총 페이지 수
-  const maxPageIdx = props.maxPageIdx
+  const maxPageIdx = props.maxPageIdx - 1
   if (maxPageIdx < buttonCount) {
     buttonCount = maxPageIdx
   }

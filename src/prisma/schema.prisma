@@ -7,6 +7,15 @@ datasource db {
   url      = env("NEXT_PUBLIC_DATABASE_URL")
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime?
+}
+
 model Post {
   id        Int       @id @default(autoincrement())
   title     String
@@ -17,11 +26,11 @@ model Post {
   updatedAt DateTime?
 }
 
-model User {
+model file {
   id        Int       @id @default(autoincrement())
   name      String
-  email     String    @unique
-  password  String
+  bucket    String
+  path      String
   createdAt DateTime? @default(now())
   updatedAt DateTime?
 }
