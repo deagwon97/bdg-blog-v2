@@ -69,7 +69,6 @@ export const Header: React.FC<HeaderProps> = (props) => {
   //get access token from local storage
   useEffect(() => {
     let token = localStorage.getItem('accessToken')
-    console.log(token)
     if (token !== null) {
       setAccessToken(token)
     }

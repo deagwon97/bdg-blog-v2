@@ -444,10 +444,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@brillout/vite-plugin-import-build@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@brillout/vite-plugin-import-build@npm:0.1.0"
-  checksum: 26094e724eef65aa1947fb2d3ab86bfb29f7f138a9093770d75176625a67244d54587c1f7950f123bfa9e0e9fb82353b2f8cae50c71115ec2fa3e270b1ffb19c
+"@brillout/vite-plugin-import-build@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@brillout/vite-plugin-import-build@npm:0.1.4"
+  checksum: 3044692ed30fdf3b14b02726ba65ff5690696c34287f963ff957559bbe8c533f07e8ddd56f61bae2b93aa3fd92744eab17c51ecc57a811442adcbebcacf3b440
   languageName: node
   linkType: hard
 
@@ -1816,7 +1816,7 @@ __metadata:
     sass: ^1.56.1
     sass-loader: ^13.2.0
     scss: ^0.2.4
-    telefunc: ^0.1.40
+    telefunc: ^0.1.43
     ts-node: ^10.9.1
     typescript: 4.9.3
     yarn: ^1.22.19
@@ -7648,13 +7648,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"telefunc@npm:^0.1.40":
-  version: 0.1.40
-  resolution: "telefunc@npm:0.1.40"
+"telefunc@npm:^0.1.43":
+  version: 0.1.43
+  resolution: "telefunc@npm:0.1.43"
   dependencies:
     "@brillout/import": ^0.1.2
     "@brillout/json-serializer": ^0.5.3
-    "@brillout/vite-plugin-import-build": ^0.1.0
+    "@brillout/vite-plugin-import-build": ^0.1.4
     es-module-lexer: ^0.7.1
     picocolors: ^1.0.0
     ts-morph: ^14.0.0
@@ -7666,7 +7666,7 @@ __metadata:
       optional: true
     react-streaming:
       optional: true
-  checksum: 11b55dea10753c7a47596e79ef3c94ab29340b3ff835e7fc16abe1570d34c6f1c09e465b4549ad97fb4981a34e8befed6961a658fef67fe5c97210de2e58b787
+  checksum: 426c2ca41e78f1c289d0c2a2b38a55dacb2285c5eff465e76c437ce97cbec765e8c386b12c1c9855c755881860e2dc5dc2fa6b40d56d32406002d219a96f846d
   languageName: node
   linkType: hard
 
