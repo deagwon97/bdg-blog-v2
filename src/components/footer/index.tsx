@@ -4,6 +4,7 @@ const Footer = () => {
   return (
     <div className={styles.box}>
       <hr style={{ border: '0.5px solid #DDDDDD' }} />
+      <br />
       <div className={styles.container}>
         <div className={styles.row}>
           <div className={styles.column}>

@@ -9,7 +9,7 @@ import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
 import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
-import { onLoadPostListPageSortByDate } from 'server/service/post.telefunc'
+import { onLoadPostListPageSortByDate } from 'server/service/index.telefunc'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
@@ -73,8 +73,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   })
 
   useEffect(() => {
-    setCurrentPageIdx(1)
-    setPosts(props.posts)
+    handlePageChange(1)
   }, [isMobile, props])
 
   useEffect(() => {
@@ -87,16 +86,11 @@ const PostCards: React.FC<PostProps> = (props) => {
       } else {
         setCurrentButtonCount(buttonCount)
       }
-      if (currentPageIdx === 1) {
-        setPosts(props.posts)
-      } else {
-        onLoadPostListPageSortByDate(pageSize, currentPageIdx).then((res) => {
-          setPosts(res)
-        })
-      }
+      onLoadPostListPageSortByDate(pageSize, currentPageIdx).then((res) => {
+        setPosts(res)
+      })
     }
   }, [
-    props.posts,
     currentPageIdx,
     lastFirstButtonIdx,
     lastButtonCount,

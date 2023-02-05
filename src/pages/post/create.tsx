@@ -1,13 +1,12 @@
 // next js post view page
 
 import { Post } from '@prisma/client'
-import Footer from 'components/footer'
 import { Header } from 'components/header'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import PostContent from 'components/post/PostContent'
 import styles from './create.module.scss'
 import useComponentSize from 'tools/useComponentSize'
-import { onCreatedPost } from 'server/service/post.telefunc'
+import { onCreatedPost } from 'server/service/index.telefunc'
 
 export default function PostCreatePage() {
   useEffect(() => {

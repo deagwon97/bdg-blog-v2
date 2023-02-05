@@ -1,6 +1,6 @@
 import styles from 'components/login/LoginForm.module.scss'
 import { useState } from 'react'
-import { onLogin } from 'server/service/user.telefunc'
+import { onLogin } from 'server/service/index.telefunc'
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('')
@@ -12,7 +12,6 @@ const LoginForm = () => {
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
   }
-
   const onClickLogin = () => {
     onLogin(email, password).then((res) => {
       if (res.valid) {

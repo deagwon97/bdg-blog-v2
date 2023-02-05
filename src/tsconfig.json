@@ -21,6 +21,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
+    "*/*/*.telefunc.ts",
     "**/*.tsx",
     "prisma/db",
     "tools/index.js",
