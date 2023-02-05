@@ -27,6 +27,7 @@
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "jsonwebtoken": "^9.0.0",
+    "minio": "^7.0.32",
     "next": "13.0.5",
     "next-compose-plugins": "^2.2.1",
     "next-remove-imports": "^1.0.8",
@@ -50,6 +51,7 @@
   "packageManager": "yarn@3.3.0",
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.1",
+    "@types/minio": "^7.0.15",
     "@types/prettier": "^2",
     "@types/react-syntax-highlighter": "^15.5.6",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
