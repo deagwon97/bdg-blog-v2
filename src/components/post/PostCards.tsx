@@ -19,7 +19,7 @@ type PostProps = {
 const PostCards: React.FC<PostProps> = (props) => {
   // 모바일 여부
   const [isMobile, setIsMobile] = useState(false)
-  const [boxWidth, setBoxWidth] = useState('400px')
+  const [boxWidth, setBoxWidth] = useState('380px')
 
   // 페이지당 포스트 개수
   const pageSize = 4
@@ -46,7 +46,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   let size = useComponentSize(ref)
 
   useEffect(() => {
-    setBoxWidth(size.width === 800 ? '400px' : '100%')
+    setBoxWidth(size.width === 800 ? '380px' : '-webkit-fill-available')
     setIsMobile(size.width === 800 ? false : true)
   }, [size])
 
@@ -125,7 +125,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             posts.map((post) => (
               <Link key={post.id} href={`/post/${post.id}`}>
                 <div className={styles.postBox} style={{ width: boxWidth }}>
-                  <h3>{post.title}</h3>
+                  <h4>{post.title}</h4>
                   <span>{post.summary}</span>
                 </div>
               </Link>

@@ -30,7 +30,6 @@ export default function ToyProjects() {
                 <ToyProject
                   image={solarSystemIcon}
                   title="Solar System"
-                  fontSize={11}
                   projectUrl="https://solarsystem.deagwon.com/"
                   githubUrl="https://github.com/deagwon97/solar-system"
                   postUrl="https://github.com/deagwon97/solar-system"

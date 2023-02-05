@@ -21,17 +21,19 @@
   .postBox {
     float: left;
     cursor: pointer;
-    height: 170px;
+    height: 150px;
+    margin: 8px;
     padding: 20px;
-
+    border-radius: 4px;
     overflow-y: hidden;
     text-align: left;
     box-shadow: rgba(0, 0, 0, 0.06) 0px 10px 20px;
     &:hover {
       box-shadow: rgba(0, 0, 0, 0.14) 0px 10px 20px;
     }
-    h3 {
-      height: 46px;
+    h4 {
+      height: 43px;
+      margin: 5px 0px;
       overflow-y: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -41,7 +43,8 @@
       -webkit-line-clamp: 2;
     }
     span {
-      height: 38px;
+      height: 36px;
+      font-size: 0.875rem;
       overflow-y: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
