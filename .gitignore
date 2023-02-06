@@ -2,6 +2,9 @@
 21kaniko-secret
 01nextjs.env
 
+20git-secret
+21harbor-config
+
 lib-cov
 *.seed
 *.log
