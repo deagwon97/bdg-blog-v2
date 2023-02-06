@@ -16,9 +16,13 @@ spec:
     envFrom:
     - secretRef:
         name: git-secret
+    volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker/
+  volumes:
+    - name: docker-config
+      configMap:
+        name: harbor-config
   restartPolicy: Never
   nodeName: bdg-msi
-  volumes:
-  - name: docker-config
-    configMap:
-      name: harbor-config
+  

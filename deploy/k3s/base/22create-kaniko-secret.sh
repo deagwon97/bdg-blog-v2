@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # for pull context from private github repository
-# kubectl create secret generic git-secret --from-env-file ./git-secret -n bdg-blog-v2
+kubectl create secret generic git-secret --from-env-file ./git-secret -n bdg-blog-v2
 
 # for push image to private registry
 source harbor-config
@@ -20,4 +20,4 @@ echo "{
 
 kubectl create configmap harbor-config --from-file=config.json -n bdg-blog-v2
 
-# rm $CONFIG_JSON
+rm $CONFIG_JSON
