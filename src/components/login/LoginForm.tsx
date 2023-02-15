@@ -13,18 +13,22 @@ const LoginForm = () => {
     setPassword(e.target.value)
   }
   const onClickLogin = () => {
-    onLogin(email, password).then((res) => {
-      if (res.valid) {
-        localStorage.setItem('id', JSON.stringify(res.id))
-        localStorage.setItem('email', JSON.stringify(res.email))
-        localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
-        localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
-        document.cookie = `accessToken=${res.accessToken};`
-        window.location.href = '/main'
-        return
-      }
-      alert('로그인 오류')
-    })
+    try {
+      onLogin(email, password).then((res) => {
+        if (res.valid) {
+          localStorage.setItem('id', JSON.stringify(res.id))
+          localStorage.setItem('email', JSON.stringify(res.email))
+          localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
+          localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
+          document.cookie = `accessToken=${res.accessToken};`
+          window.location.href = '/main'
+          return
+        }
+        alert('아이디 또는 비밀번호를 확인해주세요')
+      })
+    } catch (e) {
+      alert('아이디 또는 비밀번호를 확인해주세요')
+    }
   }
 
   return (

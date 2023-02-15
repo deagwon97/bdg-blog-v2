@@ -18,7 +18,7 @@ export type PostLogin = (
 
 export const onLogin: PostLogin = async (email: string, password: string) => {
   let user = await getUserByEmail(email)
-  if (!user) {
+  if (user === null || !user) {
     return {
       valid: false,
       errMessage: 'user not exist',

@@ -29,7 +29,6 @@ export const decodeAccessToken: DecodeToken = (token: string) => {
   try {
     decoded = jwt.verify(token, secret) as { id: number }
   } catch (error) {
-    console.log(error)
     return { userId: decoded.id, valid: valid }
   }
   valid = true

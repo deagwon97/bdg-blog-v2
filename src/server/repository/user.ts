@@ -36,15 +36,12 @@ export const isValidPassword: IsValidPassword = async (
 }
 
 // function get user by email
-export type GetUserByEmail = (email: string) => Promise<User>
+export type GetUserByEmail = (email: string) => Promise<User | null>
 export const getUserByEmail: GetUserByEmail = async (email: string) => {
   let user = await prisma.user.findUnique({
     where: {
       email: email
     }
   })
-  if (!user) {
-    throw new Error('user not found')
-  }
   return user
 }
