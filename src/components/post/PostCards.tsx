@@ -71,10 +71,18 @@ const PostCards: React.FC<PostProps> = (props) => {
       window.removeEventListener('scroll', onScroll)
     }
   })
+  const handlePageChange = (pageIdx: number) => {
+    if (pageIdx < 1) {
+      pageIdx = 1
+    } else if (pageIdx > maxPageIdx) {
+      pageIdx = maxPageIdx
+    }
+    setCurrentPageIdx(pageIdx)
+  }
 
   useEffect(() => {
-    handlePageChange(1)
-  }, [isMobile, props])
+    setCurrentPageIdx(1)
+  }, [isMobile])
 
   useEffect(() => {
     if (!isMobile) {
@@ -97,15 +105,6 @@ const PostCards: React.FC<PostProps> = (props) => {
     buttonCount,
     isMobile
   ])
-
-  const handlePageChange = (pageIdx: number) => {
-    if (pageIdx < 1) {
-      pageIdx = 1
-    } else if (pageIdx > maxPageIdx) {
-      pageIdx = maxPageIdx
-    }
-    setCurrentPageIdx(pageIdx)
-  }
 
   return (
     <div>
@@ -151,23 +150,25 @@ const PostCards: React.FC<PostProps> = (props) => {
               }>
               <Image alt="leftArrow" className={styles.img} src={leftArrow} />
             </div>
-            {Array.from(Array(currentButtonCount).keys()).map((buttonIdx) => {
-              return currentPageIdx === firstButtonIdx + buttonIdx ? (
-                <div
-                  key={firstButtonIdx + buttonIdx}
-                  onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
-                  className={styles.selectedButton}>
-                  {firstButtonIdx + buttonIdx}
-                </div>
-              ) : (
-                <div
-                  key={firstButtonIdx + buttonIdx}
-                  onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
-                  className={styles.button}>
-                  {firstButtonIdx + buttonIdx}
-                </div>
-              )
-            })}
+
+            {currentButtonCount > 0 &&
+              Array.from(Array(currentButtonCount).keys()).map((buttonIdx) => {
+                return currentPageIdx === firstButtonIdx + buttonIdx ? (
+                  <div
+                    key={firstButtonIdx + buttonIdx}
+                    onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
+                    className={styles.selectedButton}>
+                    {firstButtonIdx + buttonIdx}
+                  </div>
+                ) : (
+                  <div
+                    key={firstButtonIdx + buttonIdx}
+                    onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
+                    className={styles.button}>
+                    {firstButtonIdx + buttonIdx}
+                  </div>
+                )
+              })}
             <div
               className={
                 currentPageIdx >= maxPageIdx
