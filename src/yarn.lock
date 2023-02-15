@@ -766,24 +766,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:4.7.1":
-  version: 4.7.1
-  resolution: "@prisma/client@npm:4.7.1"
+"@prisma/client@npm:4.10.1":
+  version: 4.10.1
+  resolution: "@prisma/client@npm:4.10.1"
   dependencies:
-    "@prisma/engines-version": 4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c
+    "@prisma/engines-version": 4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: 01ce4c7382d80a1cca256e532a773d982ada9b7f64acd6bb590415634d04305413cee700048287dbf94f09ccf31e19db03a4a6501bfd0a01509f80498ee58121
+  checksum: f335dfc7dc5017d6f0f4171f3727ef2d3297495640f5063528e3643c2959c492a640a452880e04691674a7f258a8c552c7de45fb4c86270055d363e0fce18a6d
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c":
-  version: 4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c
-  resolution: "@prisma/engines-version@npm:4.7.1-1.272861e07ab64f234d3ffc4094e32bd61775599c"
-  checksum: 66221f1805ce700a4f9f0b6751a291d7114afff9d8b61fd03beb9bbe8b45b037fc67ee0425f45bbad57b7bf95cf649a490d5caaf75a4f3a7e17b3187ea8a6a15
+"@prisma/engines-version@npm:4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19":
+  version: 4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19
+  resolution: "@prisma/engines-version@npm:4.10.1-2.aead147aa326ccb985dcfed5b065b4fdabd44b19"
+  checksum: 6433a58c3d1c6016af64771c9fc8798d0c82eee0a8abc3dd43dfc6b019d9686b428592093dd1dec892598e37bbb3a5946d9d1a6cdecf5487ba78b1906af417d4
   languageName: node
   linkType: hard
 
@@ -1814,7 +1814,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "bdg-blog@workspace:."
   dependencies:
-    "@prisma/client": 4.7.1
+    "@prisma/client": 4.10.1
     "@toast-ui/editor": ^3.2.1
     "@types/jsonwebtoken": ^9.0.1
     "@types/minio": ^7.0.15
