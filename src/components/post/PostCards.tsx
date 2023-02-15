@@ -25,8 +25,9 @@ const PostCards: React.FC<PostProps> = (props) => {
   const pageSize = 4
   // 페이징 버튼 개수
   let buttonCount = 5
-  // 총 페이지 수
-  const maxPageIdx = props.maxPageIdx - 1
+
+  const maxPageIdx = props.maxPageIdx
+
   if (maxPageIdx < buttonCount) {
     buttonCount = maxPageIdx
   }
@@ -126,77 +127,73 @@ const PostCards: React.FC<PostProps> = (props) => {
         </div>
       </div>
       {!isMobile && (
-        <div className={styles.postContainer}>
-          <div className={styles.pagination}>
-            <div
-              className={
-                currentPageIdx === 1 ? styles.disabledButton : styles.button
-              }
-              onClick={() => handlePageChange(1)}>
-              <Image
-                alt="doubbleLeftArrow"
-                className={styles.img}
-                src={doubbleLeftArrow}
-              />
-            </div>
-            <div
-              className={
-                currentPageIdx === 1 ? styles.disabledButton : styles.button
-              }
-              onClick={() =>
-                handlePageChange(
-                  currentPageIdx - 1 <= 1 ? 1 : currentPageIdx - 1
-                )
-              }>
-              <Image alt="leftArrow" className={styles.img} src={leftArrow} />
-            </div>
+        <div className={styles.pagination}>
+          <div
+            className={
+              currentPageIdx === 1 ? styles.disabledButton : styles.button
+            }
+            onClick={() => handlePageChange(1)}>
+            <Image
+              alt="doubbleLeftArrow"
+              className={styles.img}
+              src={doubbleLeftArrow}
+            />
+          </div>
+          <div
+            className={
+              currentPageIdx === 1 ? styles.disabledButton : styles.button
+            }
+            onClick={() =>
+              handlePageChange(currentPageIdx - 1 <= 1 ? 1 : currentPageIdx - 1)
+            }>
+            <Image alt="leftArrow" className={styles.img} src={leftArrow} />
+          </div>
 
-            {currentButtonCount > 0 &&
-              Array.from(Array(currentButtonCount).keys()).map((buttonIdx) => {
-                return currentPageIdx === firstButtonIdx + buttonIdx ? (
-                  <div
-                    key={firstButtonIdx + buttonIdx}
-                    onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
-                    className={styles.selectedButton}>
-                    {firstButtonIdx + buttonIdx}
-                  </div>
-                ) : (
-                  <div
-                    key={firstButtonIdx + buttonIdx}
-                    onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
-                    className={styles.button}>
-                    {firstButtonIdx + buttonIdx}
-                  </div>
-                )
-              })}
-            <div
-              className={
-                currentPageIdx >= maxPageIdx
-                  ? styles.disabledButton
-                  : styles.button
-              }
-              onClick={() =>
-                handlePageChange(
-                  currentPageIdx + 1 > maxPageIdx
-                    ? maxPageIdx
-                    : currentPageIdx + 1
-                )
-              }>
-              <Image alt="rightArrow" className={styles.img} src={rightArrow} />
-            </div>
-            <div
-              className={
-                currentPageIdx >= maxPageIdx
-                  ? styles.disabledButton
-                  : styles.button
-              }
-              onClick={() => handlePageChange(maxPageIdx)}>
-              <Image
-                alt="doubbleRightArrow"
-                className={styles.img}
-                src={doubbleRightArrow}
-              />
-            </div>
+          {currentButtonCount > 0 &&
+            Array.from(Array(currentButtonCount).keys()).map((buttonIdx) => {
+              return currentPageIdx === firstButtonIdx + buttonIdx ? (
+                <div
+                  key={firstButtonIdx + buttonIdx}
+                  onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
+                  className={styles.selectedButton}>
+                  {firstButtonIdx + buttonIdx}
+                </div>
+              ) : (
+                <div
+                  key={firstButtonIdx + buttonIdx}
+                  onClick={() => handlePageChange(firstButtonIdx + buttonIdx)}
+                  className={styles.button}>
+                  {firstButtonIdx + buttonIdx}
+                </div>
+              )
+            })}
+          <div
+            className={
+              currentPageIdx >= maxPageIdx
+                ? styles.disabledButton
+                : styles.button
+            }
+            onClick={() =>
+              handlePageChange(
+                currentPageIdx + 1 > maxPageIdx
+                  ? maxPageIdx
+                  : currentPageIdx + 1
+              )
+            }>
+            <Image alt="rightArrow" className={styles.img} src={rightArrow} />
+          </div>
+          <div
+            className={
+              currentPageIdx >= maxPageIdx
+                ? styles.disabledButton
+                : styles.button
+            }
+            onClick={() => handlePageChange(maxPageIdx)}>
+            <Image
+              alt="doubbleRightArrow"
+              className={styles.img}
+              src={doubbleRightArrow}
+            />
           </div>
         </div>
       )}
