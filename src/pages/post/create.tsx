@@ -28,10 +28,6 @@ export default function PostCreatePage() {
   let ref = useRef() as MutableRefObject<HTMLInputElement>
   let size = useComponentSize(ref)
 
-  useEffect(() => {
-    console.log(size.width)
-  }, [size])
-
   const onHandler = () => {
     if (titleRef.current && contentRef.current) {
       setPost({
@@ -76,7 +72,6 @@ export default function PostCreatePage() {
             <div>
               <div
                 onClick={() => {
-                  console.log(post.title)
                   onCreatedPost(post.title, post.content || '')
                 }}
                 className={styles.saveButton}>
