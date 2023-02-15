@@ -1,4 +1,4 @@
-import Minio from 'minio'
+var Minio = require('minio')
 
 const minioClient = new Minio.Client({
   endPoint: process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'no-entpoint',
