@@ -37,9 +37,6 @@ type GetMaxPageIndex = (pageSize: number) => Promise<number>
 export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
   let count = await prisma.post.count({})
   let pageNumbers = Math.ceil(count / pageSize)
-  console.log(pageNumbers)
-  console.log(pageNumbers)
-  console.log(pageNumbers)
   return pageNumbers
 }
 
