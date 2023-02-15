@@ -10,7 +10,7 @@
     "export": "next export"
   },
   "dependencies": {
-    "@prisma/client": "4.7.1",
+    "@prisma/client": "4.10.1",
     "@toast-ui/editor": "^3.2.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
