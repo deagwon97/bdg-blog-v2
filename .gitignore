@@ -1,8 +1,14 @@
-02create-secret.sh
-21kaniko-secret
-01nextjs.env
 
-20git-secret
+
+01nextjs.env
+*dockerconfig.json
+21kaniko-secret
+02create-secret.sh
+
+config.json
+harbor-config
+
+git-secret
 21harbor-config
 
 lib-cov
