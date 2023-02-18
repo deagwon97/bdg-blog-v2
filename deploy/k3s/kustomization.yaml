@@ -7,5 +7,5 @@ commonLabels:
   app: bdg-blog-v2
 
 resources:
-  - 04deployment.yaml
-  - 05service.yaml
+  - base/04deployment.yaml
+  - base/05service.yaml
