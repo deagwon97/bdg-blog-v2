@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bdg-blog-v2-staging
+bases:
+- ../production
+secretGenerator:
+  - name: bdg-blog-v2
+    behavior: replace
+    envs:
+    - 01nextjs.env
+patchesJson6902:
+  - target:
+      group: cert-manager.io
+      version: v1
+      kind: Certificate
+      name: bdg-blog-v2-certificate
+    patch: |
+      - op: replace
+        path: /spec/dnsNames/0
+        value: staging.deagwon.com
+  - target:
+      group: traefik.containo.us
+      version: v1alpha1
+      kind: IngressRoute
+      name: ingressroute-careerdive-redirect
+    patch: |
+      - op: replace
+        path: /spec/routes/0/match
+        value: Host(`staging.deagwon.com`)
+  - target:
+      group: traefik.containo.us
+      version: v1alpha1
+      kind: IngressRoute
+      name: ingressroute-bdg-blog-v2
+    patch: |
+      - op: replace
+        path: /spec/routes/0/match
+        value: Host(`staging.deagwon.com`)

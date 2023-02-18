@@ -25,7 +25,6 @@ metadata:
 spec:
   entryPoints:
     - websecure
-    - web
   routes:
     - match: Host(`v2.deagwon.com`)
       kind: Rule

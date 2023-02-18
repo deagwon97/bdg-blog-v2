@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: bdg-blog-v2-builder
-  namespace: bdg-blog-v2
+  namespace: bdg-blog-v2-builder
 spec:
   containers:
   - name: bdg-blog-v2-builder
