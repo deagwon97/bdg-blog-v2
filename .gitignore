@@ -1,5 +1,8 @@
 
-
+create-password-file.sh
+go-password
+pull-config*
+push-config*
 01nextjs.env
 *dockerconfig.json
 21kaniko-secret
