@@ -1,0 +1,75 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: tekton-pipelines-issuer
+  namespace: tekton-pipelines
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: azaz09112@naver.com
+    privateKeySecretRef:
+      name: tekton-pipelines-issuer
+    solvers:
+    - http01:
+        ingress:
+           class: traefik-cert-manager
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tekton-pipelines-certificate
+  namespace: tekton-pipelines
+spec:
+  secretName: tekton-pipelines-crt-secret
+  dnsNames:
+    - dashboard.tekton.deagwon.com
+  issuerRef:
+    name: tekton-pipelines-issuer
+    kind: Issuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirectscheme
+  namespace: tekton-pipelines
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-tekton-redirect
+  namespace: tekton-pipelines
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`dashboard.tekton.deagwon.com`)
+      kind: Rule
+      services:
+        - name: tekton-dashboard
+          port: 9097
+      middlewares:
+        - name: redirectscheme
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-tekton
+  namespace: tekton-pipelines
+  annotations:
+    cert-manager.io/issuer: tekton-pipelines-issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dashboard.tekton.deagwon.com`)
+      kind: Rule
+      services:
+        - name: tekton-dashboard
+          port: 9097
+  tls:
+    secretName: tekton-pipelines-crt-secret

@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-careerdive-redirect
+  name: ingressroute-bdg-blog-v2-redirect
   namespace: bdg-blog-v2
 spec:
   entryPoints:
@@ -21,7 +21,7 @@ metadata:
   name: ingressroute-bdg-blog-v2
   namespace: bdg-blog-v2
   annotations:
-    cert-manager.io/issuer: careerdive-issuer
+    cert-manager.io/issuer: bdg-blog-v2-issuer
 spec:
   entryPoints:
     - websecure

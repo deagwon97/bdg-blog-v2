@@ -16,5 +16,6 @@ configMapGenerator:
 commonLabels:
   app: bdg-blog-v2
 resources:
+  - namespace.yaml
   - kaniko.yaml
   
