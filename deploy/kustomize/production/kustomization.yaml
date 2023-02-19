@@ -16,6 +16,7 @@ secretGenerator:
 commonLabels:
   app: bdg-blog-v2
 resources:
+  - 00namespace.yaml
   - 03serviceAccount.yaml
   - 04deployment.yaml
   - 05service.yaml

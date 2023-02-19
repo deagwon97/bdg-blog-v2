@@ -10,6 +10,14 @@ secretGenerator:
     - 01nextjs.env
 patchesJson6902:
   - target:
+      version: v1
+      kind: Namespace
+      name: base-namespace
+    patch: |
+      - op: replace
+        path: /metadata/name
+        value: bdg-blog-v2-staging
+  - target:
       group: cert-manager.io
       version: v1
       kind: Certificate
