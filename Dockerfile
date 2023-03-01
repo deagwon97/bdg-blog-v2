@@ -2,7 +2,9 @@ FROM node:16 AS builder
 LABEL builder=true
 COPY ./src /workdir/src
 WORKDIR /workdir/src
-RUN npm install -g npm@9.3.1 && npm install --global yarn --force && npm install -g prisma
+RUN npm install -g npm@9.3.1 &&\
+     npm install --global yarn --force &&\
+      npm install -g prisma && prisma generate
 RUN yarn install
 RUN yarn build
 

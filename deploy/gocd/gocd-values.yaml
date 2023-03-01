@@ -252,7 +252,7 @@ server:
   security:
     ssh:
       # server.security.ssh.enabled is the toggle to enable/disable mounting of ssh secret on GoCD server pods
-      enabled: false
+      enabled: true
       # server.security.ssh.secretName specifies the name of the k8s secret object that contains the ssh key and known hosts
       secretName: gocd-server-ssh
       # server.security.ssh.defaultMode specifies the permission of the files in ~/.ssh directory
@@ -284,7 +284,7 @@ agent:
   # Specify security settings for GoCD Agent Pod
   securityContext:
     # Specify the container user for all the GoCD agent pods
-    runAsUser: 1000
+    runAsUser: 0
     # Specify the container group for all the GoCD agent pods
     runAsGroup: 0
     # Specify the container supplementary group for all the GoCD agent pods

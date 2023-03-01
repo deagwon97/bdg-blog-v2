@@ -1,4 +1,13 @@
 # create history
+
+- gocd는 helm으로 설치한다.
+- 설정 저장을 위해서 persistant volume과 peristant volume claim을 생성한다.
+- 보안을 위해 gocd password를 설정한다. 
+    - htpasswd로 go-password 파일을 생성한다. 
+    - go-password로 k3s secret을 생성한다.
+    - gocd 설치시 helm chart의 extraVolumeMounts를 수정하여 생성한 secret을 마운트한다.
+    - 설정 페이지에서 gui로 password 파일을 지정한다. (/etc/go/go-password)
+    
 ```bash
 
 helm repo add gocd https://gocd.github.io/helm-chart

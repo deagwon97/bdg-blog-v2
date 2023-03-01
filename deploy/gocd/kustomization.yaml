@@ -9,6 +9,28 @@ secretGenerator:
   - name: go-password
     files:
       - go-password=go-password
+  - name: git-secret # for kaniko clone git repository
+    envs:
+      - git-secret
+  - name: harbor-pull-config # for pull gocd-agent-kaniko image from harbor
+    files:
+      - .dockerconfigjson=pull-config.json
+    type: kubernetes.io/dockerconfigjson
+  - name: gocd-server-ssh
+    files:
+      - id_rsa=gocd-server-ssh
+      - id_rsa.pub=gocd-server-ssh.pub
+      - known_hosts=gocd_known_hosts
+  - name: gocd-agent-ssh
+    files:
+      - id_rsa=gocd-server-ssh
+      - id_rsa.pub=gocd-server-ssh.pub
+      - known_hosts=gocd_known_hosts
+configMapGenerator:
+  - name: bdg-blog-v2-push-config
+    files:
+      - config.json
+
 resources:
   - gocd-pv.yaml
   - gocd-pvc.yaml
