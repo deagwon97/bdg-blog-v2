@@ -1,14 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: tekton-pipelines-issuer
-  namespace: tekton-pipelines
+  name: argocd-issuer
+  namespace: argocd
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: azaz09112@naver.com
     privateKeySecretRef:
-      name: tekton-pipelines-issuer
+      name: argocd-issuer
     solvers:
     - http01:
         ingress:
@@ -17,21 +17,21 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: tekton-pipelines-certificate
-  namespace: tekton-pipelines
+  name: argocd-certificate
+  namespace: argocd
 spec:
-  secretName: tekton-pipelines-crt-secret
+  secretName: argocd-crt-secret
   dnsNames:
-    - dashboard.tekton.deagwon.com
+    - dashboard.argocd.deagwon.com
   issuerRef:
-    name: tekton-pipelines-issuer
+    name: argocd-issuer
     kind: Issuer
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: redirectscheme
-  namespace: tekton-pipelines
+  namespace: argocd
 spec:
   redirectScheme:
     scheme: https
@@ -41,35 +41,43 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-tekton-redirect
-  namespace: tekton-pipelines
+  name: ingressroute-argocd-redirect
+  namespace: argocd
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`dashboard.tekton.deagwon.com`)
+    - match: Host(`dashboard.argocd.deagwon.com`)
       kind: Rule
       services:
-        - name: tekton-dashboard
-          port: 9097
+        - name: argocd-server
+          port: 80
       middlewares:
         - name: redirectscheme
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-tekton
-  namespace: tekton-pipelines
+  name: ingressroute-argocd
+  namespace: argocd
   annotations:
-    cert-manager.io/issuer: tekton-pipelines-issuer
+    cert-manager.io/issuer: argocd-issuer
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`dashboard.tekton.deagwon.com`)
-      kind: Rule
+    - kind: Rule
+      match: Host(`dashboard.argocd.deagwon.com`)
+      priority: 10
       services:
-        - name: tekton-dashboard
-          port: 9097
+        - name: argocd-server
+          port: 80
+    - kind: Rule
+      match: Host(`dashboard.argocd.deagwon.com`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
   tls:
-    secretName: tekton-pipelines-crt-secret
+    secretName: argocd-crt-secret
