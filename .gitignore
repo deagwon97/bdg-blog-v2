@@ -13,6 +13,8 @@ gocd-server-ssh
 gocd-server-ssh.pub
 gocd-agent-ssh
 
+id_rsa
+id_rsa.pub
 
 config.json
 harbor-config
