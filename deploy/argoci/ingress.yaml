@@ -1,14 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: argocd-issuer
-  namespace: argocd
+  name: argo-issuer
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: azaz09112@naver.com
     privateKeySecretRef:
-      name: argocd-issuer
+      name: argo-issuer
     solvers:
     - http01:
         ingress:
@@ -17,21 +16,22 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argocd-certificate
-  namespace: argocd
+  name: argo-certificate
+  namespace: argo
 spec:
-  secretName: argocd-crt-secret
+  secretName: argo-crt-secret
   dnsNames:
-    - cd.argo.deagwon.com
+    - workflows.argo.deagwon.com
+    - webhook.argo.deagwon.com
   issuerRef:
-    name: argocd-issuer
+    name: argo-issuer
     kind: Issuer
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: redirectscheme
-  namespace: argocd
+  namespace: argo
 spec:
   redirectScheme:
     scheme: https
@@ -41,43 +41,40 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-argocd-redirect
-  namespace: argocd
+  name: ingressroute-argo-redirect
+  namespace: argo
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`cd.argo.deagwon.com`)
+    - match: Host(`workflows.argo.deagwon.com`)
       kind: Rule
       services:
-        - name: argocd-server
-          port: 80
+        - name: argo-server
+          port: 2746
       middlewares:
         - name: redirectscheme
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-argocd
-  namespace: argocd
+  name: ingressroute-argo
+  namespace: argo
   annotations:
-    cert-manager.io/issuer: argocd-issuer
+    cert-manager.io/issuer: argo-issuer
 spec:
   entryPoints:
     - websecure
   routes:
-    - kind: Rule
-      match: Host(`cd.argo.deagwon.com`)
-      priority: 10
+    - match: Host(`workflows.argo.deagwon.com`)
+      kind: Rule
       services:
-        - name: argocd-server
-          port: 80
-    - kind: Rule
-      match: Host(`cd.argo.deagwon.com`) && Headers(`Content-Type`, `application/grpc`)
-      priority: 11
+        - name: argo-server
+          port: 2746
+    - match: Host(`webhook.argo.deagwon.com`)
+      kind: Rule
       services:
-        - name: argocd-server
-          port: 80
-          scheme: h2c
+        - name: events-webhook
+          port: 12000
   tls:
-    secretName: argocd-crt-secret
+    secretName: argo-crt-secret

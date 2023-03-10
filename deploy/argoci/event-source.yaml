@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github
+spec:
+  service:
+    ports:
+      - name: webhook
+        port: 12000
+        targetPort: 12000
+  github:
+    webhook:
+      repositories:
+        - owner: deagwon97
+          names:
+            - argo-events
+            - argo-workflows
+      webhook:
+        endpoint: /push
+        port: "12000"
+        method: POST
+        url: https://github.com/deagwon97/bdg-blog-v2
+      events:
+        - "*"
+      # apiToken:
+      #   name: github-access
+      #   key: password
+      insecure: false
+      active: true
+      contentType: json

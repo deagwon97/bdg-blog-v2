@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: build-image
+  namespace: argo-workflows
+  labels:
+    workflows.argoproj.io/archive-strategy: "false"
+  annotations:
+    workflows.argoproj.io/description: |
+      This is build workflow.
+spec:
+  entrypoint: executor
+  templates:
+  - name: executor
+    container:
+      image: gcr.io/kaniko-project/executor:latest
+      command: ["/kaniko/executor"]
+      args:
+      - "--dockerfile=Dockerfile"
+      - "--context=git://github.com/deagwon97/bdg-blog-v2.git"
+      - "--destination=harbor.deagwon.com/bdg-blog/bdg-blog-v2:latest"
+      - "--cache=true"
+      envFrom:
+      - secretRef:
+          name: git-secret
+      volumeMounts:
+          - name: docker-config
+            mountPath: /kaniko/.docker/
+    volumes:
+      - name: docker-config
+        configMap:
+          name: harbor-config
