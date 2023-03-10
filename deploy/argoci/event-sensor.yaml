@@ -99,7 +99,7 @@ spec:
                       - "bdg-blog-v2"
                     volumeMounts:
                       - name: kubeconfig
-                        mountPath: /.kube/config
+                        mountPath: /.kube/
                   volumes:
                     - name: kubeconfig
                       configMap:
