@@ -64,6 +64,8 @@ spec:
                 entrypoint: build-deploy
                 templates:
                 - name: build
+                  nodeSelector:
+                    gpu: nvidia
                   container:
                     image: gcr.io/kaniko-project/executor:latest
                     command: ["/kaniko/executor"]
