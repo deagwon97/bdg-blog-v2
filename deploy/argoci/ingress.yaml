@@ -74,7 +74,7 @@ spec:
     - match: Host(`webhook.argo.deagwon.com`)
       kind: Rule
       services:
-        - name: events-webhook
+        - name: github-eventsource-svc
           port: 12000
   tls:
     secretName: argo-crt-secret

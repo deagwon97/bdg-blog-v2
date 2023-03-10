@@ -5,11 +5,11 @@ metadata:
 spec:
   service:
     ports:
-      - name: webhook
+      - name: github-webhook
         port: 12000
         targetPort: 12000
   github:
-    webhook:
+    github-webhook:
       repositories:
         - owner: deagwon97
           names:

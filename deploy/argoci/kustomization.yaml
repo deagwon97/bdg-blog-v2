@@ -7,15 +7,15 @@ resources:
   # argo workflows
   - namespace.yaml
   - https://github.com/argoproj/argo-workflows/releases/download/v3.4.5/install.yaml
-  - role.yaml
-  # workflow
-  # - kaniko/workflow.yaml
+  - workflow-rbac.yaml
+  - rollout-rbac.yaml
   # argo events
   - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
   - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
   - event-bus.yaml
   - event-source.yaml
   - event-rbac.yaml
+  - event-sensor.yaml
   # ingress
   - ingress.yaml
 patchesStrategicMerge:
@@ -24,7 +24,16 @@ secretGenerator:
   - name: git-secret
     envs:
     - kaniko/git-secret
+  - name: git-ssh
+    files:
+      - .ssh/id_rsa
+  - name: git-known-hosts
+    files:
+      - .ssh/known_hosts
 configMapGenerator:
-- name: harbor-config
-  files:
-    - kaniko/config.json
+  - name: harbor-config
+    files:
+      - kaniko/config.json
+  - name: rollout-kubeconfig
+    files:
+      - rollout/config

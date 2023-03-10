@@ -15,12 +15,12 @@ rules:
       - eventsources
       - sensors
     verbs: 
-    - create
-    - delete
-    - patch
-    - list
-    - get
-    - watch
+      - create
+      - delete
+      - patch
+      - list
+      - get
+      - watch
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -58,18 +58,3 @@ metadata:
   annotations:
     kubernetes.io/service-account.name: argo-executor
 type: kubernetes.io/service-account-token
-
-
-# kubectl apply -f - <<EOF
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: argo-executor.service-account-token
-#   namespace: argo-workflows
-#   annotations:
-#     kubernetes.io/service-account.name: argo-executor
-# type: kubernetes.io/service-account-token
-# EOF
-
-
-# ARGO_TOKEN="Bearer $(kubectl get secret argo-executor.service-account-token -n argo-workflows -o=jsonpath='{.data.token}' | base64 --decode)"
