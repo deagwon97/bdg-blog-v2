@@ -12,7 +12,8 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-v2
-  syncPolicy: {}
+  syncPolicy:
+    automated: {}
 
 ---
 kind: Application
@@ -29,7 +30,8 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-v2
-  syncPolicy: {}
+  syncPolicy:
+    automated: {}
 
 ---
 kind: Application
@@ -46,4 +48,5 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-v2
-  syncPolicy: {}
+  syncPolicy:
+    automated: {}
