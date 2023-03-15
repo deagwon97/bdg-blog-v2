@@ -41,7 +41,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
-    path: deploy/argoci
+    path: deploy/argocd
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
