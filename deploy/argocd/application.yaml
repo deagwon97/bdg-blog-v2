@@ -29,7 +29,7 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: bdg-blog-v2
+    namespace: argoci
   syncPolicy:
     automated: {}
 
@@ -47,6 +47,6 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: bdg-blog-v2
+    namespace: argocd
   syncPolicy:
     automated: {}
