@@ -22,6 +22,8 @@ harbor-config
 git-secret
 21harbor-config
 
+repository.yaml
+
 lib-cov
 *.seed
 *.log
