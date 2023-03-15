@@ -1,0 +1,49 @@
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-v2
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/kustomize/production
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-v2
+  syncPolicy: {}
+
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-v2-argoci
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/argoci
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-v2
+  syncPolicy: {}
+
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-v2-argocd
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/argoci
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-v2
+  syncPolicy: {}
