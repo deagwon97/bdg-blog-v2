@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute
+  annotations:
+    cert-manager.io/issuer: issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`harbor.deagwon.com`)
+      kind: Rule
+      services:
+        - name: harbor
+          port: 80
+  tls:
+    secretName: crt-secret
