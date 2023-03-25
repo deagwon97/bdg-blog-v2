@@ -6,7 +6,7 @@
 
 clusterName='default'
 ## the Namespace and ServiceAccount name that is used for the config
-namespace='argo-ci'
+namespace='bdg-blog-argoci'
 serviceAccount='argo-executor'
 ## New Kubeconfig file name
 newfile='config'
@@ -41,4 +41,4 @@ users:
     user:
       token: ${token}
 current-context: ${serviceAccount}@${clusterName}
-" >> ${newfile}
+" > ${newfile}

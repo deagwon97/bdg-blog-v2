@@ -9,8 +9,7 @@ type: kubernetes.io/service-account-token
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
- name: rollout
- namespace: argo-ci
+ name: bdg-blog-rollout
 rules:
 - apiGroups:
     - ""
@@ -39,5 +38,5 @@ subjects:
   name: argo-executor
 roleRef:
   kind: ClusterRole
-  name: rollout
+  name: bdg-blog-rollout
   apiGroup: rbac.authorization.k8s.io
