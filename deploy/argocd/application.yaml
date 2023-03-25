@@ -2,7 +2,6 @@ kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
   name: bdg-blog-v2
-  namespace: argocd
 spec:
   project: default
   source:
@@ -19,8 +18,7 @@ spec:
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: bdg-blog-v2-argoci
-  namespace: argocd
+  name: bdg-blog-argoci
 spec:
   project: default
   source:
@@ -33,20 +31,19 @@ spec:
   syncPolicy:
     automated: {}
 
----
-kind: Application
-apiVersion: argoproj.io/v1alpha1
-metadata:
-  name: bdg-blog-v2-argocd
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
-    path: deploy/argocd
-    targetRevision: HEAD
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: argocd
-  syncPolicy:
-    automated: {}
+# ---
+# kind: Application
+# apiVersion: argoproj.io/v1alpha1
+# metadata:
+#   name: bdg-blog-argocd
+# spec:
+#   project: default
+#   source:
+#     repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+#     path: deploy/argocd
+#     targetRevision: HEAD
+#   destination:
+#     server: 'https://kubernetes.default.svc'
+#     namespace: bdg-blog-argocd
+#   syncPolicy:
+#     automated: {}
