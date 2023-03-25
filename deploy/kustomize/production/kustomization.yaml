@@ -4,7 +4,7 @@ namespace: bdg-blog-v2
 metadata:
   name: arbitrary
 generatorOptions:
- disableNameSuffixHash: true
+  disableNameSuffixHash: true
 ## generate secret only first time
 # secretGenerator:
 #   - name: bdg-blog-v2

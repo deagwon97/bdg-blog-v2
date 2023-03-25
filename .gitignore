@@ -1,4 +1,11 @@
 
+# harbor
+secret
+charts/*
+
+# argoci
+config
+
 create-password-file.sh
 go-password
 pull-config*
