@@ -33,6 +33,7 @@ patchesStrategicMerge:
 # configMapGenerator:
 #   - name: harbor-config
 #     files:
+
 #       - kaniko/config.json
 #   - name: rollout-kubeconfig
 #     files:
