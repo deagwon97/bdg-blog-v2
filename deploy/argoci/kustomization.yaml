@@ -5,35 +5,35 @@ generatorOptions:
   disableNameSuffixHash: true
 resources:
   # argo workflows
-  - namespace.yaml
-  - https://github.com/argoproj/argo-workflows/releases/download/v3.4.5/install.yaml
-  - workflow-rbac.yaml
-  - rollout-rbac.yaml
+  - 00namespace.yaml
+  - 01argo-workflows-v3.4.5-install.yaml
+  - 02workflow-rbac.yaml
+  - 03rollout-rbac.yaml
   # argo events
-  - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
-  - event-bus.yaml
-  - event-source.yaml
-  - event-rbac.yaml
-  - event-sensor.yaml
+  - 11argo-events-install.yaml
+  - 12argo-event-webhook-install.yaml
+  - 13event-bus.yaml
+  - 14event-source.yaml
+  - 15event-rbac.yaml
+  - 16event-sensor.yaml
   # ingress
-  - ingress.yaml
+  - 21ingress.yaml
 patchesStrategicMerge:
-  - argo-patch.yaml
-# secretGenerator:
-#   - name: git-secret
-#     envs:
-#     - kaniko/git-secret
-#   - name: git-ssh
-#     files:
-#       - .ssh/id_rsa
-#   - name: git-known-hosts
-#     files:
-#       - .ssh/known_hosts
-# configMapGenerator:
-#   - name: harbor-config
-#     files:
-#       - kaniko/config.json
-#   - name: rollout-kubeconfig
-#     files:
-#       - rollout/config
+  - 31argo-patch.yaml
+secretGenerator:
+  - name: git-secret
+    envs:
+    - kaniko/git-secret
+  - name: git-ssh
+    files:
+      - .ssh/id_rsa
+  - name: git-known-hosts
+    files:
+      - .ssh/known_hosts
+configMapGenerator:
+  - name: harbor-config
+    files:
+      - kaniko/config.json
+  - name: rollout-kubeconfig
+    files:
+      - rollout/config
