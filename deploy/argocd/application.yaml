@@ -27,23 +27,23 @@ spec:
     targetRevision: HEAD
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: argo-ci
+    namespace: bdg-blog-argoci
   syncPolicy:
     automated: {}
 
-# ---
-# kind: Application
-# apiVersion: argoproj.io/v1alpha1
-# metadata:
-#   name: bdg-blog-argocd
-# spec:
-#   project: default
-#   source:
-#     repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
-#     path: deploy/argocd
-#     targetRevision: HEAD
-#   destination:
-#     server: 'https://kubernetes.default.svc'
-#     namespace: bdg-blog-argocd
-#   syncPolicy:
-#     automated: {}
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/argocd
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-argocd
+  syncPolicy:
+    automated: {}
