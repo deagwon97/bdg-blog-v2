@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bdg-blog-minio
+metadata:
+  name: bdg-blog-minio
+generatorOptions:
+ disableNameSuffixHash: true
+secretGenerator:
+  - name: minio-key
+    envs:
+    - 01env
+resources:
+  - 00namespace.yaml
+  - 02minio-pv.yaml
+  - 03statefulset.yaml
+  - 04service.yaml
+  - 05issuer.yaml
+  - 06certificate.yaml
+  - 07ingress.yaml
+  

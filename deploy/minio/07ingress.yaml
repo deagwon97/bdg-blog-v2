@@ -1,0 +1,22 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute
+  annotations:
+    cert-manager.io/issuer: issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`minio.deagwon.com`)
+      kind: Rule
+      services:
+        - name: minio
+          port: console
+    - match: Host(`file.minio.deagwon.com`)
+      kind: Rule
+      services:
+        - name: minio
+          port: file
+  tls:
+    secretName: crt-secret

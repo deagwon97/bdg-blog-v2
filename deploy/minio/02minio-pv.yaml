@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   # domain-minio-pv 로 수정할 것
+   name: minio-bdg-blog-pv
+spec:
+   capacity:
+      storage: 5Gi
+   volumeMode: Filesystem
+   accessModes:
+   - ReadWriteOnce
+   persistentVolumeReclaimPolicy: Retain
+   storageClassName: local-path
+   local:
+      path: /mnt/bdg-blog/minio
+   nodeAffinity:
+      required:
+         nodeSelectorTerms:
+         - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+              - bdg-msi

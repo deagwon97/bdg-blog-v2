@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certificate
+spec:
+  secretName: crt-secret
+  dnsNames:
+    - minio.deagwon.com
+    - file.minio.deagwon.com
+  issuerRef:
+    name: issuer
+    kind: Issuer
