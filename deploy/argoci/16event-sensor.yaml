@@ -55,7 +55,7 @@ spec:
                     args:
                       - "--dockerfile=Dockerfile"
                       - "--context=git://github.com/deagwon97/bdg-blog-v2.git"
-                      - "--destination=harbor.deagwon.com/bdg-blog/bdg-blog-v2:latest"
+                      - "--destination=harbor.deagwon.com/bdg-blog/bdg-blog:latest"
                       - "--cache=true"
                     envFrom:
                     - secretRef:
@@ -77,9 +77,9 @@ spec:
                       - "rollout"
                       - "restart"
                       - "deployment"
-                      - "bdg-blog-v2"
+                      - "bdg-blog"
                       - "-n"
-                      - "bdg-blog-v2"
+                      - "bdg-blog"
                     volumeMounts:
                       - name: kubeconfig
                         mountPath: /.kube/

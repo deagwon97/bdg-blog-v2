@@ -41,7 +41,7 @@ subjects:
 # You can specify more than one "subject"
 - kind: ServiceAccount
   name: argo-executor # "name" is case sensitive
-  namespace: bdg-blog-argoci
+  namespace: argoci-bdg-blog
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
   kind: Role #this must be Role or ClusterRole

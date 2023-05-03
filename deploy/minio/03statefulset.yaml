@@ -23,6 +23,8 @@ spec:
       labels:
         app: minio
     spec:
+      nodeSelector:
+        gpu: nvidia
       containers:
       - name: minio
         envFrom:
@@ -36,15 +38,12 @@ spec:
         - minio server /data --console-address :9090
         ports:
         - containerPort: 9090
-          hostPort: 9090
           name: console
         - containerPort: 9000
-          hostPort: 9000
           name: file
         volumeMounts:
         - name: data
           mountPath: /data
-
   volumeClaimTemplates:
   - metadata:
       name: data
@@ -52,6 +51,7 @@ spec:
       accessModes:
         - ReadWriteOnce
       storageClassName: local-path
+      volumeName: minio-bdg-blog-pv
       resources:
         requests:
           storage: 5Gi

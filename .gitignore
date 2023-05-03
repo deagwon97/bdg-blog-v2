@@ -15,6 +15,7 @@ push-config*
 21kaniko-secret
 02create-secret.sh
 
+01env
 
 gocd-server-ssh
 gocd-server-ssh.pub

@@ -3,12 +3,16 @@ kind: PersistentVolume
 metadata:
    # domain-minio-pv 로 수정할 것
    name: minio-bdg-blog-pv
+   # labels name을 추가하면 
+   # pvc에서 volumeName 을 통해 pv를 식별할 수 있다.
+   labels:
+      name: minio-bdg-blog-pv
 spec:
    capacity:
       storage: 5Gi
    volumeMode: Filesystem
    accessModes:
-   - ReadWriteOnce
+      - ReadWriteOnce
    persistentVolumeReclaimPolicy: Retain
    storageClassName: local-path
    local:

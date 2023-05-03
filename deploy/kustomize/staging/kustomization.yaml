@@ -1,10 +1,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: bdg-blog-v2-staging
+namespace: bdg-blog-staging
 bases:
 - ../production
 secretGenerator:
-  - name: bdg-blog-v2
+  - name: bdg-blog
     behavior: replace
     envs:
     - 01nextjs.env
@@ -16,12 +16,12 @@ patchesJson6902:
     patch: |
       - op: replace
         path: /metadata/name
-        value: bdg-blog-v2-staging
+        value: bdg-blog-staging
   - target:
       group: cert-manager.io
       version: v1
       kind: Certificate
-      name: bdg-blog-v2-certificate
+      name: bdg-blog-certificate
     patch: |
       - op: replace
         path: /spec/dnsNames/0
@@ -39,7 +39,7 @@ patchesJson6902:
       group: traefik.containo.us
       version: v1alpha1
       kind: IngressRoute
-      name: ingressroute-bdg-blog-v2
+      name: ingressroute-bdg-blog
     patch: |
       - op: replace
         path: /spec/routes/0/match

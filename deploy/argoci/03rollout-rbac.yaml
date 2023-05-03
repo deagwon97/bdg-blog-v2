@@ -32,7 +32,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: rollout-binding
-  namespace: bdg-blog-v2
+  namespace: bdg-blog
 subjects:
 - kind: ServiceAccount
   name: argo-executor
