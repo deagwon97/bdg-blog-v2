@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: bdg-blog-v2
-  name: bdg-blog-v2
+  namespace: bdg-blog
+  name: bdg-blog
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: bdg-blog-v2
+      app: bdg-blog
   template:
     metadata:
       labels:
-        app: bdg-blog-v2
+        app: bdg-blog
     spec:
       containers:
-      - name: bdg-blog-v2
+      - name: bdg-blog
         image: harbor.deagwon.com/bdg-blog/bdg-blog-v2:latest
         imagePullPolicy: Always
         ports:
@@ -22,7 +22,7 @@ spec:
             containerPort: 3000
         envFrom:
             - secretRef:
-                name: bdg-blog-v2
+                name: bdg-blog
       serviceAccountName: bdg-blog-regcred 
       imagePullSecrets:
         - name: bdg-blog-regcred 

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: bdg-blog-v2
-  name: bdg-blog-v2
+  namespace: bdg-blog
+  name: bdg-blog
 spec:
   ports:
     - protocol: TCP
       name: web
       port: 3000
   selector:
-    app: bdg-blog-v2
+    app: bdg-blog
