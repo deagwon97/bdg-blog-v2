@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: argoci-bdg-blog
+namespace: bdg-blog-argoci
 generatorOptions:
   disableNameSuffixHash: true
 resources:
   # argo workflows
   - 00namespace.yaml
-  - 01argo-workflows-v3.4.5-install.yaml
+  - 01argo-workflows.yaml
   - 02workflow-rbac.yaml
   - 03rollout-rbac.yaml
   # argo events
