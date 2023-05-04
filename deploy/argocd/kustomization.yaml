@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   - custom-install.yaml
   - ingress.yaml
-  - repository.yaml
+  # - repository.yaml
   - application.yaml
 patchesStrategicMerge:
   - argocd-cmd-params-cm-patch.yml
