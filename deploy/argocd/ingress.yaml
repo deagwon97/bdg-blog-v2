@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
-  name: argo-issuer
+  name: argocd-issuer
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
     email: azaz09112@naver.com
     privateKeySecretRef:
-      name: argo-issuer
+      name: argocd-issuer
     solvers:
     - http01:
         ingress:
@@ -16,14 +16,13 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: argo-certificate
+  name: argocd-certificate
 spec:
-  secretName: argo-crt-secret
+  secretName: argocd-crt-secret
   dnsNames:
-    - ci.argo.deagwon.com
-    - webhook.argo.deagwon.com
+    - cd.argo.deagwon.com
   issuerRef:
-    name: argo-issuer
+    name: argocd-issuer
     kind: Issuer
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -39,38 +38,42 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-argo-redirect
+  name: ingressroute-argocd-redirect
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`ci.argo.deagwon.com`)
+    - match: Host(`cd.argo.deagwon.com`)
       kind: Rule
       services:
-        - name: argo-server
-          port: 2746
+        - name: argocd-server
+          port: 80
       middlewares:
         - name: redirectscheme
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: ingressroute-argo
+  name: ingressroute-argocd
+  
   annotations:
-    cert-manager.io/issuer: argo-issuer
+    cert-manager.io/issuer: argocd-issuer
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`ci.argo.deagwon.com`)
-      kind: Rule
+    - kind: Rule
+      match: Host(`cd.argo.deagwon.com`)
+      priority: 10
       services:
-        - name: argo-server
-          port: 2746
-    - match: Host(`webhook.argo.deagwon.com`)
-      kind: Rule
+        - name: argocd-server
+          port: 80
+    - kind: Rule
+      match: Host(`cd.argo.deagwon.com`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
       services:
-        - name: github-eventsource-svc
-          port: 12000
+        - name: argocd-server
+          port: 80
+          scheme: h2c
   tls:
-    secretName: argo-crt-secret
+    secretName: argocd-crt-secret

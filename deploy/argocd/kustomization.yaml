@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bdg-blog-argocd
+resources:
+  - namespace.yaml
+  - custom-install.yaml
+  - ingress.yaml
+  - repository.yaml
+  - application.yaml
+patchesStrategicMerge:
+  - argocd-cmd-params-cm-patch.yml
