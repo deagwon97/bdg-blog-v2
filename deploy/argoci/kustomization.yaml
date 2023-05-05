@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: bdg-blog-argoci
+namespace: argoci-bdg-blog
 generatorOptions:
   disableNameSuffixHash: true
 resources:

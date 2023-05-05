@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: argo-executor-role
-  namespace: bdg-blog-argoci
+  namespace: argoci-bdg-blog
   # Role 은 고유한 namespace를 갖는다.
   # ClusterRole은 namespace없이 하나의 cluster 범위 내에서 동작한다.
 rules:
@@ -41,7 +41,7 @@ subjects:
 # You can specify more than one "subject"
 - kind: ServiceAccount
   name: argo-executor # "name" is case sensitive
-  namespace: bdg-blog-argoci
+  namespace: argoci-bdg-blog
 roleRef:
   # "roleRef" specifies the binding to a Role / ClusterRole
   kind: Role #this must be Role or ClusterRole

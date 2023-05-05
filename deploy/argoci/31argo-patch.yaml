@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: argo-server
-  namespace: bdg-blog-argoci
+  namespace: argoci-bdg-blog
 spec:
   template:
     spec:

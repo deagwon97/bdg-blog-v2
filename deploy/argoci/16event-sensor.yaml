@@ -3,6 +3,7 @@ kind: Sensor
 metadata:
   name: github-webhook-sensor
 spec:
+  eventBusName: bdg-event-bus
   template:
     serviceAccountName: operate-workflow-sa
     container:

@@ -3,6 +3,7 @@ kind: EventSource
 metadata:
   name: github
 spec:
+  eventBusName: bdg-event-bus
   service:
     ports:
       - name: github-webhook

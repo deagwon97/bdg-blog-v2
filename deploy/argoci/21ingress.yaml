@@ -5,6 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
+    # server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: azaz09112@naver.com
     privateKeySecretRef:
       name: argo-issuer
@@ -20,8 +21,8 @@ metadata:
 spec:
   secretName: argo-crt-secret
   dnsNames:
-    - ci.argo.deagwon.com
-    - webhook.argo.deagwon.com
+    - ci2.argo.deagwon.com
+    - webhook2.argo.deagwon.com
   issuerRef:
     name: argo-issuer
     kind: Issuer
@@ -44,7 +45,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`ci.argo.deagwon.com`)
+    - match: Host(`ci2.argo.deagwon.com`)
       kind: Rule
       services:
         - name: argo-server
@@ -62,12 +63,12 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`ci.argo.deagwon.com`)
+    - match: Host(`ci2.argo.deagwon.com`)
       kind: Rule
       services:
         - name: argo-server
           port: 2746
-    - match: Host(`webhook.argo.deagwon.com`)
+    - match: Host(`webhook2.argo.deagwon.com`)
       kind: Rule
       services:
         - name: github-eventsource-svc
