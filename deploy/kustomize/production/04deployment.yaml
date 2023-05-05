@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: bdg-blog
-        image: harbor.deagwon.com/bdg-blog/bdg-blog-v2:latest
+        image: harbor.deagwon.com/bdg-blog/bdg-blog:latest
         imagePullPolicy: Always
         ports:
           - name: web
