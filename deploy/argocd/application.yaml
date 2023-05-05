@@ -45,5 +45,34 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-argocd
-  syncPolicy:
-    automated: {}
+  # syncPolicy:
+  #   automated: {}
+
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-harbor
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/harbor
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-harbor
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-minio
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/minio
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: bdg-blog-minio
