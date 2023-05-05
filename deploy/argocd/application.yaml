@@ -14,20 +14,20 @@ spec:
   syncPolicy:
     automated: {}
 
-# ---
-# kind: Application
-# apiVersion: argoproj.io/v1alpha1
-# metadata:
-#   name: bdg-blog-argoci
-# spec:
-#   project: default
-#   source:
-#     repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
-#     path: deploy/argoci
-#     targetRevision: HEAD
-#   destination:
-#     server: 'https://kubernetes.default.svc'
-#     namespace: bdg-blog-argoci
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: bdg-blog-argoci
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
+    path: deploy/argoci
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argoci-bdg-blog
   # syncPolicy:
   #   automated: {}
 
