@@ -5,10 +5,10 @@ metadata:
   name: bdg-blog-minio
 generatorOptions:
  disableNameSuffixHash: true
-secretGenerator:
-  - name: minio-key
-    envs:
-    - 01env
+# secretGenerator:
+#   - name: minio-key
+#     envs:
+#     - 01env
 resources:
   - 00namespace.yaml
   - 02minio-pv.yaml
