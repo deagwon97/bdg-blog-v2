@@ -28,8 +28,8 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: argoci-bdg-blog
-  # syncPolicy:
-  #   automated: {}
+  syncPolicy:
+    automated: {}
 
 ---
 kind: Application
@@ -45,8 +45,8 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-argocd
-  # syncPolicy:
-  #   automated: {}
+  syncPolicy:
+    automated: {}
 
 ---
 kind: Application
@@ -62,6 +62,9 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-harbor
+  syncPolicy:
+    automated: {}
+
 ---
 kind: Application
 apiVersion: argoproj.io/v1alpha1
@@ -76,6 +79,8 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-minio
+  syncPolicy:
+    automated: {}
 ---
 kind: Application
 apiVersion: argoproj.io/v1alpha1
@@ -90,3 +95,5 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-mariadb
+  syncPolicy:
+    automated: {}
