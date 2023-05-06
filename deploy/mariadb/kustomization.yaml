@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bdg-blog-mariadb
+metadata:
+  name: bdg-blog-mariadb
+generatorOptions:
+ disableNameSuffixHash: true
+# secretGenerator: # comment out for argocd
+#   - name: mariadb-key
+#     envs:
+#     - 01env
+resources:
+  - 00namespace.yaml
+  - 02mariadb-pv.yaml
+  - 03statefulset.yaml
+  - 04service.yaml

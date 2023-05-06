@@ -1,0 +1,42 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  labels:
+     app: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: mariadb
+  serviceName: mariadb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      nodeSelector: # kubectl label nodes bdg-msi disk=ssd
+        disk: ssd
+      containers:
+      - name: mariadb
+        envFrom:
+        - secretRef:
+            name: mariadb-key
+        image: mariadb:latest
+        ports:
+        - containerPort: 3306
+          name: mariadb
+        volumeMounts:
+          - name: mariadb-data
+            mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mariadb-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: local-path
+      volumeName: bdg-blog-mariadb-pv
+      resources:
+        requests:
+          storage: 10Gi
