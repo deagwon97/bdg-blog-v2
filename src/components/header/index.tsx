@@ -24,13 +24,15 @@ export const Header: React.FC<HeaderProps> = (props) => {
   let height = maxHeight
   let fakeHeight = maxHeight
   const handleScroll = () => {
-    if (window.scrollY !== 0 || firstTime) {
+    if (window.scrollY !== 0 && firstTime) {
+      // window.scroll({ top: 0, left: 400 - 55 })
       height = maxHeight - window.scrollY
       height = height > minHeight ? height : minHeight
       setBannerHeight(height)
       fakeHeight = height + window.scrollY
       fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
       setFakeBannerHeight(fakeHeight)
+      console.log(maxHeight, window.scrollY, height)
     }
   }
 
@@ -45,7 +47,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   })
   useEffect(() => {
     if (props.isMain) {
-      window.scrollTo(0, 400 - 55)
+      // window.scrollTo(0, 400 - 55)
       let t = 0
       let h = minHeight
       const a = 20
