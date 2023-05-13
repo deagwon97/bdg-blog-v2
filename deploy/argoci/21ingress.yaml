@@ -21,7 +21,7 @@ metadata:
 spec:
   secretName: argo-crt-secret
   dnsNames:
-    - ci2.argo.deagwon.com
+    - ci.argo.deagwon.com
     - webhook2.argo.deagwon.com
   issuerRef:
     name: argo-issuer
@@ -45,7 +45,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`ci2.argo.deagwon.com`)
+    - match: Host(`ci.argo.deagwon.com`)
       kind: Rule
       services:
         - name: argo-server
@@ -63,7 +63,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`ci2.argo.deagwon.com`)
+    - match: Host(`ci.argo.deagwon.com`)
       kind: Rule
       services:
         - name: argo-server
