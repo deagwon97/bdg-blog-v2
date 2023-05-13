@@ -22,7 +22,7 @@ spec:
   secretName: argo-crt-secret
   dnsNames:
     - ci.argo.deagwon.com
-    - webhook2.argo.deagwon.com
+    - webhook.argo.deagwon.com
   issuerRef:
     name: argo-issuer
     kind: Issuer
@@ -68,7 +68,7 @@ spec:
       services:
         - name: argo-server
           port: 2746
-    - match: Host(`webhook2.argo.deagwon.com`)
+    - match: Host(`webhook.argo.deagwon.com`)
       kind: Rule
       services:
         - name: github-eventsource-svc
