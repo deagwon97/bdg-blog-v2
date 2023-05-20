@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bdg-blog-dev
+spec:
+  clusterIP: None
+  ports:
+    - port: 3991
+      targetPort: 3991
+      name: bdg-blog-dev

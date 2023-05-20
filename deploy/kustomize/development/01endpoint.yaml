@@ -1,0 +1,10 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: bdg-blog-dev
+subsets:
+  - addresses:
+      - ip: 172.30.1.13
+    ports:
+      - port: 3991
+        name: bdg-blog-dev

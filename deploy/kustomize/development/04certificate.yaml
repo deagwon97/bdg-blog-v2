@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bdg-blog-certificate
+spec:
+  secretName: bdg-blog-crt-secret
+  dnsNames:
+    - dev.deagwon.com
+  issuerRef:
+    name: bdg-blog-issuer
+    kind: Issuer

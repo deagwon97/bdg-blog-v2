@@ -1,0 +1,17 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute-bdg-blog
+  annotations:
+    cert-manager.io/issuer: bdg-blog-issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dev.deagwon.com`)
+      kind: Rule
+      services:
+        - name: bdg-blog-dev
+          port: 3991
+  tls:
+    secretName: bdg-blog-crt-secret
