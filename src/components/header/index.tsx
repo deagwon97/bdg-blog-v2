@@ -2,10 +2,11 @@ import styles from './header.module.scss'
 import Image from 'next/image'
 import loginIcon from 'assets/header/login-icon.svg'
 import logoutIcon from 'assets/header/logout-icon.svg'
-
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { motion } from 'framer-motion'
 import writeIcon from 'assets/header/write-icon.svg'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const minHeight = 55
@@ -16,59 +17,41 @@ type HeaderProps = {
 }
 
 export const Header: React.FC<HeaderProps> = (props) => {
-  const [bannerHeight, setBannerHeight] = useState<number>(minHeight)
-  const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(minHeight)
-  const [firstTime, setFirstTime] = useState<boolean>(true)
+  const [bannerHeight, setBannerHeight] = useState<number>(maxHeight)
+  const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(maxHeight)
   const [accessToken, setAccessToken] = useState<string>('')
+  const [status, setStatus] = useState<string>('animate')
+
+  const blockScorll = useCallback(async () => {
+    disableBodyScroll(document)
+    setTimeout(() => {
+      enableBodyScroll(document)
+      setStatus('exit')
+    }, 500)
+  }, [])
+
+  useEffect(() => {
+    window.scroll({ top: 0 })
+    blockScorll()
+  }, [])
 
   let height = maxHeight
   let fakeHeight = maxHeight
   const handleScroll = () => {
-    if (window.scrollY !== 0 && firstTime) {
-      // window.scroll({ top: 0, left: 400 - 55 })
-      height = maxHeight - window.scrollY
-      height = height > minHeight ? height : minHeight
-      setBannerHeight(height)
-      fakeHeight = height + window.scrollY
-      fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
-      setFakeBannerHeight(fakeHeight)
-      console.log(maxHeight, window.scrollY, height)
-    }
+    height = maxHeight - window.scrollY
+    height = height > minHeight ? height : minHeight
+    setBannerHeight(height)
+    fakeHeight = height + window.scrollY
+    fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
+    setFakeBannerHeight(fakeHeight)
   }
-
-  useEffect(() => {
-    window.scroll({ top: 0, left: 400 - 55 })
-  }, [])
 
   useEffect(() => {
     if (props.isMain) {
       window.addEventListener('scroll', handleScroll)
     }
   })
-  useEffect(() => {
-    if (props.isMain) {
-      // window.scrollTo(0, 400 - 55)
-      let t = 0
-      let h = minHeight
-      const a = 20
-      const callback = () => {
-        if (window.scrollY === 0) {
-          h = h + (0.92 ** t + 0.1) * a
-          setBannerHeight(h)
-          setFakeBannerHeight(h)
-          t++
-          h < maxHeight && requestAnimationFrame(callback)
-        } else {
-          setFirstTime(false)
-          window.scroll({ top: 0, left: maxHeight - h, behavior: 'smooth' })
-          return
-        }
-      }
-      requestAnimationFrame(callback)
-    }
-  }, [firstTime, props])
 
-  //get access token from local storage
   useEffect(() => {
     let token = localStorage.getItem('accessToken')
     if (token !== null) {
@@ -89,11 +72,27 @@ export const Header: React.FC<HeaderProps> = (props) => {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
-      <div
+      <motion.div
+        variants={{
+          initial: { height: minHeight },
+          animate: { height: maxHeight },
+          exit: { height: fakeBannerHeight, transition: { duration: 0 } }
+        }}
+        initial="initial"
+        animate={status}
+        transition={{ duration: 0.5 }}
         className={styles.fakeBackground}
-        style={{ height: fakeBannerHeight }}
       />
-      <div className={styles.background} style={{ height: bannerHeight }}>
+      <motion.div
+        variants={{
+          initial: { height: minHeight },
+          animate: { height: maxHeight },
+          exit: { height: bannerHeight, transition: { duration: 0 } }
+        }}
+        initial="initial"
+        animate={status}
+        transition={{ duration: 0.5 }}
+        className={styles.background}>
         <div className={styles.content}>
           <Link href="/main/">
             <div className={styles.title}>bdg.blog</div>
@@ -137,7 +136,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   )
 }

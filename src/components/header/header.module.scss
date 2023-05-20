@@ -19,9 +19,19 @@
   z-index: 99;
 }
 
+.backgroundMax {
+  @extend .background;
+  height: 440px;
+}
+
 .fakeBackground {
   @extend .backgroundSize;
   background-color: white;
+}
+
+.fakeBackgroundMax {
+  @extend .fakeBackground;
+  height: 440px;
 }
 
 .content {
