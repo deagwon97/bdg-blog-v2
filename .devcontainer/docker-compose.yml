@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   bdg-blog:
@@ -9,6 +9,9 @@ services:
       target: builder
     volumes: # docker-comose 파일 경로 기준 상대 경로
       - ../:/workdir
+    ports:
+      - 3991:3000
     stdin_open: true # docker run -i
     tty: true # docker run -t
     entrypoint: /bin/sh
+    privileged: true
