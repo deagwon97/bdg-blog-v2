@@ -1,6 +1,8 @@
 {
   "name": "bdg-blog",
-  "dockerComposeFile": ["./docker-compose.yml"],
+  "dockerComposeFile": [
+    "./docker-compose.yml"
+  ],
   "service": "bdg-blog",
   "shutdownAction": "stopCompose",
   "settings": {
@@ -12,7 +14,6 @@
     "editor.formatOnPaste": false, // required
     "editor.formatOnType": false, // required
     "editor.formatOnSave": true, // optional
-
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
@@ -38,6 +39,7 @@
     }
   },
   "extensions": [
+    "GitHub.copilot",
     "ms-vscode.vscode-typescript-next",
     "arcanis.vscode-zipfs",
     "rvest.vs-code-prettier-eslint",
