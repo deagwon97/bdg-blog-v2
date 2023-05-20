@@ -12,13 +12,70 @@ import Link from 'next/link'
 const minHeight = 55
 const maxHeight = 400
 
+type HeaderItemProps = {
+  accessToken: string
+  clearLocalStorage: () => void
+}
+
+const HeaderItem: React.FC<HeaderItemProps> = (props) => {
+  return (
+    <div className={styles.content}>
+      <Link href="/main/">
+        <div className={styles.title}>bdg.blog</div>
+      </Link>
+
+      <div className={styles.icons}>
+        {props.accessToken && (
+          <Link href="/post/create/">
+            <Image
+              alt="writeIcon"
+              style={{ height: 30, width: 30, marginLeft: 40 }}
+              src={writeIcon}
+            />
+          </Link>
+        )}
+        {!props.accessToken ? (
+          <Link href="/login/">
+            <Image
+              alt="loginIcon"
+              style={{
+                height: 30,
+                width: 30,
+                marginLeft: 40,
+                marginRight: 20
+              }}
+              src={loginIcon}
+            />
+          </Link>
+        ) : (
+          <Image
+            alt="logoutIcon"
+            style={{
+              height: 30,
+              width: 30,
+              marginLeft: 40,
+              marginRight: 20
+            }}
+            onClick={props.clearLocalStorage}
+            src={logoutIcon}
+          />
+        )}
+      </div>
+    </div>
+  )
+}
+
 type HeaderProps = {
   isMain: boolean
 }
 
 export const Header: React.FC<HeaderProps> = (props) => {
-  const [bannerHeight, setBannerHeight] = useState<number>(maxHeight)
-  const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(maxHeight)
+  const [bannerHeight, setBannerHeight] = useState<number>(
+    props.isMain ? maxHeight : minHeight
+  )
+  const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(
+    props.isMain ? maxHeight : minHeight
+  )
   const [accessToken, setAccessToken] = useState<string>('')
   const [status, setStatus] = useState<string>('animate')
 
@@ -31,9 +88,11 @@ export const Header: React.FC<HeaderProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    window.scroll({ top: 0 })
-    blockScorll()
-  }, [])
+    if (props.isMain) {
+      window.scroll({ top: 0 })
+      blockScorll()
+    }
+  }, [props])
 
   let height = maxHeight
   let fakeHeight = maxHeight
@@ -69,74 +128,47 @@ export const Header: React.FC<HeaderProps> = (props) => {
     <>
       <Head>
         <title>bdg.blog</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
       </Head>
-      <motion.div
-        variants={{
-          initial: { height: minHeight },
-          animate: { height: maxHeight },
-          exit: { height: fakeBannerHeight, transition: { duration: 0 } }
-        }}
-        initial="initial"
-        animate={status}
-        transition={{ duration: 0.5 }}
-        className={styles.fakeBackground}
-      />
-      <motion.div
-        variants={{
-          initial: { height: minHeight },
-          animate: { height: maxHeight },
-          exit: { height: bannerHeight, transition: { duration: 0 } }
-        }}
-        initial="initial"
-        animate={status}
-        transition={{ duration: 0.5 }}
-        className={styles.background}>
-        <div className={styles.content}>
-          <Link href="/main/">
-            <div className={styles.title}>bdg.blog</div>
-          </Link>
-
-          <div className={styles.icons}>
-            {accessToken && (
-              <Link href="/post/create/">
-                <Image
-                  alt="writeIcon"
-                  style={{ height: 30, width: 30, marginLeft: 40 }}
-                  src={writeIcon}
-                />
-              </Link>
-            )}
-            {!accessToken ? (
-              <Link href="/login/">
-                <Image
-                  alt="loginIcon"
-                  style={{
-                    height: 30,
-                    width: 30,
-                    marginLeft: 40,
-                    marginRight: 20
-                  }}
-                  src={loginIcon}
-                />
-              </Link>
-            ) : (
-              <Image
-                alt="logoutIcon"
-                style={{
-                  height: 30,
-                  width: 30,
-                  marginLeft: 40,
-                  marginRight: 20
-                }}
-                onClick={clearLocalStorage}
-                src={logoutIcon}
-              />
-            )}
+      {props.isMain ? (
+        <>
+          <motion.div
+            variants={{
+              initial: { height: minHeight },
+              animate: { height: maxHeight },
+              exit: { height: fakeBannerHeight, transition: { duration: 0 } }
+            }}
+            initial="initial"
+            animate={status}
+            transition={{ duration: 0.5 }}
+            className={styles.fakeBackground}
+          />
+          <motion.div
+            variants={{
+              initial: { height: minHeight },
+              animate: { height: maxHeight },
+              exit: { height: bannerHeight, transition: { duration: 0 } }
+            }}
+            initial="initial"
+            animate={status}
+            transition={{ duration: 0.5 }}
+            className={styles.background}>
+            <HeaderItem
+              accessToken={accessToken}
+              clearLocalStorage={clearLocalStorage}
+            />
+          </motion.div>
+        </>
+      ) : (
+        <>
+          <div className={styles.fakeBackground} />
+          <div className={styles.background}>
+            <HeaderItem
+              accessToken={accessToken}
+              clearLocalStorage={clearLocalStorage}
+            />
           </div>
-        </div>
-      </motion.div>
+        </>
+      )}
     </>
   )
 }
