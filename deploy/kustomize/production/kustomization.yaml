@@ -5,7 +5,7 @@ metadata:
   name: arbitrary
 generatorOptions:
   disableNameSuffixHash: true
-# generate secret only first time
+## generate secret only first time
 # secretGenerator:
 #   - name: bdg-blog
 #     envs:
@@ -25,4 +25,3 @@ resources:
   - 12certificate.yaml
   - 13middleWare.yaml
   - 14ingressRouter.yaml
-  
