@@ -2,7 +2,13 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: -apple-system, D2Coding;
+}
+
+@font-face {
+  font-family: 'D2Coding';
+  font-weight: 200;
+  src: url('/fonts/D2Coding-Ver1.3.2-20180524-all.ttc') format('truetype');
 }
 
 a {
@@ -12,6 +18,9 @@ a {
 
 * {
   box-sizing: border-box;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
