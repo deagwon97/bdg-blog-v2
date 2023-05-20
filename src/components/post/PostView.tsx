@@ -24,10 +24,18 @@ const PostMarkdown: React.FunctionComponent<Props> = (props) => {
             {String(children).replace(/\n$/, '')}
           </SyntaxHighlighter>
         </div>
-      ) : (
+      ) : inline ? (
         <code className={className ? className : ''} {...props}>
           {children}
         </code>
+      ) : (
+        <SyntaxHighlighter
+          style={atomDark}
+          PreTag="div"
+          language={'text'}
+          {...props}>
+          {String(children).replace(/\n$/, '')}
+        </SyntaxHighlighter>
       )
     }
   }
