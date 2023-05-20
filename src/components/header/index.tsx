@@ -80,9 +80,9 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const [status, setStatus] = useState<string>('animate')
 
   const blockScorll = useCallback(async () => {
-    disableBodyScroll(document)
+    disableBodyScroll(document.documentElement)
     setTimeout(() => {
-      enableBodyScroll(document)
+      enableBodyScroll(document.documentElement)
       setStatus('exit')
     }, 500)
   }, [])
