@@ -6,7 +6,10 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import PostContent from 'components/post/PostContent'
 import styles from './create.module.scss'
 import useComponentSize from 'tools/useComponentSize'
-import { onCreatedPost } from 'server/service/index.telefunc'
+import {
+  onCreatedPost,
+  onLoadPresignedUrlPutObject
+} from 'server/service/index.telefunc'
 
 export default function PostCreatePage() {
   useEffect(() => {
@@ -38,6 +41,25 @@ export default function PostCreatePage() {
     }
   }
 
+  const handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    console.log(event.clipboardData.getData('text'))
+    var items = (event.clipboardData || event.clipboardData).items
+    for (const index in items) {
+      var item = items[index]
+      if (item.kind === 'file') {
+        // TODO
+        console.log('item', item.kind)
+        // 랜덤이미지 이름 생성 - 겹치지 않도록
+        // onLoadPresignedUrlPutObject() // 업로드
+        // 다운로드용 presinged url 생성 발급
+        // 텍스트로 저장
+        // 서버에서 post를 다시 로드할 때, presinged url을 탐색해서
+        // presinged url을 탐색해서를 갱신하는 로직이 필요함
+      }
+    }
+    event.preventDefault()
+  }
+
   return (
     <>
       <Header isMain={false} />
@@ -59,6 +81,7 @@ export default function PostCreatePage() {
                 placeholder="내용을 입력하세요..."
                 ref={contentRef}
                 onChange={onHandler}
+                onPaste={handlePaste}
               />
             </div>
 

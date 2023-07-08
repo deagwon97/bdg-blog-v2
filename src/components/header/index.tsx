@@ -84,7 +84,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
     setTimeout(() => {
       enableBodyScroll(document.documentElement)
       setStatus('exit')
-    }, 500)
+    }, 1300)
   }, [])
 
   useEffect(() => {
@@ -139,7 +139,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
             }}
             initial="initial"
             animate={status}
-            transition={{ duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 1 }}
             className={styles.fakeBackground}
           />
           <motion.div
@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
             }}
             initial="initial"
             animate={status}
-            transition={{ duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 1 }}
             className={styles.background}>
             <HeaderItem
               accessToken={accessToken}

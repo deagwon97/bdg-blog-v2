@@ -8,6 +8,19 @@ import {
 import { GetUser, getUser } from 'server/repository/user'
 import { ErrorMessage } from 'server/types/error'
 import { getContext } from 'telefunc'
+import {
+  getPresignedUrl,
+  GetPresignedUrl,
+  getPresignedUrlPutObject
+} from 'server/storage/file'
+
+export const onLoadPresignedUrl: GetPresignedUrl = async () => {
+  return getPresignedUrl()
+}
+
+export const onLoadPresignedUrlPutObject = async (filename: string) => {
+  return getPresignedUrlPutObject(filename)
+}
 
 export const onLoadPostListPageSortByDate: GetPostListPageSortByDate = async (
   pageSize: number,

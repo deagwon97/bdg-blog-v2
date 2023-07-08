@@ -1,4 +1,10 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Image from 'next/image'
 import { Prisma } from '@prisma/client'
 import styles from './PostCards.module.scss'
@@ -9,6 +15,10 @@ import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
 import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
+import {
+  onLoadPresignedUrl,
+  onLoadPresignedUrlPutObject
+} from 'server/service/index.telefunc'
 import { onLoadPostListPageSortByDate } from 'server/service/index.telefunc'
 
 type Post = Prisma.PostGetPayload<{}>
@@ -80,6 +90,16 @@ const PostCards: React.FC<PostProps> = (props) => {
     }
     setCurrentPageIdx(pageIdx)
   }
+
+  const loadUrl = useCallback(async () => {
+    // const url = await onLoadPresignedUrl()
+
+    const res = await onLoadPresignedUrlPutObject('hihi')
+    console.log('!!!!!!!!!!!!!!', res)
+  }, [])
+  useEffect(() => {
+    loadUrl()
+  }, [])
 
   useEffect(() => {
     setCurrentPageIdx(1)
