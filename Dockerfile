@@ -2,8 +2,10 @@ FROM node:16 AS builder
 LABEL builder=true
 COPY ./src /workdir/src
 WORKDIR /workdir/src
-RUN npm install -g npm@9.3.1 &&\
-     npm install --global yarn --force &&\
+RUN apt-get update -y  &&\
+      apt-get install git -y &&\
+      npm install -g npm@9.3.1 &&\
+      npm install --global yarn --force &&\
       npm install -g prisma && prisma generate
 RUN yarn install
 RUN yarn build
@@ -11,7 +13,9 @@ RUN yarn build
 FROM node:16 AS server
 LABEL builder=false
 WORKDIR /build
-RUN npm install -g npm@9.3.1 && npm install -g prisma
+RUN apt-get update -y  &&\
+      apt-get install git -y &&\
+      npm install -g npm@9.3.1 && npm install -g prisma
 COPY --from=builder /workdir/src/package*.json /build
 COPY --from=builder /workdir/src/next.config.js /build
 COPY --from=builder /workdir/src/.next /build/.next
