@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bdg-blog-redis
+  name: bdg-blog-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bdg-blog-redis
+  template:
+    metadata:
+      labels:
+        app: bdg-blog-redis
+    spec:
+      containers:
+      - name: bdg-blog-redis
+        image: redis:7.2-rc2
+        imagePullPolicy: Always
+        command:
+          - redis-server
+          - "/redis-master/redis.conf"
+        ports:
+          - name: redis
+            containerPort: 6379
+        volumeMounts:
+          - mountPath: /redis-master
+            name: config
+        env:
+          - name: MASTER
+            value: "true"
+      volumes:
+        - name: config
+          configMap:
+            name: bdg-blog-redis
+            items:
+            - key: 01redis.conf
+              path: redis.conf
+      nodeSelector: 
+        kubernetes.io/hostname: bdg-msi

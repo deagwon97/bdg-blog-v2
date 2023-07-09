@@ -21,7 +21,7 @@ export default function ToyProjects() {
                 <ToyProject
                   image={cahtIcon}
                   title="bdg.talk"
-                  projectUrl="https://deagwon.com/chat/room/"
+                  projectUrl="/chat"
                   githubUrl="https://github.com/deagwon97/solar-system"
                   postUrl="https://github.com/deagwon97/solar-system"
                 />

@@ -11,6 +11,7 @@ go-password
 pull-config*
 push-config*
 01nextjs.env
+01redis.env
 *dockerconfig.json
 21kaniko-secret
 02create-secret.sh

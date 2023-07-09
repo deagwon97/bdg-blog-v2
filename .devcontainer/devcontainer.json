@@ -7,7 +7,7 @@
   "shutdownAction": "stopCompose",
   "settings": {
     "eslint.nodePath": "/workdir/src/.yarn/sdks",
-    "prettier.prettierPath": "/workdir/src/.yarn/sdks/prettier/index.js",
+    "prettier.prettierPath": "/workdir/src/node_modules/prettier",
     "typescript.tsdk": "/workdir/src/.yarn/sdks/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
     // "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",

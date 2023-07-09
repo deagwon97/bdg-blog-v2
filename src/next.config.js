@@ -5,7 +5,7 @@ const path = require('path')
 const withTelefunc = require('telefunc/next').default
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // to be disable twice render in useEffenct
   swcMinify: true,
   sassOptions: {
     includePaths: [path.join(__dirname, '*')]

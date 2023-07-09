@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bdg-blog-redis
+metadata:
+  name: arbitrary
+generatorOptions:
+  disableNameSuffixHash: true
+## generate secret only first time
+configMapGenerator:
+  - name: bdg-blog-redis
+    files:
+    - 01redis.conf
+commonLabels:
+  app: bdg-blog
+resources:
+  - 00namespace.yaml
+  - 02deployment.yaml
+  - 03service.yaml

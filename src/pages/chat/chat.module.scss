@@ -1,0 +1,50 @@
+.background {
+  display: 'flex';
+  flex-direction: 'column';
+  max-width: 300px;
+  margin: 0 auto;
+  justify-content: 'center';
+  margin: 'auto';
+  margin-top: '5px';
+  padding: '0 10px 0 10px';
+  .textWithButtonBox {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  .chatBox {
+    max-width: 300px;
+
+    height: 60vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+
+    .myChat {
+      width: 100%;
+      text-align: right;
+      text-align-last: right;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin-top: 10px;
+      margin-left: auto;
+      margin: 5px 8px 5px auto;
+      width: fit-content;
+      background-color: #f6e1dc;
+      border-radius: 10px;
+    }
+    .otherChat {
+      width: 100%;
+      text-align: left;
+      text-align-last: left;
+      font-size: 12px;
+      padding: 4px 10px;
+      margin: 5px auto 5px 8px;
+
+      width: fit-content;
+      background-color: #c2daf6;
+      border-radius: 10px;
+    }
+  }
+}
