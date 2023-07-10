@@ -42,7 +42,13 @@ export default function ChatPage() {
   const socketInitializer = async () => {
     console.log('socketInitializer')
     await fetch('/api/socket')
-    socket = io() as Socket
+    socket = io('', {
+      // Send auth token on connection, you will need to DI the Auth service above
+      // 'query': 'token=' + Auth.getToken()
+      path: '/socket.io',
+      transports: ['websocket'],
+      secure: process.env.NODE_ENV === 'production'
+    }) as Socket
     socket.on('update-input', (msg) => {
       console.log('recieved!!')
       setChatMessageList((chatMessageList) => [...chatMessageList, msg])
