@@ -14,7 +14,6 @@
   }
   .chatBox {
     max-width: 300px;
-
     height: 60vh;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -33,6 +32,10 @@
       width: fit-content;
       background-color: #f6e1dc;
       border-radius: 10px;
+    }
+    .noticeChat {
+      color: #a9a9a9;
+      margin: 0 auto;
     }
     .otherChat {
       width: 100%;

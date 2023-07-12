@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Socket } from 'socket.io-client'
 import { Button, TextField } from '@mui/material'
 import { getRandomName } from 'tools/randomName'
+import { get } from 'http'
 
 type ChatMessage = {
   userName: string
@@ -16,10 +17,14 @@ let socket: Socket | null = null
 
 export default function ChatPage() {
   const messageBoxRef = useRef<HTMLDivElement | null>(null)
-
   const [input, setInput] = useState('')
+  const [userName, setUserName] = useState('')
   const [chatMessageList, setChatMessageList] = useState<ChatMessage[]>([])
+
   const sendChat = () => {
+    if (input === '') {
+      return
+    }
     if (socket === null) {
       socketInitializer()
       return
@@ -33,11 +38,14 @@ export default function ChatPage() {
 
   useEffect(() => {
     socketInitCallback()
-  }, [])
+  }, [userName])
 
   const socketInitCallback = useCallback(async () => {
+    if (userName === '') {
+      return
+    }
     await socketInitializer()
-  }, [])
+  }, [userName])
 
   const socketInitializer = async () => {
     console.log('socketInitializer')
@@ -49,13 +57,18 @@ export default function ChatPage() {
       transports: ['websocket'],
       secure: process.env.NODE_ENV === 'production'
     }) as Socket
+
+    socket.emit('input-change', {
+      userName: 'notice',
+      message: `${userName}님이 입장했습니다.`
+    } as ChatMessage)
+
     socket.on('update-input', (msg) => {
       console.log('recieved!!')
       setChatMessageList((chatMessageList) => [...chatMessageList, msg])
     })
   }
 
-  const [userName, setUserName] = useState('')
   useEffect(() => {
     setUserName(getRandomName())
   }, [])
@@ -75,7 +88,6 @@ export default function ChatPage() {
 
       <div className={styles.background}>
         <div>
-          <h3>내 이름: {userName}</h3>
           <div>
             <div className={styles.chatBox} ref={messageBoxRef}>
               {chatMessageList.map((log, idx) => {
@@ -83,8 +95,12 @@ export default function ChatPage() {
                   <div key={idx} className={styles.myChat}>
                     {log.message}
                   </div>
+                ) : log.userName === 'notice' ? (
+                  <div key={idx} className={styles.noticeChat}>
+                    {log.message}
+                  </div>
                 ) : (
-                  <div key={idx} className={styles.otherChat} style={{}}>
+                  <div key={idx} className={styles.otherChat}>
                     {log.userName}:{log.message}
                   </div>
                 )
