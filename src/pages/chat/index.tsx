@@ -1,14 +1,14 @@
 import { Header } from 'components/header'
 import styles from 'pages/chat/chat.module.scss'
-import Footer from 'components/footer'
+
 import io from 'socket.io-client'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Socket } from 'socket.io-client'
 import { Button, TextField } from '@mui/material'
 import { getRandomName } from 'tools/randomName'
-import { get } from 'http'
 
 type ChatMessage = {
+  type: string
   userName: string
   message: string
 }
@@ -30,6 +30,7 @@ export default function ChatPage() {
       return
     }
     socket.emit('input-change', {
+      type: 'chat',
       userName: userName,
       message: input
     } as ChatMessage)
@@ -59,12 +60,12 @@ export default function ChatPage() {
     }) as Socket
 
     socket.emit('input-change', {
-      userName: 'notice',
+      type: 'notice',
+      userName: userName,
       message: `${userName}님이 입장했습니다.`
     } as ChatMessage)
 
     socket.on('update-input', (msg) => {
-      console.log('recieved!!')
       setChatMessageList((chatMessageList) => [...chatMessageList, msg])
     })
   }
@@ -78,66 +79,89 @@ export default function ChatPage() {
       messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight
     }
   }
+
   useEffect(() => {
     scrollToBottom()
   }, [chatMessageList])
 
-  return (
-    <>
-      <Header isMain={false} />
+  const [isSend, setIsSend] = useState(false)
+  const toggleSend = () => {
+    setIsSend(!isSend)
+  }
 
-      <div className={styles.background}>
+  const inputTextRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (inputTextRef.current !== null) {
+      console.log('inputTextRef.current', inputTextRef.current)
+      inputTextRef.current.autocomplete = 'off' //input 비활성화 해제
+      inputTextRef.current.disabled = false //input 비활성화 해제
+      inputTextRef.current.focus() //input에 focus
+    }
+  }, [isSend])
+
+  return (
+    <div id="chat">
+      <Header isMain={false} />
+      <div className={styles.background} ref={messageBoxRef}>
         <div>
-          <div>
-            <div className={styles.chatBox} ref={messageBoxRef}>
-              {chatMessageList.map((log, idx) => {
-                return log.userName === userName ? (
-                  <div key={idx} className={styles.myChat}>
-                    {log.message}
-                  </div>
-                ) : log.userName === 'notice' ? (
-                  <div key={idx} className={styles.noticeChat}>
-                    {log.message}
-                  </div>
-                ) : (
-                  <div key={idx} className={styles.otherChat}>
-                    {log.userName}:{log.message}
-                  </div>
-                )
-              })}
-            </div>
-            <div className={styles.textWithButtonBox}>
-              <TextField
-                id="standard-basic"
-                variant="standard"
-                value={input || ''}
-                inputProps={{
-                  autoComplete: 'off'
-                }}
-                style={{ width: '300px' }}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    sendChat()
-                  }
-                }}
-                onChange={(e) => {
-                  setInput(e.target.value)
-                }}></TextField>
-              <Button
-                onClick={() => {
+          <div className={styles.chatBox}>
+            {chatMessageList.map((log, idx) => {
+              return log.type === 'notice' ? (
+                <div key={idx} className={styles.noticeChat}>
+                  <hr />
+                  {log.message}
+                  <hr />
+                </div>
+              ) : log.userName !== userName ? (
+                <div key={idx} className={styles.otherChat}>
+                  {log.userName}:{log.message}
+                </div>
+              ) : (
+                <div key={idx} className={styles.myChat}>
+                  {log.message}
+                </div>
+              )
+            })}
+          </div>
+
+          <div className={styles.textWithButtonBox}>
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              style={{
+                width: 'calc(100% - 30px)'
+              }}
+              inputRef={inputTextRef}
+              autoFocus={true}
+              autoComplete="off"
+              type="search"
+              inputProps={{
+                autoComplete: 'new-password'
+              }}
+              value={input || ''}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
                   sendChat()
-                }}
-                style={{
-                  height: '2.5em',
-                  float: 'right'
-                }}>
-                전송
-              </Button>
-            </div>
+                }
+              }}
+              onChange={(e) => {
+                setInput(e.target.value)
+              }}></TextField>
+            <Button
+              onClick={() => {
+                sendChat()
+                toggleSend()
+              }}
+              style={{
+                height: '2.5em',
+                width: '30px',
+                float: 'right'
+              }}>
+              전송
+            </Button>
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   )
 }

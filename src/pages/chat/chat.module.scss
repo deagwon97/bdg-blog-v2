@@ -1,22 +1,21 @@
 .background {
-  display: 'flex';
-  flex-direction: 'column';
-  max-width: 300px;
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column-reverse;
+  height: calc(100svh - 60px);
   margin: 0 auto;
-  justify-content: 'center';
-  margin: 'auto';
-  margin-top: '5px';
-  padding: '0 10px 0 10px';
+  padding: 0 10px 0 10px;
+  overflow-y: scroll;
+  scrollbar-width: none;
   .textWithButtonBox {
-    max-width: 300px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   .chatBox {
-    max-width: 300px;
-    height: 60vh;
-    overflow-y: scroll;
-    scrollbar-width: none;
+    width: 100%;
+    z-index: 1;
+
     display: flex;
     flex-direction: column;
 
@@ -34,8 +33,14 @@
       border-radius: 10px;
     }
     .noticeChat {
+      .hr {
+        margin: 0;
+      }
       color: #a9a9a9;
-      margin: 0 auto;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      border-color: #a9a9a9;
     }
     .otherChat {
       width: 100%;
