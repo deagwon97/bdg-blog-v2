@@ -42,6 +42,8 @@ const SocketHandler = async (
               }
             })
           )
+          socket.disconnect()
+          return
         })
       })
 
