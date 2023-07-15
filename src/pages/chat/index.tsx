@@ -147,7 +147,7 @@ export default function ChatPage() {
               }}></TextField>
             <Button
               sx={{
-                color: 'grey'
+                color: 'black'
               }}
               onClick={() => {
                 sendChat()
