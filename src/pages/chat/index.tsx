@@ -123,21 +123,19 @@ export default function ChatPage() {
               )
             })}
           </div>
-
           <div className={styles.textWithButtonBox}>
             <TextField
               id="standard-basic"
               variant="standard"
+              sx={{
+                color: 'grey'
+              }}
               style={{
                 width: 'calc(100% - 30px)'
               }}
               inputRef={inputTextRef}
               autoFocus={true}
-              autoComplete="off"
               type="search"
-              inputProps={{
-                autoComplete: 'new-password'
-              }}
               value={input || ''}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -148,6 +146,9 @@ export default function ChatPage() {
                 setInput(e.target.value)
               }}></TextField>
             <Button
+              sx={{
+                color: 'grey'
+              }}
               onClick={() => {
                 sendChat()
                 toggleSend()
