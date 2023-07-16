@@ -12,7 +12,6 @@ const SocketHandler = async (
   res: NextApiResponseWithSocket
 ) => {
   if (!res.socket.server.io) {
-    // Socket is initializing...
     if (!io) {
       io = new Server(res.socket.server)
     }
@@ -29,22 +28,24 @@ const SocketHandler = async (
             }
           })
         )
-        socket.on('disconnect', () => {
-          redisPub.publish(
-            'send-user-data',
-            JSON.stringify({
-              ...{
-                message: {
-                  type: 'notice',
-                  userName: userName,
-                  message: `${userName}님이 나갔습니다.`
-                }
+      })
+
+      socket.on('disconnect', () => {
+        console.log('disconnected')
+        redisPub.publish(
+          'send-user-data',
+          JSON.stringify({
+            ...{
+              message: {
+                type: 'notice',
+                userName: userName,
+                message: `${userName}님이 나갔습니다.`
               }
-            })
-          )
-          socket.disconnect()
-          return
-        })
+            }
+          })
+        )
+        socket.disconnect()
+        return
       })
 
       if (!redisSub) {
