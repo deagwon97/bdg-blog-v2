@@ -29,7 +29,7 @@ export default function ChatPage() {
       socketInitializer()
       return
     }
-    socket.emit('input-change', {
+    socket.emit('client-server-chat', {
       type: 'chat',
       userName: userName,
       message: input
@@ -49,23 +49,20 @@ export default function ChatPage() {
   }, [userName])
 
   const socketInitializer = async () => {
-    console.log('socketInitializer')
     await fetch('/api/socket')
     socket = io('', {
-      // Send auth token on connection, you will need to DI the Auth service above
-      // 'query': 'token=' + Auth.getToken()
       path: '/socket.io',
       transports: ['websocket'],
       secure: process.env.NODE_ENV === 'production'
     }) as Socket
 
-    socket.emit('input-change', {
+    socket.emit('client-server-chat', {
       type: 'notice',
       userName: userName,
       message: `${userName}님이 입장했습니다.`
     } as ChatMessage)
 
-    socket.on('update-input', (msg) => {
+    socket.on('server-client-chat', (msg) => {
       setChatMessageList((chatMessageList) => [...chatMessageList, msg])
     })
   }
