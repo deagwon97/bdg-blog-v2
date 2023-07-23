@@ -1,7 +1,7 @@
 import { NextApiRequest } from 'next'
 import { Server } from 'socket.io'
 import { NextApiResponseWithSocket } from 'socket.d'
-import { redisPub, getRedisSub } from 'server/redis/golbalRedis'
+import { redisPub, getRedisSub } from 'server/chat/golbalRedis'
 import Redis from 'ioredis'
 
 let io: Server | null = null
