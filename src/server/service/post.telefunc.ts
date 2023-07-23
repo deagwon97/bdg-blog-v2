@@ -3,7 +3,9 @@ import {
   GetPostListPageSortByDate,
   getPostListPageSortByDate,
   createPost,
-  deletePost
+  deletePost,
+  getCategoryList,
+  createCategory
 } from 'server/repository/post'
 import { GetUser, getUser } from 'server/repository/user'
 import { ErrorMessage } from 'server/types/error'
@@ -14,32 +16,36 @@ import {
   getPresignedUrlPutObject
 } from 'server/storage/file'
 
-export const onLoadPresignedUrl: GetPresignedUrl = async () => {
-  return getPresignedUrl()
+export const onLoadPresignedUrl: GetPresignedUrl = async (filename: string) => {
+  return await getPresignedUrl(filename)
 }
 
-export const onLoadPresignedUrlPutObject = async (filename: string) => {
-  return getPresignedUrlPutObject(filename)
+export const onLoadPresignedUrlPutObject = async (
+  filename: string
+): Promise<string> => {
+  return await getPresignedUrlPutObject(filename)
 }
 
 export const onLoadPostListPageSortByDate: GetPostListPageSortByDate = async (
   pageSize: number,
   pageIdx: number
 ) => {
-  return getPostListPageSortByDate(pageSize, pageIdx)
+  return await getPostListPageSortByDate(pageSize, pageIdx)
 }
 
 type CreatePost = (
   title: string,
-  content: string
+  content: string,
+  categoryName: string
 ) => Promise<Post | ErrorMessage>
 export const onCreatedPost: CreatePost = async (
   title: string,
-  content: string
+  content: string,
+  categoryName: string
 ) => {
   const { userId } = getContext()
   if (userId === 1) {
-    let post = (await createPost(title, content)) as Post
+    let post = (await createPost(title, content, categoryName)) as Post
     return post
   }
   return {
@@ -63,6 +69,7 @@ export const onDeletePost: DeletePost = async (id: number) => {
 import { getUserByEmail, isValidPassword } from 'server/repository/user'
 import { LoginResult } from 'server/types/user'
 import { generateAccessToken, generateRefreshToken } from 'server/utils/auth'
+import { create } from 'domain'
 
 export const onLoadUser: GetUser = async (id: number) => {
   return getUser(id)
@@ -106,4 +113,16 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
     accessToken: accessToken,
     refreshToken: refreshToken
   }
+}
+
+export const onLoadCategoryList: () => Promise<string[]> = async () => {
+  const categoryList = getCategoryList()
+  return categoryList
+}
+
+export const onCreateCategory: (category: string) => Promise<string> = async (
+  category: string
+) => {
+  createCategory(category)
+  return category
 }

@@ -40,15 +40,30 @@ export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
   return pageNumbers
 }
 
-export type CreatePost = (title: string, content: string) => Promise<Post>
+export type CreatePost = (
+  title: string,
+  content: string,
+  categoryName: string
+) => Promise<Post>
 export const createPost: CreatePost = async (
   title: string,
-  content: string
+  content: string,
+  categoryName: string
 ) => {
   let post = await prisma.post.create({
     data: {
       title: title,
-      content: content
+      content: content,
+      category: {
+        connectOrCreate: {
+          where: {
+            name: categoryName
+          },
+          create: {
+            name: categoryName
+          }
+        }
+      }
     }
   })
   return post
@@ -63,4 +78,25 @@ export const deletePost: DeletePost = async (id: number) => {
     }
   })
   return post
+}
+
+export const getCategoryList: () => Promise<string[]> = async () => {
+  const categorys = await prisma.category.findMany({
+    select: {
+      name: true
+    }
+  })
+  const categoryList = categorys.map((category) => category.name)
+  return categoryList
+}
+
+export const createCategory: (name: string) => Promise<string> = async (
+  name: string
+) => {
+  let category = await prisma.category.create({
+    data: {
+      name: name
+    }
+  })
+  return category.name
 }

@@ -1,9 +1,17 @@
 import {
+  onCreateCategory,
   onCreatedPost,
   onDeletePost,
-  onLoadPostListPageSortByDate
+  onLoadPostListPageSortByDate,
+  onLoadCategoryList
 } from './post.telefunc'
-export { onCreatedPost, onDeletePost, onLoadPostListPageSortByDate }
+export {
+  onCreateCategory,
+  onCreatedPost,
+  onDeletePost,
+  onLoadPostListPageSortByDate,
+  onLoadCategoryList
+}
 
 import { onLogin, onLoadUser } from './user.telefunc'
 export { onLogin, onLoadUser }

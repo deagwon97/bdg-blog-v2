@@ -1,4 +1,15 @@
 .background {
+  .postHead {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    font-weight: 700;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 800px;
+    min-width: 240px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: center;

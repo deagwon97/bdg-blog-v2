@@ -16,14 +16,21 @@ model User {
   updatedAt DateTime?
 }
 
+model Category {
+  name String @id
+  Post Post[]
+}
+
 model Post {
-  id        Int       @id @default(autoincrement())
-  title     String
-  summary   String?
-  content   String?   @db.LongText
-  published Boolean   @default(false)
-  createdAt DateTime? @default(now())
-  updatedAt DateTime?
+  id           Int       @id @default(autoincrement())
+  categoryName String
+  category     Category  @relation(fields: [categoryName], references: [name])
+  title        String
+  summary      String?
+  content      String?   @db.LongText
+  published    Boolean   @default(false)
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @default(now())
 }
 
 model FileMeta {
@@ -32,5 +39,5 @@ model FileMeta {
   bucket    String
   path      String
   createdAt DateTime? @default(now())
-  updatedAt DateTime?
+  updatedAt DateTime? @default(now())
 }

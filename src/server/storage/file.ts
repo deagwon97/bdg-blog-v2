@@ -4,29 +4,23 @@ import minioClient from 'minioStorage/minio'
 // import { ErrorMessage } from 'server/types/error'
 // import { getContext } from 'telefunc'
 
-export const getPresignedUrlPutObject = async (filename: string) => {
-  const presignedUrl = await minioClient.presignedPutObject(
+export const getPresignedUrlPutObject = async (
+  filename: string
+): Promise<string> => {
+  const presignedUrl = (await minioClient.presignedPutObject(
     'bdg-blog',
     filename,
     24
-  )
+  )) as string
   return presignedUrl
 }
 
-export type GetPresignedUrl = () => Promise<string | null>
-// export const onLoadPresignedUrl: GetPresignedUrl = async (fileId: number) => {
-export const getPresignedUrl: GetPresignedUrl = async () => {
-  // const file = await getFilebyId(fileId)
-  // if (!file) {
-  //   return null
-  // }
+export type GetPresignedUrl = (filename: string) => Promise<string>
+export const getPresignedUrl: GetPresignedUrl = async (filename: string) => {
   const presignedUrl = await minioClient.presignedGetObject(
     'bdg-blog',
-    'test.pdf',
+    filename,
     60 * 60 * 24 * 7
-    // file.bucket,
-    // file.path,
-    // 60 * 60 * 24 * 7
   )
   return presignedUrl
 }

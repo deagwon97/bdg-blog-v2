@@ -1751,6 +1751,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "@types/uuid@npm:9.0.2"
+  checksum: 1754bcf3444e1e3aeadd6e774fc328eb53bc956665e2e8fb6ec127aa8e1f43d9a224c3d22a9a6233dca8dd81a12dc7fed4d84b8876dd5ec82d40f574f7ff8b68
+  languageName: node
+  linkType: hard
+
 "@types/warning@npm:^3.0.0":
   version: 3.0.0
   resolution: "@types/warning@npm:3.0.0"
@@ -2453,6 +2460,7 @@ __metadata:
     "@types/sass-loader": ^8.0.3
     "@types/socket.io": ^3.0.2
     "@types/socket.io-client": ^3.0.0
+    "@types/uuid": ^9.0.2
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
     "@uiw/react-md-editor": ^3.20.2
@@ -2492,6 +2500,7 @@ __metadata:
     telefunc: ^0.1.43
     ts-node: ^10.9.1
     typescript: 4.9.3
+    uuid: ^9.0.0
     yarn: ^1.22.19
   languageName: unknown
   linkType: soft
@@ -9790,6 +9799,15 @@ __metadata:
   version: 2.0.3
   resolution: "uuid@npm:2.0.3"
   checksum: 44adb0e235a683005fda9a869ddf2e88decbea082ea6b938e6f21b83147fda494fdc25ed8eba56196c4d5794ffc1c3efa4e3fef3e6205be2ee4084497f434e0f
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 
