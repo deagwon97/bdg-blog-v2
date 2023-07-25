@@ -40,20 +40,36 @@ export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
   return pageNumbers
 }
 
+export const getMaxPageIndexByCategory: (
+  pageSize: number,
+  category: string
+) => Promise<number> = async (pageSize: number, category: string) => {
+  let count = await prisma.post.count({
+    where: {
+      categoryName: category
+    }
+  })
+  let pageNumbers = Math.ceil(count / pageSize)
+  return pageNumbers
+}
+
 export type CreatePost = (
   title: string,
   content: string,
-  categoryName: string
+  categoryName: string,
+  thumbnail: string
 ) => Promise<Post>
 export const createPost: CreatePost = async (
   title: string,
   content: string,
-  categoryName: string
+  categoryName: string,
+  thumbnail: string
 ) => {
   let post = await prisma.post.create({
     data: {
       title: title,
       content: content,
+      thumbnail: thumbnail,
       category: {
         connectOrCreate: {
           where: {
@@ -99,4 +115,28 @@ export const createCategory: (name: string) => Promise<string> = async (
     }
   })
   return category.name
+}
+
+export const getPostListPageSortByDateCategory: (
+  pageSize: number,
+  pageIdx: number,
+  categoryName: string
+) => Promise<Post[]> = async (
+  pageSize: number,
+  pageIdx: number,
+  categoryName: string
+) => {
+  let posts = await prisma.post.findMany({
+    take: pageSize,
+    skip: pageSize * (pageIdx - 1),
+    orderBy: {
+      createdAt: 'desc'
+    },
+    where: {
+      category: {
+        name: categoryName
+      }
+    }
+  })
+  return posts
 }

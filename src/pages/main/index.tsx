@@ -9,6 +9,11 @@ import {
 import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import ToyProjects from 'components/toyProjects/ToyProjects'
+import CategoryButtonList from 'components/categoryButtonList'
+import { useCallback, useEffect, useState } from 'react'
+import chevron from 'assets/common/chevron-right.svg'
+import * as service from 'server/service/index.telefunc'
+import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const pageSize = 4
@@ -24,13 +29,47 @@ export default function MainPage({
   posts,
   maxPageIdx
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [category, setCategory] = useState<string>('ALL')
+  const [categoryPosts, setPosts] = useState<Post[]>(posts)
+  const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(maxPageIdx)
+
+  const updatePosts = useCallback(async () => {
+    const pageSize = 4
+    let posts = (await service.onLoadPostListPageSortByDateByCategory(
+      pageSize,
+      1,
+      category
+    )) as Post[]
+    posts = JSON.parse(JSON.stringify(posts))
+    let maxPageIdx = (await service.onLoadMaxPageIndexByCategory(
+      pageSize,
+      category
+    )) as number
+    setPosts(posts)
+    setMaxPageIdx(maxPageIdx)
+    console.log('posts', posts)
+  }, [category])
+
+  useEffect(() => {
+    updatePosts()
+  }, [category])
+
   return (
     <>
-      <Header isMain={true} />
+      <Header />
       <div className={styles.background}>
         <div className={styles.contentBox}>
           <ToyProjects />
-          <PostCards posts={posts} maxPageIdx={maxPageIdx} />
+          <div className={styles.head}>
+            <span>Category</span>
+            <Image alt="right" src={chevron} />
+          </div>
+          <CategoryButtonList updateCategory={setCategory} />
+          <PostCards
+            category={category}
+            posts={categoryPosts}
+            maxPageIdx={categoryMaxPageIdx}
+          />
         </div>
       </div>
       <Footer />
