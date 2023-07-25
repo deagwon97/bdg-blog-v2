@@ -1,8 +1,17 @@
+.container {
+  width: 100%;
+  min-height: calc(100vh - 145px);
+  display: flex;
+  background-color: white;
+}
+
 .background {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: auto;
+  width: 100%;
+  min-width: 240px;
   margin-top: 5px;
   padding: 0 16px 0 16px;
   .contentBox {
@@ -14,6 +23,74 @@
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 1rem;
+    }
+  }
+}
+
+// loginform module.scss
+.loginForm {
+  width: 100%;
+  max-width: 400px;
+  margin: 20vh auto;
+  .title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .inputBox {
+    margin-bottom: 1rem;
+    .inputTitle {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .input {
+      width: 100%;
+      height: 2rem;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      outline: none;
+      padding-left: 0.5rem;
+      font-size: 1rem;
+    }
+    .input:autofill,
+    .input:autofill:hover,
+    .input:autofill:focus,
+    .input:autofill:active {
+      -webkit-text-fill-color: #000;
+      -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+      box-shadow: 0 0 0px 1000px #fff inset;
+    }
+  }
+  .buttonBox {
+    .button {
+      color: black;
+      border-color: black;
+      width: 100%;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      margin-top: 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      p {
+        display: inline-block;
+        margin: auto;
+        vertical-align: middle;
+      }
+    }
+    .button:hover {
+      background-color: #e5e5e5;
+      border-color: #d4d4d4;
+      color: #000;
+    }
+    .button:active {
+      background-color: #e5e5e5;
+      border-color: #d4d4d4;
+      color: #000;
     }
   }
 }

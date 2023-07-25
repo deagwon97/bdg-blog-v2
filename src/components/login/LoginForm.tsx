@@ -17,7 +17,7 @@ const LoginForm = () => {
       onLogin(email, password).then((res) => {
         if (res.valid) {
           localStorage.setItem('id', JSON.stringify(res.id))
-          localStorage.setItem('email', JSON.stringify(res.email))
+          localStorage.setItem('name', JSON.stringify(res.name))
           localStorage.setItem('accessToken', JSON.stringify(res.accessToken))
           localStorage.setItem('refreshToken', JSON.stringify(res.refreshToken))
           document.cookie = `accessToken=${res.accessToken};`

@@ -1,7 +1,8 @@
 import { telefunc, config, Telefunc } from 'telefunc'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { checkUser } from 'server/telefunc/checkUser'
+import { parseAccessToken } from 'server/telefunc/checkUser'
 import { HttpResponse } from 'telefunc/dist/cjs/node/server/runTelefunc'
+import assert from 'assert'
 
 config.telefuncUrl = '/api/_telefunc'
 
@@ -10,24 +11,26 @@ export default async function telefuncMiddleware(
   res: NextApiResponse
 ) {
   let httpResponse: HttpResponse
-  if (!req.cookies.accessToken) {
-    httpResponse = await telefunc({
-      url: req.url as string,
-      method: req.method as string,
-      body: req.body as string
-    })
-    res.status(httpResponse.statusCode).send(httpResponse.body)
-    return
-  }
+  const { url, method, body } = req
+  assert(url && method)
 
-  const userId = await checkUser(req)
-  httpResponse = await telefunc({
-    url: req.url as string,
-    method: req.method as string,
-    body: req.body as string,
-    context: {
-      userId: userId
-    } as Telefunc.Context
-  })
+  const accessToken = await parseAccessToken(req)
+
+  if (accessToken) {
+    httpResponse = await telefunc({
+      url: url,
+      method: method,
+      body: body,
+      context: {
+        accessToken: accessToken
+      } as Telefunc.Context
+    })
+  } else {
+    httpResponse = await telefunc({
+      url: url,
+      method: method,
+      body: body
+    })
+  }
   res.status(httpResponse.statusCode).send(httpResponse.body)
 }

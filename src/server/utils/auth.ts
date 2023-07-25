@@ -1,36 +1,91 @@
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
+import { prisma } from 'prisma/prismaClient'
 
 export type EncodePassword = (password: string) => string
 export const encodePassword: EncodePassword = (password: string) => {
   return crypto.createHash('sha256').update(password).digest('hex')
 }
 
-export type GenerateToken = (id: number) => string
-export const generateAccessToken: GenerateToken = (id: number) => {
-  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + 'access') as jwt.Secret
-  return jwt.sign({ id: id }, secret, {
-    expiresIn: '2h'
+export type GenerateToken = (name: string) => string
+
+export const generateToken: (
+  name: string,
+  salt: string,
+  duration: string
+) => string = (name: string, salt: string, duration: string) => {
+  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + salt) as jwt.Secret
+  return jwt.sign({ name: name }, secret, {
+    expiresIn: duration
   })
 }
 
-export const generateRefreshToken: GenerateToken = (id: number) => {
-  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + 'refresh') as jwt.Secret
-  return jwt.sign({ id: id }, secret, {
-    expiresIn: '7d'
-  })
+export const generateAccessToken: GenerateToken = (name: string) => {
+  return generateToken(name, 'access', '2h')
 }
 
-export type DecodeToken = (token: string) => { userId: number; valid: boolean }
-export const decodeAccessToken: DecodeToken = (token: string) => {
-  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + 'access') as jwt.Secret
-  let decoded = { id: -1 }
+export const generateRefreshToken: GenerateToken = (name: string) => {
+  return generateToken(name, 'refresh', '7d')
+}
+
+const decodeToken: (
+  token: string,
+  salt: string
+) => {
+  name: string
+  valid: boolean
+} = (token: string, salt: string) => {
+  let secret = (process.env.NEXT_PUBLIC_SECRET_TOKEN + salt) as jwt.Secret
+  let decoded = { name: '' }
   let valid = false
   try {
-    decoded = jwt.verify(token, secret) as { id: number }
+    decoded = jwt.verify(token, secret) as { name: string }
   } catch (error) {
-    return { userId: decoded.id, valid: valid }
+    return { name: decoded.name, valid: valid }
   }
   valid = true
-  return { userId: decoded.id, valid: valid }
+  return { name: decoded.name, valid: valid }
+}
+
+export type DecodeToken = (token: string) => {
+  name: string
+  valid: boolean
+}
+
+export const decodeAccessToken: DecodeToken = (token: string) => {
+  return decodeToken(token, 'access')
+}
+
+export const decodeRefreshToken: DecodeToken = (token: string) => {
+  return decodeToken(token, 'refresh')
+}
+
+export const checkToken = async (
+  token: string,
+  decoder: (token: string) => {
+    name: string
+    valid: boolean
+  }
+) => {
+  const { name, valid } = decoder(token)
+  if (!valid) {
+    return undefined
+  }
+  let user = await prisma.user.findUnique({
+    where: {
+      name: name
+    }
+  })
+  if (!user) {
+    return undefined
+  }
+  return user.name
+}
+
+export const checkAccessToken = async (token: string) => {
+  return await checkToken(token, decodeAccessToken)
+}
+
+export const checkRefreshToken = async (token: string) => {
+  return await checkToken(token, decodeRefreshToken)
 }

@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  name      String
+  name      String    @unique
   email     String    @unique
   password  String
   createdAt DateTime? @default(now())
@@ -28,16 +28,8 @@ model Post {
   title        String
   summary      String?
   content      String?   @db.LongText
+  thumbnail    String?
   published    Boolean   @default(false)
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @default(now())
-}
-
-model FileMeta {
-  id        Int       @id @default(autoincrement())
-  name      String
-  bucket    String
-  path      String
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @default(now())
 }
