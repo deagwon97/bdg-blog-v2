@@ -98,7 +98,7 @@ export default function ChatPage() {
 
   return (
     <div id="chat">
-      <Header isMain={false} />
+      <Header />
       <div className={styles.background} ref={messageBoxRef}>
         <div>
           <div className={styles.chatBox}>

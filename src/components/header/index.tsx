@@ -2,15 +2,10 @@ import styles from './header.module.scss'
 import Image from 'next/image'
 import loginIcon from 'assets/header/login-icon.svg'
 import logoutIcon from 'assets/header/logout-icon.svg'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { motion } from 'framer-motion'
 import writeIcon from 'assets/header/write-icon.svg'
 import Head from 'next/head'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-
-const minHeight = 55
-const maxHeight = 400
 
 type HeaderItemProps = {
   accessToken: string
@@ -65,51 +60,8 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
   )
 }
 
-type HeaderProps = {
-  isMain: boolean
-}
-
-export const Header: React.FC<HeaderProps> = (props) => {
-  const [bannerHeight, setBannerHeight] = useState<number>(
-    props.isMain ? maxHeight : minHeight
-  )
-  const [fakeBannerHeight, setFakeBannerHeight] = useState<number>(
-    props.isMain ? maxHeight : minHeight
-  )
+export const Header: React.FC = () => {
   const [accessToken, setAccessToken] = useState<string>('')
-  const [status, setStatus] = useState<string>('animate')
-
-  const blockScorll = useCallback(async () => {
-    disableBodyScroll(document.documentElement)
-    setTimeout(() => {
-      enableBodyScroll(document.documentElement)
-      setStatus('exit')
-    }, 1300)
-  }, [])
-
-  useEffect(() => {
-    if (props.isMain) {
-      window.scroll({ top: 0 })
-      blockScorll()
-    }
-  }, [props])
-
-  let height = maxHeight
-  let fakeHeight = maxHeight
-  const handleScroll = () => {
-    height = maxHeight - window.scrollY
-    height = height > minHeight ? height : minHeight
-    setBannerHeight(height)
-    fakeHeight = height + window.scrollY
-    fakeHeight = fakeHeight < maxHeight ? fakeHeight : maxHeight
-    setFakeBannerHeight(fakeHeight)
-  }
-
-  useEffect(() => {
-    if (props.isMain) {
-      window.addEventListener('scroll', handleScroll)
-    }
-  })
 
   useEffect(() => {
     let token = localStorage.getItem('accessToken')
@@ -129,46 +81,13 @@ export const Header: React.FC<HeaderProps> = (props) => {
       <Head>
         <title>bdg.blog</title>
       </Head>
-      {props.isMain ? (
-        <>
-          <motion.div
-            variants={{
-              initial: { height: minHeight },
-              animate: { height: maxHeight },
-              exit: { height: fakeBannerHeight, transition: { duration: 0 } }
-            }}
-            initial="initial"
-            animate={status}
-            transition={{ delay: 0.5, duration: 1 }}
-            className={styles.fakeBackground}
-          />
-          <motion.div
-            variants={{
-              initial: { height: minHeight },
-              animate: { height: maxHeight },
-              exit: { height: bannerHeight, transition: { duration: 0 } }
-            }}
-            initial="initial"
-            animate={status}
-            transition={{ delay: 0.5, duration: 1 }}
-            className={styles.background}>
-            <HeaderItem
-              accessToken={accessToken}
-              clearLocalStorage={clearLocalStorage}
-            />
-          </motion.div>
-        </>
-      ) : (
-        <>
-          <div className={styles.fakeBackground} />
-          <div className={styles.background}>
-            <HeaderItem
-              accessToken={accessToken}
-              clearLocalStorage={clearLocalStorage}
-            />
-          </div>
-        </>
-      )}
+      <div className={styles.fakeBackground} />
+      <div className={styles.background}>
+        <HeaderItem
+          accessToken={accessToken}
+          clearLocalStorage={clearLocalStorage}
+        />
+      </div>
     </>
   )
 }
