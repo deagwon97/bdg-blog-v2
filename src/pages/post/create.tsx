@@ -222,6 +222,7 @@ export default function PostCreatePage() {
                 const [tag, image] = tagImage
                 return (
                   <div
+                    key={tag}
                     className={styles.modalImage}
                     onClick={async () => {
                       await savePost(tag)
