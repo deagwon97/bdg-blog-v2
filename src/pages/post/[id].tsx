@@ -6,9 +6,7 @@ import { Header } from 'components/header'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useEffect } from 'react'
 import { getPost } from 'server/repository/post'
-import chevron from 'assets/common/chevron-right.svg'
 import PostContent from 'components/post/PostContent'
-import Image from 'next/image'
 import styles from './post.module.scss'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -29,11 +27,10 @@ export default function PostViewPage({
   })
   return (
     <>
-      <Header isMain={false} />
+      <Header />
       <div className={styles.background}>
         <div className={styles.postHead}>
-          <span>{post.categoryName}</span>
-          <Image alt="right" src={chevron} />
+          <span> # {post.categoryName}</span>
         </div>
         <div className={styles.contentBox}>
           <PostContent post={post} />
