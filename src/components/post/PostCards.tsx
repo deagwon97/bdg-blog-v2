@@ -15,14 +15,12 @@ import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
 import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
-import {
-  onLoadPresignedUrl,
-  onLoadPresignedUrlPutObject
-} from 'server/service/index.telefunc'
-import { onLoadPostListPageSortByDate } from 'server/service/index.telefunc'
+import * as service from 'server/service/index.telefunc'
+import bdgBlogThumbnail from 'assets/post/bdg-blog-thumbnail.png'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
+  category: string
   posts: Post[]
   maxPageIdx: number
 }
@@ -52,6 +50,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   const [currentPageIdx, setCurrentPageIdx] = useState(1)
   const [firstButtonIdx, setFirstButtonIdx] = useState(1)
   const [posts, setPosts] = useState<Post[]>(props.posts)
+  const [tagUrlMap, setTagUrlMap] = useState<Map<string, string>>(new Map())
 
   let ref = useRef() as MutableRefObject<HTMLInputElement>
   let size = useComponentSize(ref)
@@ -70,9 +69,11 @@ const PostCards: React.FC<PostProps> = (props) => {
           if (window.scrollY > baseY + pageSize * cardHeight * currentPageIdx) {
             let newPageIdx = currentPageIdx + 1
             setCurrentPageIdx(newPageIdx)
-            onLoadPostListPageSortByDate(pageSize, newPageIdx).then((res) => {
-              setPosts((prev) => [...prev, ...res])
-            })
+            service
+              .onLoadPostListPageSortByDate(pageSize, newPageIdx)
+              .then((res) => {
+                setPosts((prev) => [...prev, ...res])
+              })
           }
         }
       }
@@ -82,6 +83,17 @@ const PostCards: React.FC<PostProps> = (props) => {
       window.removeEventListener('scroll', onScroll)
     }
   })
+
+  const getImageUrl = async (imageTag: string) => {
+    if (imageTag === null) return ''
+    const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
+    if (imageUID === null || imageUID === undefined || imageUID === '') {
+      return ''
+    }
+    const presignedUrl = await service.onLoadPresignedUrl(imageUID)
+    return presignedUrl
+  }
+
   const handlePageChange = (pageIdx: number) => {
     if (pageIdx < 1) {
       pageIdx = 1
@@ -90,16 +102,6 @@ const PostCards: React.FC<PostProps> = (props) => {
     }
     setCurrentPageIdx(pageIdx)
   }
-
-  const loadUrl = useCallback(async () => {
-    // const url = await onLoadPresignedUrl()
-
-    const res = await onLoadPresignedUrlPutObject('hihi')
-    console.log('!!!!!!!!!!!!!!', res)
-  }, [])
-  useEffect(() => {
-    loadUrl()
-  }, [])
 
   useEffect(() => {
     setCurrentPageIdx(1)
@@ -115,9 +117,11 @@ const PostCards: React.FC<PostProps> = (props) => {
       } else {
         setCurrentButtonCount(buttonCount)
       }
-      onLoadPostListPageSortByDate(pageSize, currentPageIdx).then((res) => {
-        setPosts(res)
-      })
+      service
+        .onLoadPostListPageSortByDate(pageSize, currentPageIdx)
+        .then((res) => {
+          setPosts(res)
+        })
     }
   }, [
     currentPageIdx,
@@ -127,23 +131,69 @@ const PostCards: React.FC<PostProps> = (props) => {
     isMobile
   ])
 
+  const updatePost = useCallback(async () => {
+    let posts = props.posts
+    const newTagUrlMap = new Map()
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i]
+      const imageTag = post.thumbnail as string
+      const imageUrl = await getImageUrl(imageTag)
+      newTagUrlMap.set(imageTag, imageUrl)
+    }
+    setTagUrlMap(newTagUrlMap)
+    setPosts(posts)
+  }, [props.posts])
+
+  useEffect(() => {
+    updatePost()
+  }, [updatePost, props.posts])
+
+  const getSummary = (content: string) => {
+    let summary = content
+    if (content.length > 200) {
+      summary = content.substring(0, 200)
+    }
+    return summary
+      .replace(/^#\s+(.*)$/gm, '$1')
+      .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
+      .replace(/<bdg-minio=(.*?)\/>/g, '')
+  }
+
   return (
     <div>
       <div className={styles.postHead}>
-        <span>Posts</span>
+        <span>{props.category}</span>
         <Image alt="right" src={chevron} />
       </div>
       <div className={styles.postContainer} ref={ref}>
         <div>
           {posts &&
-            posts.map((post) => (
-              <Link key={post.id} href={`/post/${post.id}`}>
-                <div className={styles.postBox} style={{ width: boxWidth }}>
-                  <h4>{post.title}</h4>
-                  <span>{post.summary}</span>
-                </div>
-              </Link>
-            ))}
+            posts.map((post) => {
+              return (
+                <Link key={post.id} href={`/post/${post.id}`}>
+                  <div className={styles.postBox} style={{ width: boxWidth }}>
+                    <div className={styles.imageBox}>
+                      {tagUrlMap.get(post.thumbnail as string) ? (
+                        <img
+                          src={tagUrlMap.get(post.thumbnail as string)}
+                          alt="thumbnail"
+                        />
+                      ) : (
+                        <Image
+                          alt="thumbnail"
+                          width={100}
+                          src={bdgBlogThumbnail}
+                        />
+                      )}
+                    </div>
+                    <div className={styles.textBox}>
+                      <h4>{post.title}</h4>
+                      <span>{getSummary(post.content || '')}</span>
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
         </div>
       </div>
       {!isMobile && (

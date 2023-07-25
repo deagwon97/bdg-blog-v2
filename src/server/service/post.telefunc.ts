@@ -5,7 +5,10 @@ import {
   createPost,
   deletePost,
   getCategoryList,
-  createCategory
+  createCategory,
+  getPostListPageSortByDateCategory,
+  getMaxPageIndexByCategory,
+  getMaxPageIndex
 } from 'server/repository/post'
 import { GetUser, getUser } from 'server/repository/user'
 import { ErrorMessage } from 'server/types/error'
@@ -15,6 +18,8 @@ import {
   GetPresignedUrl,
   getPresignedUrlPutObject
 } from 'server/storage/file'
+
+import { checkAccessToken } from 'server/utils/auth'
 
 export const onLoadPresignedUrl: GetPresignedUrl = async (filename: string) => {
   return await getPresignedUrl(filename)
@@ -33,19 +38,42 @@ export const onLoadPostListPageSortByDate: GetPostListPageSortByDate = async (
   return await getPostListPageSortByDate(pageSize, pageIdx)
 }
 
+export const onLoadPostListPageSortByDateByCategory = async (
+  pageSize: number,
+  pageIdx: number,
+  categoryName: string
+) => {
+  if (categoryName === 'ALL') {
+    return await getPostListPageSortByDate(pageSize, pageIdx)
+  }
+  return await getPostListPageSortByDateCategory(
+    pageSize,
+    pageIdx,
+    categoryName
+  )
+}
+
 type CreatePost = (
   title: string,
   content: string,
-  categoryName: string
+  categoryName: string,
+  thumbnail: string
 ) => Promise<Post | ErrorMessage>
 export const onCreatedPost: CreatePost = async (
   title: string,
   content: string,
-  categoryName: string
+  categoryName: string,
+  thumbnail: string
 ) => {
-  const { userId } = getContext()
-  if (userId === 1) {
-    let post = (await createPost(title, content, categoryName)) as Post
+  const { accessToken } = getContext()
+  const name = await checkAccessToken(accessToken as string)
+  if (name === 'bdg') {
+    let post = (await createPost(
+      title,
+      content,
+      categoryName,
+      thumbnail
+    )) as Post
     return post
   }
   return {
@@ -56,8 +84,9 @@ export const onCreatedPost: CreatePost = async (
 // delete post function
 export type DeletePost = (id: number) => Promise<Post | ErrorMessage>
 export const onDeletePost: DeletePost = async (id: number) => {
-  const { userId } = getContext()
-  if (userId === 1) {
+  const { accessToken } = getContext()
+  const name = await checkAccessToken(accessToken as string)
+  if (name === 'bdg') {
     let post = (await deletePost(id)) as Post
     return post
   }
@@ -69,7 +98,6 @@ export const onDeletePost: DeletePost = async (id: number) => {
 import { getUserByEmail, isValidPassword } from 'server/repository/user'
 import { LoginResult } from 'server/types/user'
 import { generateAccessToken, generateRefreshToken } from 'server/utils/auth'
-import { create } from 'domain'
 
 export const onLoadUser: GetUser = async (id: number) => {
   return getUser(id)
@@ -87,7 +115,7 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       valid: false,
       errMessage: 'user not exist',
       id: 0,
-      email: '',
+      name: '',
       accessToken: '',
       refreshToken: ''
     }
@@ -98,18 +126,18 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       valid: false,
       errMessage: 'Invalid password',
       id: 0,
-      email: '',
+      name: '',
       accessToken: '',
       refreshToken: ''
     }
   }
-  let accessToken = generateAccessToken(user.id)
-  let refreshToken = generateRefreshToken(user.id)
+  let accessToken = generateAccessToken(user.name)
+  let refreshToken = generateRefreshToken(user.name)
   return {
     valid: true,
     errMessage: '',
     id: user.id,
-    email: user.email,
+    name: user.name,
     accessToken: accessToken,
     refreshToken: refreshToken
   }
@@ -125,4 +153,14 @@ export const onCreateCategory: (category: string) => Promise<string> = async (
 ) => {
   createCategory(category)
   return category
+}
+
+export const onLoadMaxPageIndexByCategory = async (
+  pageSize: number,
+  category: string
+) => {
+  if (category === 'ALL') {
+    return await getMaxPageIndex(pageSize)
+  }
+  return await getMaxPageIndexByCategory(pageSize, category)
 }

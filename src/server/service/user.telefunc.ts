@@ -23,7 +23,7 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       valid: false,
       errMessage: 'user not exist',
       id: 0,
-      email: '',
+      name: '',
       accessToken: '',
       refreshToken: ''
     }
@@ -34,18 +34,18 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       valid: false,
       errMessage: 'Invalid password',
       id: 0,
-      email: '',
+      name: '',
       accessToken: '',
       refreshToken: ''
     }
   }
-  let accessToken = generateAccessToken(user.id)
-  let refreshToken = generateRefreshToken(user.id)
+  let accessToken = generateAccessToken(user.name)
+  let refreshToken = generateRefreshToken(user.name)
   return {
     valid: true,
     errMessage: '',
     id: user.id,
-    email: user.email,
+    name: user.name,
     accessToken: accessToken,
     refreshToken: refreshToken
   }
