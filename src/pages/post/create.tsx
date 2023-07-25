@@ -16,13 +16,14 @@ import {
   onCreateCategory,
   onCreatedPost,
   onLoadCategoryList,
-  onLoadPresignedUrl,
-  onLoadPresignedUrlPutObject
+  onLoadPresignedUrlPutObject,
+  onLoadPresignedUrl
 } from 'server/service/index.telefunc'
 import { CategoryDropDown } from 'components/dropdown'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
-
+import { Box, Modal } from '@mui/material'
+import Image from 'next/image'
 export default function PostCreatePage() {
   useEffect(() => {
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
@@ -33,6 +34,7 @@ export default function PostCreatePage() {
     content: '',
     categoryName: '',
     summary: '',
+    thumbnail: '',
     createdAt: null,
     updatedAt: null,
     published: false
@@ -56,50 +58,43 @@ export default function PostCreatePage() {
     }
   }
 
+  const [cursorPosition, setCursorPosition] = useState<number>(0)
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.selectionStart = cursorPosition
+      contentRef.current.selectionEnd = cursorPosition
+    }
+  }, [cursorPosition])
+
   const handlePaste = async (
     event: React.ClipboardEvent<HTMLTextAreaElement>
   ) => {
-    // console.log(event.clipboardData.getData('text'))
     if (event.clipboardData.files.length < 1) {
       return
     }
     Array.from(event.clipboardData.files).forEach(async (file: File) => {
-      console.log(file)
       if (file.type.startsWith('image/')) {
-        // For images, create an image and append it to the `body`.
         const uid = uuidv4()
         const presignedUrlPutObject = await onLoadPresignedUrlPutObject(uid) // 업로드
-        console.log('upload to ', presignedUrlPutObject)
+
         const res = await axios({
           method: 'put',
           url: presignedUrlPutObject,
           data: file
         })
-        const imageUrl = await onLoadPresignedUrl(uid)
-        if (imageUrl !== '') {
-          const cursorPosition = contentRef.current?.selectionStart as number
-          const imageTag = `\n<img alt='${file.name}' src='${imageUrl}'/>\n`
 
+        if (res.status === 200) {
+          const cursorPosition = contentRef.current?.selectionStart as number
+          const bdgMinioTag = `\n<bdg-minio=${uid}/>\n`
           setPost({
             ...post,
             content:
               post.content?.slice(0, cursorPosition as number) +
-              imageTag +
+              bdgMinioTag +
               post.content?.slice((cursorPosition as number) + 1)
           })
-
-          if (contentRef.current) {
-            contentRef.current.selectionStart = cursorPosition + imageTag.length
-            contentRef.current.selectionEnd = cursorPosition + imageTag.length
-          }
-
-          event.preventDefault()
-          console.log('image url', imageUrl)
-          console.log('cursorPosition', cursorPosition + imageTag.length)
+          setCursorPosition((cursorPosition + bdgMinioTag.length) as number)
         }
-        // todo
-        // 서버에서 post를 다시 로드할 때, presinged url을 탐색해서
-        // presinged url을 탐색해서를 갱신하는 로직이 필요함 !!
       }
     })
   }
@@ -113,9 +108,54 @@ export default function PostCreatePage() {
     loadCategoryList()
   }, [loadCategoryList])
 
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  const [imageList, setImageList] = useState<string[][]>([])
+  const getImageList = async (content: string): Promise<string[][]> => {
+    const tagList = content.match(/<bdg-minio=(.*?)\/>/g) as string[]
+    if (tagList === null) return []
+    const imageList = await Promise.all(
+      tagList.map(async (tag) => {
+        const fileUID = tag.replace('<bdg-minio=', '').replace('/>', '')
+        const url = await onLoadPresignedUrl(fileUID)
+        return [tag, url]
+      })
+    )
+    return imageList
+  }
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '80%',
+    height: '90%',
+    overflow: 'scroll',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    borderRadius: '10px',
+    boxShadow: 24,
+    p: 4
+  }
+
+  const savePost = async (imageTag: string) => {
+    if (post.categoryName === '+') {
+      await onCreateCategory(newCategory)
+    }
+    const res = await onCreatedPost(
+      post.title,
+      post.content || '',
+      post.categoryName === '+' ? newCategory : post.categoryName,
+      (post.thumbnail = imageTag)
+    )
+    window.location.href = '/'
+  }
+
   return (
     <>
-      <Header isMain={false} />
+      <Header />
       <div className={styles.background} ref={ref}>
         <br />
         <div className={styles.container}>
@@ -157,16 +197,14 @@ export default function PostCreatePage() {
             <div>
               <div
                 onClick={async () => {
-                  if (post.categoryName === '+') {
-                    await onCreateCategory(newCategory)
+                  post.content
+                  const imageList = await getImageList(post.content || '')
+                  setImageList(imageList)
+                  if (imageList.length < 1) {
+                    await savePost('')
+                    return
                   }
-                  const res = await onCreatedPost(
-                    post.title,
-                    post.content || '',
-                    post.categoryName === '+' ? newCategory : post.categoryName
-                  )
-                  console.log(res)
-                  window.location.href = '/'
+                  handleOpen()
                 }}
                 className={styles.saveButton}>
                 저장하기
@@ -176,6 +214,26 @@ export default function PostCreatePage() {
           <br />
         </div>
       </div>
+      <Modal className={styles.modal} open={open} onClose={handleClose}>
+        <Box sx={style}>
+          <div className={styles.modalBackground}>
+            <div className={styles.modalImageContainer}>
+              {imageList.map((tagImage) => {
+                const [tag, image] = tagImage
+                return (
+                  <div
+                    className={styles.modalImage}
+                    onClick={async () => {
+                      await savePost(tag)
+                    }}>
+                    <img alt="postImage" src={image} />
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </Box>
+      </Modal>
     </>
   )
 }
