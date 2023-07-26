@@ -1,5 +1,4 @@
 // next js post view page
-
 import { Post, Category } from '@prisma/client'
 import { Header } from 'components/header'
 import {
