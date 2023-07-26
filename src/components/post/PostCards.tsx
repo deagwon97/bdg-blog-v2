@@ -71,7 +71,11 @@ const PostCards: React.FC<PostProps> = (props) => {
             let newPageIdx = currentPageIdx + 1
             setCurrentPageIdx(newPageIdx)
             service
-              .onLoadPostListPageSortByDate(pageSize, newPageIdx)
+              .onLoadPostListPageSortByDateByCategory(
+                pageSize,
+                newPageIdx,
+                props.category
+              )
               .then((res) => {
                 setPosts((prev) => [...prev, ...res])
               })
@@ -168,6 +172,9 @@ const PostCards: React.FC<PostProps> = (props) => {
       summary = content.substring(0, 200)
     }
     return summary
+      .replace('#', '')
+      .replace('##', '')
+      .replace('###', '')
       .replace(/^#\s+(.*)$/gm, '$1')
       .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
       .replace(/<bdg-minio=(.*?)\/>/g, '')
