@@ -16,7 +16,6 @@ import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
 import * as service from 'server/service/index.telefunc'
-import bdgBlogThumbnail from 'assets/post/default-thumbnail.png'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
@@ -30,7 +29,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   const [boxWidth, setBoxWidth] = useState('380px')
 
   // 페이지당 포스트 개수
-  const pageSize = 4
+  const pageSize = 8
   // 페이징 버튼 개수
   let buttonCount = 5
 
@@ -195,16 +194,20 @@ const PostCards: React.FC<PostProps> = (props) => {
                   <div className={styles.postBox} style={{ width: boxWidth }}>
                     <div className={styles.imageBox}>
                       {tagUrlMap.get(post.thumbnail as string) ? (
-                        <img
-                          src={tagUrlMap.get(post.thumbnail as string)}
-                          alt="thumbnail"
-                        />
+                        <>
+                          <div className={styles.imageOverlay} />
+                          <img
+                            src={tagUrlMap.get(post.thumbnail as string)}
+                            alt="thumbnail"
+                          />
+                        </>
                       ) : (
-                        <Image
-                          alt="thumbnail"
-                          width={100}
-                          src={bdgBlogThumbnail}
-                        />
+                        <>
+                          <div className={styles.imageOverlay} />
+                          <div className={styles.defaultThumbnail}>
+                            {post.categoryName}
+                          </div>
+                        </>
                       )}
                     </div>
                     <div className={styles.textBox}>
