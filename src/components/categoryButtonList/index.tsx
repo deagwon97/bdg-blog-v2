@@ -12,9 +12,9 @@ const CategoryButton = ({
 }) => {
   const onClickHandler = onClick
   return (
-    <Button className={styles.categoryButton} onClick={onClickHandler}>
+    <button className={styles.categoryButton} onClick={onClickHandler}>
       <div className={styles.categoryName}>{category}</div>
-    </Button>
+    </button>
   )
 }
 

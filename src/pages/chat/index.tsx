@@ -89,7 +89,6 @@ export default function ChatPage() {
   const inputTextRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     if (inputTextRef.current !== null) {
-      console.log('inputTextRef.current', inputTextRef.current)
       inputTextRef.current.autocomplete = 'off' //input 비활성화 해제
       inputTextRef.current.disabled = false //input 비활성화 해제
       inputTextRef.current.focus() //input에 focus

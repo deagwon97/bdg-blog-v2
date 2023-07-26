@@ -16,7 +16,7 @@ import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
 import * as service from 'server/service/index.telefunc'
-import bdgBlogThumbnail from 'assets/post/bdg-blog-thumbnail.png'
+import bdgBlogThumbnail from 'assets/post/default-thumbnail.png'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
@@ -50,6 +50,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   const [currentPageIdx, setCurrentPageIdx] = useState(1)
   const [firstButtonIdx, setFirstButtonIdx] = useState(1)
   const [posts, setPosts] = useState<Post[]>(props.posts)
+  const [postsWithImage, setPostsWithImage] = useState<Post[]>([])
   const [tagUrlMap, setTagUrlMap] = useState<Map<string, string>>(new Map())
 
   let ref = useRef() as MutableRefObject<HTMLInputElement>
@@ -118,7 +119,11 @@ const PostCards: React.FC<PostProps> = (props) => {
         setCurrentButtonCount(buttonCount)
       }
       service
-        .onLoadPostListPageSortByDate(pageSize, currentPageIdx)
+        .onLoadPostListPageSortByDateByCategory(
+          pageSize,
+          currentPageIdx,
+          props.category
+        )
         .then((res) => {
           setPosts(res)
         })
@@ -131,8 +136,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     isMobile
   ])
 
-  const updatePost = useCallback(async () => {
-    let posts = props.posts
+  const updateTagUrlMap = useCallback(async (posts: Post[]) => {
     const newTagUrlMap = new Map()
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i]
@@ -141,12 +145,22 @@ const PostCards: React.FC<PostProps> = (props) => {
       newTagUrlMap.set(imageTag, imageUrl)
     }
     setTagUrlMap(newTagUrlMap)
-    setPosts(posts)
+  }, [])
+
+  useEffect(() => {
+    updateTagUrlMap(posts)
+  }, [updateTagUrlMap, posts])
+
+  useEffect(() => {
+    setCurrentPageIdx(1)
+    setFirstButtonIdx(1)
+    setPosts(props.posts)
   }, [props.posts])
 
   useEffect(() => {
-    updatePost()
-  }, [updatePost, props.posts])
+    console.log(posts)
+    setPostsWithImage(posts)
+  }, [posts])
 
   const getSummary = (content: string) => {
     let summary = content
@@ -167,8 +181,8 @@ const PostCards: React.FC<PostProps> = (props) => {
       </div>
       <div className={styles.postContainer} ref={ref}>
         <div>
-          {posts &&
-            posts.map((post) => {
+          {postsWithImage &&
+            postsWithImage.map((post) => {
               return (
                 <Link key={post.id} href={`/post/${post.id}`}>
                   <div className={styles.postBox} style={{ width: boxWidth }}>

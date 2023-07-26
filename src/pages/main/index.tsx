@@ -30,7 +30,7 @@ export default function MainPage({
   maxPageIdx
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [category, setCategory] = useState<string>('ALL')
-  const [categoryPosts, setPosts] = useState<Post[]>(posts)
+  const [categoryPosts, setCategoryPosts] = useState<Post[]>(posts)
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(maxPageIdx)
 
   const updatePosts = useCallback(async () => {
@@ -45,9 +45,8 @@ export default function MainPage({
       pageSize,
       category
     )) as number
-    setPosts(posts)
+    setCategoryPosts(posts)
     setMaxPageIdx(maxPageIdx)
-    console.log('posts', posts)
   }, [category])
 
   useEffect(() => {
