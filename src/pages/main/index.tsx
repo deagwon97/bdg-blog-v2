@@ -16,7 +16,7 @@ import * as service from 'server/service/index.telefunc'
 import Image from 'next/image'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const pageSize = 4
+  const pageSize = 8
   let posts = (await getPostListPageSortByDate(pageSize, 1)) as Post[]
   posts = JSON.parse(JSON.stringify(posts))
   let maxPageIdx = (await getMaxPageIndex(pageSize)) as number
@@ -34,7 +34,7 @@ export default function MainPage({
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(maxPageIdx)
 
   const updatePosts = useCallback(async () => {
-    const pageSize = 4
+    const pageSize = 8
     let posts = (await service.onLoadPostListPageSortByDateByCategory(
       pageSize,
       1,
