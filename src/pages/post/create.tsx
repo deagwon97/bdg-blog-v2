@@ -22,7 +22,6 @@ import { CategoryDropDown } from 'components/dropdown'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, Modal } from '@mui/material'
-import Image from 'next/image'
 export default function PostCreatePage() {
   useEffect(() => {
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })

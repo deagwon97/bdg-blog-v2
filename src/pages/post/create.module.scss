@@ -84,6 +84,9 @@
       position: flex;
       width: 100%;
       max-width: 500px;
+      img {
+        object-fit: contain;
+      }
     }
     .modalImage:hover {
       cursor: pointer;
