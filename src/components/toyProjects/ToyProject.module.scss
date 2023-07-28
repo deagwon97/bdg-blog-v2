@@ -62,6 +62,7 @@
   height: 40px;
   margin-left: 20px;
   margin-right: 20px;
+  margin-bottom: 5px;
   background-color: black;
   display: flex;
   flex-direction: column;
@@ -73,7 +74,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  place-content: space-between;
+  // place-content: space-between;
 }
 
 .noClick {

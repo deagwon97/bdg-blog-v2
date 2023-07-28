@@ -20,7 +20,7 @@ export default function ToyProjects() {
               <div className={styles.item}>
                 <ToyProject
                   image={cahtIcon}
-                  title="bdg.talk"
+                  title="bdg.chat"
                   projectUrl="/chat"
                   githubUrl="https://github.com/deagwon97/solar-system"
                   postUrl="https://github.com/deagwon97/solar-system"
@@ -32,7 +32,6 @@ export default function ToyProjects() {
                   title="Solar System"
                   projectUrl="https://solarsystem.deagwon.com/"
                   githubUrl="https://github.com/deagwon97/solar-system"
-                  postUrl="https://github.com/deagwon97/solar-system"
                 />
               </div>
               <div className={styles.item}>
@@ -40,7 +39,6 @@ export default function ToyProjects() {
                   image={benzeneRingIcon}
                   title="Tox AI"
                   projectUrl="https://toxai.manycore.uos.ac.kr/"
-                  githubUrl="https://github.com/deagwon97/solar-system"
                   postUrl="https://github.com/deagwon97/solar-system"
                 />
               </div>
