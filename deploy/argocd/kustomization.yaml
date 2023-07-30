@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   - custom-install.yaml
   - ingress.yaml
-  - repository.yaml # hide repository resource for argocd application sync. 
+  # - repository.yaml # hide repository resource for argocd application sync. 
   - application.yaml
 patchesStrategicMerge:
   - argocd-cmd-params-cm-patch.yml
