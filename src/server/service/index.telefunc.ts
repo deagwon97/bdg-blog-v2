@@ -1,31 +1,21 @@
-import {
-  onCreateCategory,
-  onCreatedPost,
-  onDeletePost,
-  onLoadPostListPageSortByDate,
-  onLoadPostListPageSortByDateByCategory,
-  onLoadCategoryList,
-  onLoadMaxPageIndexByCategory
-} from './post.telefunc'
-export {
-  onCreateCategory,
-  onCreatedPost,
-  onDeletePost,
-  onLoadPostListPageSortByDate,
-  onLoadPostListPageSortByDateByCategory,
-  onLoadCategoryList,
-  onLoadMaxPageIndexByCategory
-}
+import * as user from 'server/service/user.telefunc'
+import * as post from 'server/service/post.telefunc'
 
-import { onLogin, onLoadUser } from './user.telefunc'
-export { onLogin, onLoadUser }
-
-import {
-  onLoadPresignedUrl,
-  onLoadPresignedUrlPutObject
-} from './post.telefunc'
-export { onLoadPresignedUrl, onLoadPresignedUrlPutObject }
-
+//user
+export const onLogin = user.onLogin
+export const onLoadUser = user.onLoadUser
+//post
+export const onCreateCategory = post.onCreateCategory
+export const onCreatePost = post.onCreatePost
+export const onDeletePost = post.onDeletePost
+export const onLoadCategoryList = post.onLoadCategoryList
+export const onLoadMaxPageIndexByCategory = post.onLoadMaxPageIndexByCategory
+export const onLoadPostListPageSortByDate = post.onLoadPostListPageSortByDate
+export const onLoadPostListPageSortByDateByCategory =
+  post.onLoadPostListPageSortByDateByCategory
+export const onLoadPresignedUrl = post.onLoadPresignedUrl
+export const onLoadPresignedUrlPutObject = post.onLoadPresignedUrlPutObject
+// connect
 export const onConnect: () => Promise<string> = async () => {
   console.log('connect!!!!!!')
   return 'connected'

@@ -13,7 +13,7 @@ import styles from './create.module.scss'
 import useComponentSize from 'tools/useComponentSize'
 import {
   onCreateCategory,
-  onCreatedPost,
+  onCreatePost,
   onLoadCategoryList,
   onLoadPresignedUrlPutObject,
   onLoadPresignedUrl
@@ -142,7 +142,7 @@ export default function PostCreatePage() {
     if (post.categoryName === '+') {
       await onCreateCategory(newCategory)
     }
-    const res = await onCreatedPost(
+    const res = await onCreatePost(
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,

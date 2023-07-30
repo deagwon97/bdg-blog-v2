@@ -1,23 +1,14 @@
-import {
-  getUser,
-  GetUser,
-  getUserByEmail,
-  isValidPassword
-} from 'server/repository/user'
+import { repository as repo } from 'server/repository'
 import { LoginResult } from 'server/types/user'
-import { generateAccessToken, generateRefreshToken } from 'server/utils/auth'
+import * as auth from 'server/utils/auth'
 
-export const onLoadUser: GetUser = async (id: number) => {
-  return getUser(id)
+export const onLoadUser = async (id: number) => {
+  return repo.getUser(id)
 }
 
-export type PostLogin = (
-  email: string,
-  password: string
-) => Promise<LoginResult>
-
-export const onLogin: PostLogin = async (email: string, password: string) => {
-  let user = await getUserByEmail(email)
+export type Login = (email: string, password: string) => Promise<LoginResult>
+export const onLogin: Login = async (email: string, password: string) => {
+  let user = await repo.getUserByEmail(email)
   if (user === null || !user) {
     return {
       valid: false,
@@ -28,7 +19,7 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       refreshToken: ''
     }
   }
-  let validPassword = await isValidPassword(email, password)
+  let validPassword = await repo.isValidPassword(email, password)
   if (!validPassword) {
     return {
       valid: false,
@@ -39,8 +30,8 @@ export const onLogin: PostLogin = async (email: string, password: string) => {
       refreshToken: ''
     }
   }
-  let accessToken = generateAccessToken(user.name)
-  let refreshToken = generateRefreshToken(user.name)
+  let accessToken = auth.generateAccessToken(user.name)
+  let refreshToken = auth.generateRefreshToken(user.name)
   return {
     valid: true,
     errMessage: '',

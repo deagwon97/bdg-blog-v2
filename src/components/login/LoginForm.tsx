@@ -1,6 +1,6 @@
 import styles from 'components/login/LoginForm.module.scss'
 import { useState } from 'react'
-import { onLogin } from 'server/service/index.telefunc'
+import * as service from 'server/service/index.telefunc'
 
 const LoginForm = () => {
   const [email, setEmail] = useState<string>('')
@@ -14,7 +14,7 @@ const LoginForm = () => {
   }
   const onClickLogin = () => {
     try {
-      onLogin(email, password).then((res) => {
+      service.onLogin(email, password).then((res) => {
         if (res.valid) {
           localStorage.setItem('id', JSON.stringify(res.id))
           localStorage.setItem('name', JSON.stringify(res.name))

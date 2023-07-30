@@ -1,41 +1,25 @@
 import { Post } from '@prisma/client'
-import {
-  GetPostListPageSortByDate,
-  getPostListPageSortByDate,
-  createPost,
-  deletePost,
-  getCategoryList,
-  createCategory,
-  getPostListPageSortByDateCategory,
-  getMaxPageIndexByCategory,
-  getMaxPageIndex
-} from 'server/repository/post'
-import { GetUser, getUser } from 'server/repository/user'
+import { repository as repo } from 'server/repository'
+import { storage as sto } from 'server/storage'
 import { ErrorMessage } from 'server/types/error'
 import { getContext } from 'telefunc'
-import {
-  getPresignedUrl,
-  GetPresignedUrl,
-  getPresignedUrlPutObject
-} from 'server/storage/file'
-
 import { checkAccessToken } from 'server/utils/auth'
 
-export const onLoadPresignedUrl: GetPresignedUrl = async (filename: string) => {
-  return await getPresignedUrl(filename)
+export const onLoadPresignedUrl = async (filename: string) => {
+  return await sto.getPresignedUrl(filename)
 }
 
 export const onLoadPresignedUrlPutObject = async (
   filename: string
 ): Promise<string> => {
-  return await getPresignedUrlPutObject(filename)
+  return await sto.getPresignedUrlPutObject(filename)
 }
 
-export const onLoadPostListPageSortByDate: GetPostListPageSortByDate = async (
+export const onLoadPostListPageSortByDate = async (
   pageSize: number,
   pageIdx: number
 ) => {
-  return await getPostListPageSortByDate(pageSize, pageIdx)
+  return await repo.getPostListPageSortByDate(pageSize, pageIdx)
 }
 
 export const onLoadPostListPageSortByDateByCategory = async (
@@ -44,9 +28,9 @@ export const onLoadPostListPageSortByDateByCategory = async (
   categoryName: string
 ) => {
   if (categoryName === 'ALL') {
-    return await getPostListPageSortByDate(pageSize, pageIdx)
+    return await repo.getPostListPageSortByDate(pageSize, pageIdx)
   }
-  return await getPostListPageSortByDateCategory(
+  return await repo.getPostListPageSortByDateCategory(
     pageSize,
     pageIdx,
     categoryName
@@ -59,7 +43,7 @@ type CreatePost = (
   categoryName: string,
   thumbnail: string
 ) => Promise<Post | ErrorMessage>
-export const onCreatedPost: CreatePost = async (
+export const onCreatePost: CreatePost = async (
   title: string,
   content: string,
   categoryName: string,
@@ -68,7 +52,7 @@ export const onCreatedPost: CreatePost = async (
   const { accessToken } = getContext()
   const name = await checkAccessToken(accessToken as string)
   if (name === 'bdg') {
-    let post = (await createPost(
+    let post = (await repo.createPost(
       title,
       content,
       categoryName,
@@ -87,7 +71,7 @@ export const onDeletePost: DeletePost = async (id: number) => {
   const { accessToken } = getContext()
   const name = await checkAccessToken(accessToken as string)
   if (name === 'bdg') {
-    let post = (await deletePost(id)) as Post
+    let post = (await repo.deletePost(id)) as Post
     return post
   }
   return {
@@ -95,63 +79,15 @@ export const onDeletePost: DeletePost = async (id: number) => {
   } as ErrorMessage
 }
 
-import { getUserByEmail, isValidPassword } from 'server/repository/user'
-import { LoginResult } from 'server/types/user'
-import { generateAccessToken, generateRefreshToken } from 'server/utils/auth'
-
-export const onLoadUser: GetUser = async (id: number) => {
-  return getUser(id)
-}
-
-export type PostLogin = (
-  email: string,
-  password: string
-) => Promise<LoginResult>
-
-export const onLogin: PostLogin = async (email: string, password: string) => {
-  let user = await getUserByEmail(email)
-  if (!user) {
-    return {
-      valid: false,
-      errMessage: 'user not exist',
-      id: 0,
-      name: '',
-      accessToken: '',
-      refreshToken: ''
-    }
-  }
-  let validPassword = await isValidPassword(email, password)
-  if (!validPassword) {
-    return {
-      valid: false,
-      errMessage: 'Invalid password',
-      id: 0,
-      name: '',
-      accessToken: '',
-      refreshToken: ''
-    }
-  }
-  let accessToken = generateAccessToken(user.name)
-  let refreshToken = generateRefreshToken(user.name)
-  return {
-    valid: true,
-    errMessage: '',
-    id: user.id,
-    name: user.name,
-    accessToken: accessToken,
-    refreshToken: refreshToken
-  }
-}
-
 export const onLoadCategoryList: () => Promise<string[]> = async () => {
-  const categoryList = getCategoryList()
+  const categoryList = repo.getCategoryList()
   return categoryList
 }
 
 export const onCreateCategory: (category: string) => Promise<string> = async (
   category: string
 ) => {
-  createCategory(category)
+  repo.createCategory(category)
   return category
 }
 
@@ -160,7 +96,7 @@ export const onLoadMaxPageIndexByCategory = async (
   category: string
 ) => {
   if (category === 'ALL') {
-    return await getMaxPageIndex(pageSize)
+    return await repo.getMaxPageIndex(pageSize)
   }
-  return await getMaxPageIndexByCategory(pageSize, category)
+  return await repo.getMaxPageIndexByCategory(pageSize, category)
 }

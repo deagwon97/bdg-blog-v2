@@ -46,7 +46,7 @@ const MainPostCard = (props: {
       <div className={styles.postBox} style={{ width: props.boxWidth }}>
         <div className={styles.imageBox}>
           <div className={styles.imageOverlay} />
-          <img src={imageUrl} alt="thumbnail" />
+          {imageUrl !== '' && <img src={imageUrl} alt="thumbnail" />}
         </div>
         <div className={styles.textBox}>
           <h4>{props.title}</h4>
