@@ -5,7 +5,6 @@ metadata:
   name: arbitrary
 generatorOptions:
   disableNameSuffixHash: true
-## generate secret only first time
 configMapGenerator:
   - name: bdg-blog-redis
     files:
