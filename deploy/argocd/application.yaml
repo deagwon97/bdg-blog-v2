@@ -12,7 +12,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog
   syncPolicy:
-    automated: {}
+    automated: null
 
 ---
 kind: Application
@@ -29,7 +29,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: argoci-bdg-blog
   syncPolicy:
-    automated: {}
+    automated: null
 
 ---
 kind: Application
@@ -46,7 +46,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-argocd
   syncPolicy:
-    automated: {}
+    automated: null
 
 ---
 kind: Application
@@ -63,7 +63,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-harbor
   syncPolicy:
-    automated: {}
+    automated: null
 
 ---
 kind: Application
@@ -80,7 +80,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-minio
   syncPolicy:
-    automated: {}
+    automated: null
 ---
 kind: Application
 apiVersion: argoproj.io/v1alpha1
@@ -96,7 +96,7 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-mariadb
   syncPolicy:
-    automated: {}
+    automated: null
 
 ---
 kind: Application
@@ -113,4 +113,4 @@ spec:
     server: 'https://kubernetes.default.svc'
     namespace: bdg-blog-redis
   syncPolicy:
-    automated:
+    automated: null
