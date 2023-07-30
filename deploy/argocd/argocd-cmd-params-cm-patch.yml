@@ -4,7 +4,6 @@ metadata:
   name: argocd-cmd-params-cm
 data:
   server.insecure: "true"
-  timeout.reconciliation : 6h # polling interval
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -12,3 +11,4 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-helm
+  timeout.reconciliation : 6h # polling interval
