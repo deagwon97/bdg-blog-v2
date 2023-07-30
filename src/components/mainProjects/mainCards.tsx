@@ -41,7 +41,7 @@ const MainPostCard = (props: {
     <Link
       href={props.link}
       onClick={() => {
-        alert('준비중입니다.')
+        alert('준비중 입니다.')
       }}>
       <div className={styles.postBox} style={{ width: props.boxWidth }}>
         <div className={styles.imageBox}>
