@@ -13,5 +13,6 @@ $ ssh -T git@github.com -i id_rsa
 # create known host file
 $ ssh-keyscan -t rsa github.com > known_hosts
 
+
 ```
 
