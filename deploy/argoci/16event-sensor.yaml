@@ -46,6 +46,10 @@ spec:
                 generateName: build-deploy-
               spec:
                 entrypoint: build-deploy
+                ttlStrategy: 
+                  secondsAfterCompletion: 30
+                  secondsAfterFailure: 30
+                  secondsAfterSuccess: 30
                 templates:
                 - name: build
                   nodeSelector:
