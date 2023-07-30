@@ -4,19 +4,19 @@ namespace: bdg-blog-harbor
 metadata:
   name: bdg-blog-harbor
 generatorOptions:
- disableNameSuffixHash: true
+  disableNameSuffixHash: true
 resources:
-  - 00namespace.yaml
-  - 01harbor-pv.yaml
-  - 02harbor-pvc.yaml
-  - 03issuer.yaml
-  - 04certificate.yaml
-  - 05ingress.yaml
+- 00namespace.yaml
+- 01harbor-pv.yaml
+- 02harbor-pvc.yaml
+- 03issuer.yaml
+- 04certificate.yaml
+- 05ingress.yaml
 helmCharts:
-  - name: harbor
-    repo: https://helm.goharbor.io
-    version: 1.11.1
-    releaseName: harbor
-    namespace: bdg-blog-harbor
-    valuesFile: 06harbor-helm-values.yaml
-    includeCRDs: true
+- includeCRDs: true
+  name: harbor
+  namespace: bdg-blog-harbor
+  releaseName: harbor
+  repo: https://helm.goharbor.io
+  valuesFile: 06harbor-helm-values.yaml
+  version: 1.11.1
