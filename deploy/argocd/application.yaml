@@ -102,22 +102,6 @@ spec:
 kind: Application
 apiVersion: argoproj.io/v1alpha1
 metadata:
-  name: bdg-blog-mariadb
-spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/deagwon97/bdg-blog-v2'
-    path: deploy/mariadb
-    targetRevision: HEAD
-  destination:
-    server: 'https://kubernetes.default.svc'
-    namespace: bdg-blog-mariadb
-  syncPolicy:
-    automated:
----
-kind: Application
-apiVersion: argoproj.io/v1alpha1
-metadata:
   name: bdg-blog-redis
 spec:
   project: default
