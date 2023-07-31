@@ -15,6 +15,9 @@ const nextConfig = {
 module.exports = {
   ...nextConfig,
   ...withTelefunc(),
+  images: {
+    domains: ['file.minio.deagwon.com', 'deagwon.com']
+  },
   async redirects() {
     return [
       {
