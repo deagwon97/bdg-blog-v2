@@ -35,7 +35,7 @@ export default function PostCreatePage() {
     thumbnail: '',
     createdAt: null,
     updatedAt: null,
-    published: false
+    published: true
   })
   const [categoryList, setCategoryList] = useState<string[]>([])
 

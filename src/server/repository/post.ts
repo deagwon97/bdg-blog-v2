@@ -15,6 +15,9 @@ export const getPostListPageSortByDate: GetPostListPageSortByDate = async (
     skip: pageSize * (pageIdx - 1),
     orderBy: {
       createdAt: 'desc'
+    },
+    where: {
+      published: true
     }
   })
   return posts
@@ -46,7 +49,8 @@ export const getMaxPageIndexByCategory: (
 ) => Promise<number> = async (pageSize: number, category: string) => {
   let count = await prisma.post.count({
     where: {
-      categoryName: category
+      categoryName: category,
+      published: true
     }
   })
   let pageNumbers = Math.ceil(count / pageSize)
@@ -70,6 +74,7 @@ export const createPost: CreatePost = async (
       title: title,
       content: content,
       thumbnail: thumbnail,
+      published: true,
       category: {
         connectOrCreate: {
           where: {
@@ -135,7 +140,8 @@ export const getPostListPageSortByDateCategory: (
     where: {
       category: {
         name: categoryName
-      }
+      },
+      published: true
     }
   })
   return posts
