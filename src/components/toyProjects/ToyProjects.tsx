@@ -12,7 +12,7 @@ export default function ToyProjects() {
       <div className={styles.background}>
         <div className={styles.head}>
           <span>Toy Projects</span>
-          <Image alt="right" src={chevron} />
+          <Image placeholder="blur" alt="right" src={chevron} />
         </div>
         <div className={styles.scrollBlock}>
           <div className={styles.itemsBox}>
@@ -22,8 +22,8 @@ export default function ToyProjects() {
                   image={cahtIcon}
                   title="bdg.chat"
                   projectUrl="/chat"
-                  githubUrl="https://github.com/deagwon97/solar-system"
-                  postUrl="https://github.com/deagwon97/solar-system"
+                  githubUrl="https://github.com/deagwon97/bdg-blog-v2"
+                  postUrl="https://github.com/deagwon97/bdg-blog-v2"
                 />
               </div>
               <div className={styles.item}>

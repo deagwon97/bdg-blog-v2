@@ -36,7 +36,12 @@ export default function ToyProject({
       <div className={backgoundStyle}>
         <div className={styles.cardBackground} onClick={onClickHandler}>
           <div className={styles.imageBox}>
-            <Image className={styles.image} alt="right" src={image} />
+            <Image
+              placeholder="blur"
+              className={styles.image}
+              alt="right"
+              src={image}
+            />
           </div>
           <div className={styles.titleBox}>
             {fontSize ? (
@@ -53,20 +58,46 @@ export default function ToyProject({
         <div className={styles.hiddenBoxes}>
           <div className={styles.hiddenBox}>
             <a href={projectUrl}>
-              <Image className={styles.image} alt="right" src={image} />
+              <Image
+                className={styles.image}
+                alt="right"
+                placeholder="blur"
+                src={image}
+              />
             </a>
           </div>
           {postUrl && (
             <div className={styles.hiddenBox}>
-              <a href={postUrl}>
-                <Image className={styles.image} alt="right" src={articleIcon} />
+              <a
+                href={postUrl}
+                onClick={(e: React.MouseEvent<HTMLElement>) => {
+                  if (title === 'Tox AI') {
+                    alert('준비중입니다.')
+                    e.preventDefault()
+                  }
+                  if (title === 'bdg.chat') {
+                    alert('준비중입니다.')
+                    e.preventDefault()
+                  }
+                }}>
+                <Image
+                  placeholder="blur"
+                  className={styles.image}
+                  alt="right"
+                  src={articleIcon}
+                />
               </a>
             </div>
           )}
           {githubUrl && (
             <div className={styles.hiddenBox}>
               <a href={githubUrl}>
-                <Image className={styles.image} alt="right" src={githubIcon} />
+                <Image
+                  placeholder="blur"
+                  className={styles.image}
+                  alt="right"
+                  src={githubIcon}
+                />
               </a>
             </div>
           )}

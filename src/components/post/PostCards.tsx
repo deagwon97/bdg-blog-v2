@@ -132,6 +132,7 @@ const PostCards: React.FC<PostProps> = (props) => {
         })
     }
   }, [
+    props.category,
     currentPageIdx,
     lastFirstButtonIdx,
     lastButtonCount,
@@ -183,7 +184,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     <div>
       <div className={styles.postHead}>
         <span>{props.category}</span>
-        <Image alt="right" src={chevron} />
+        <Image placeholder="blur" alt="right" src={chevron} />
       </div>
       <div className={styles.postContainer} ref={ref}>
         <div>
@@ -196,8 +197,11 @@ const PostCards: React.FC<PostProps> = (props) => {
                       {tagUrlMap.get(post.thumbnail as string) ? (
                         <>
                           <div className={styles.imageOverlay} />
-                          <img
-                            src={tagUrlMap.get(post.thumbnail as string)}
+                          <Image
+                            placeholder="blur"
+                            src={
+                              tagUrlMap.get(post.thumbnail as string) as string
+                            }
                             alt="thumbnail"
                           />
                         </>
@@ -228,6 +232,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(1)}>
             <Image
+              placeholder="blur"
               alt="doubbleLeftArrow"
               className={styles.img}
               src={doubbleLeftArrow}
@@ -240,7 +245,12 @@ const PostCards: React.FC<PostProps> = (props) => {
             onClick={() =>
               handlePageChange(currentPageIdx - 1 <= 1 ? 1 : currentPageIdx - 1)
             }>
-            <Image alt="leftArrow" className={styles.img} src={leftArrow} />
+            <Image
+              placeholder="blur"
+              alt="leftArrow"
+              className={styles.img}
+              src={leftArrow}
+            />
           </div>
 
           {currentButtonCount > 0 &&
@@ -274,7 +284,12 @@ const PostCards: React.FC<PostProps> = (props) => {
                   : currentPageIdx + 1
               )
             }>
-            <Image alt="rightArrow" className={styles.img} src={rightArrow} />
+            <Image
+              placeholder="blur"
+              alt="rightArrow"
+              className={styles.img}
+              src={rightArrow}
+            />
           </div>
           <div
             className={
@@ -284,6 +299,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(maxPageIdx)}>
             <Image
+              placeholder="blur"
               alt="doubbleRightArrow"
               className={styles.img}
               src={doubbleRightArrow}
