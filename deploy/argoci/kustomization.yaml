@@ -23,7 +23,7 @@ patchesStrategicMerge:
 # secretGenerator:
 #   - name: git-secret
 #     envs:
-#     - kaniko/git-secret
+#       - kaniko/git-secret
 #   - name: git-ssh
 #     files:
 #       - .ssh/id_rsa
