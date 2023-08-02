@@ -14,7 +14,7 @@ import { useCallback, useEffect, useState } from 'react'
 import chevron from 'assets/common/chevron-right.svg'
 import * as service from 'server/service/index.telefunc'
 import Image from 'next/image'
-import MainCards from 'components/mainProjects/mainCards'
+// import MainCards from 'components/mainProjects/mainCards'
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const pageSize = 8
@@ -60,8 +60,8 @@ export default function MainPage({
       <div className={styles.background}>
         <div className={styles.contentBox}>
           {/* <div className={styles.head}> */}
-            {/* <span>Main Projects</span> */}
-            {/* <Image placeholder="blur" alt="right" src={chevron} /> */}
+          {/* <span>Main Projects</span> */}
+          {/* <Image placeholder="blur" alt="right" src={chevron} /> */}
           {/* </div> */}
           {/* <MainCards /> */}
           <ToyProjects />
