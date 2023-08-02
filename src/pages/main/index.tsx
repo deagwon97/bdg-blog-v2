@@ -59,11 +59,11 @@ export default function MainPage({
       <Header />
       <div className={styles.background}>
         <div className={styles.contentBox}>
-          <div className={styles.head}>
-            <span>Main Projects</span>
-            <Image placeholder="blur" alt="right" src={chevron} />
-          </div>
-          <MainCards />
+          {/* <div className={styles.head}> */}
+            {/* <span>Main Projects</span> */}
+            {/* <Image placeholder="blur" alt="right" src={chevron} /> */}
+          {/* </div> */}
+          {/* <MainCards /> */}
           <ToyProjects />
           <div className={styles.head}>
             <span>Posts</span>
