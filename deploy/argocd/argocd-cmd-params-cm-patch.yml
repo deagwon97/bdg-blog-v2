@@ -11,4 +11,4 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-helm
-  timeout.reconciliation : 6h # polling interval
+  timeout.reconciliation: 6h # polling interval
