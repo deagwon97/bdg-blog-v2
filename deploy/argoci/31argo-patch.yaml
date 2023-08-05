@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: argo-server
-  namespace: argoci-bdg-blog
+  namespace: bdg-blog-argoci
 spec:
   template:
     spec:
       containers:
-      - name: argo-server
-        args:
-          - server
-          - "--auth-mode=client"     
-          - "--secure=false"
-        readinessProbe:
-          httpGet:
-            scheme: HTTP
+        - name: argo-server
+          args:
+            - server
+            - "--auth-mode=client"
+            - "--secure=false"
+          readinessProbe:
+            httpGet:
+              scheme: HTTP

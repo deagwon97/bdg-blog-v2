@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: argo-events-sa
-  namespace: argoci-bdg-blog
+  namespace: bdg-blog-argoci
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -13,9 +13,9 @@ roleRef:
   kind: ClusterRole
   name: argo-events-role
 subjects:
-- kind: ServiceAccount
-  name: argo-events-sa
-  namespace: argoci-bdg-blog
+  - kind: ServiceAccount
+    name: argo-events-sa
+    namespace: bdg-blog-argoci
 ---
 apiVersion: v1
 data:
@@ -81,13 +81,13 @@ data:
 kind: ConfigMap
 metadata:
   name: argo-events-controller-config
-  namespace: argoci-bdg-blog
+  namespace: bdg-blog-argoci
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: controller-manager
-  namespace: argoci-bdg-blog
+  namespace: bdg-blog-argoci
 spec:
   replicas: 1
   selector:
@@ -99,38 +99,38 @@ spec:
         app: controller-manager
     spec:
       containers:
-      - args:
-        - controller
-        env:
-        - name: ARGO_EVENTS_IMAGE
-          value: quay.io/argoproj/argo-events:v1.7.6
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        image: quay.io/argoproj/argo-events:v1.7.6
-        imagePullPolicy: Always
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8081
-          initialDelaySeconds: 3
-          periodSeconds: 3
-        name: controller-manager
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: 8081
-          initialDelaySeconds: 3
-          periodSeconds: 3
-        volumeMounts:
-        - mountPath: /etc/argo-events
-          name: controller-config-volume
+        - args:
+            - controller
+          env:
+            - name: ARGO_EVENTS_IMAGE
+              value: quay.io/argoproj/argo-events:v1.7.6
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          image: quay.io/argoproj/argo-events:v1.7.6
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          name: controller-manager
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          volumeMounts:
+            - mountPath: /etc/argo-events
+              name: controller-config-volume
       securityContext:
         runAsNonRoot: true
         runAsUser: 9731
       serviceAccountName: argo-events-sa
       volumes:
-      - configMap:
-          name: argo-events-controller-config
-        name: controller-config-volume
+        - configMap:
+            name: argo-events-controller-config
+          name: controller-config-volume
