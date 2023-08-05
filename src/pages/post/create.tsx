@@ -227,7 +227,7 @@ export default function PostCreatePage() {
                     onClick={async () => {
                       await savePost(tag)
                     }}>
-                    <Image placeholder="blur" alt="postImage" src={image} />
+                    <Image alt="postImage" src={image} />
                   </div>
                 )
               })}

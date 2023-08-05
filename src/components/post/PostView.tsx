@@ -19,7 +19,7 @@ const reloadImage = async (content: string): Promise<string> => {
   for (const fileTag of fileTagList) {
     const fileUID = fileTag.replace('<bdg-minio=', '').replace('/>', '')
     const url = await onLoadPresignedUrl(fileUID)
-    const imageTag = `<Image placeholder="blur" src="${url}" alt="thumbnail"/>`
+    const imageTag = `<Image  src="${url}" alt="thumbnail"/>`
     convertMap.set(fileTag, imageTag)
   }
   return content.replace(/<bdg-minio=(.*?)\/>/g, (matched) => {

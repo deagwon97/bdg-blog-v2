@@ -37,7 +37,7 @@ export default function ToyProject({
         <div className={styles.cardBackground} onClick={onClickHandler}>
           <div className={styles.imageBox}>
             <Image
-              placeholder="blur"
+              // placeholder="blur"
               className={styles.image}
               alt="right"
               src={image}
@@ -61,7 +61,7 @@ export default function ToyProject({
               <Image
                 className={styles.image}
                 alt="right"
-                placeholder="blur"
+                // placeholder="blur"
                 src={image}
               />
             </a>
@@ -81,7 +81,7 @@ export default function ToyProject({
                   }
                 }}>
                 <Image
-                  placeholder="blur"
+                  // placeholder="blur"
                   className={styles.image}
                   alt="right"
                   src={articleIcon}
@@ -93,7 +93,7 @@ export default function ToyProject({
             <div className={styles.hiddenBox}>
               <a href={githubUrl}>
                 <Image
-                  placeholder="blur"
+                  // placeholder="blur"
                   className={styles.image}
                   alt="right"
                   src={githubIcon}

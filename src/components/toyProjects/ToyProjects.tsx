@@ -12,7 +12,7 @@ export default function ToyProjects() {
       <div className={styles.background}>
         <div className={styles.head}>
           <span>Toy Projects</span>
-          <Image placeholder="blur" alt="right" src={chevron} />
+          <Image alt="right" src={chevron} />
         </div>
         <div className={styles.scrollBlock}>
           <div className={styles.itemsBox}>
@@ -34,14 +34,14 @@ export default function ToyProjects() {
                   githubUrl="https://github.com/deagwon97/solar-system"
                 />
               </div>
-              <div className={styles.item}>
+              {/* <div className={styles.item}>
                 <ToyProject
                   image={benzeneRingIcon}
                   title="Tox AI"
                   projectUrl="https://toxai.manycore.uos.ac.kr/"
                   postUrl="https://github.com/deagwon97/solar-system"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

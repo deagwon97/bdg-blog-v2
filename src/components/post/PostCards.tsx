@@ -16,6 +16,8 @@ import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
 import Link from 'next/link'
 import * as service from 'server/service/index.telefunc'
+import { FadeInImage } from 'components/fadeinImage/FadeinImage'
+import { Skeleton, Stack } from '@mui/material'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
@@ -29,7 +31,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   const [boxWidth, setBoxWidth] = useState('380px')
 
   // 페이지당 포스트 개수
-  const pageSize = 8
+  const pageSize = 6
   // 페이징 버튼 개수
   let buttonCount = 5
 
@@ -89,7 +91,6 @@ const PostCards: React.FC<PostProps> = (props) => {
   })
 
   const getImageUrl = async (imageTag: string) => {
-    if (imageTag === null) return ''
     const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
     if (imageUID === null || imageUID === undefined || imageUID === '') {
       return ''
@@ -144,6 +145,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     const newTagUrlMap = new Map()
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i]
+      if (post.thumbnail === '') continue
       const imageTag = post.thumbnail as string
       const imageUrl = await getImageUrl(imageTag)
       newTagUrlMap.set(imageTag, imageUrl)
@@ -184,7 +186,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     <div>
       <div className={styles.postHead}>
         <span>{props.category}</span>
-        <Image placeholder="blur" alt="right" src={chevron} />
+        <Image alt="right" src={chevron} />
       </div>
       <div className={styles.postContainer} ref={ref}>
         <div>
@@ -194,16 +196,34 @@ const PostCards: React.FC<PostProps> = (props) => {
                 <Link key={post.id} href={`/post/${post.id}`}>
                   <div className={styles.postBox} style={{ width: boxWidth }}>
                     <div className={styles.imageBox}>
-                      {tagUrlMap.get(post.thumbnail as string) ? (
+                      {post.thumbnail ? (
                         <>
                           <div className={styles.imageOverlay} />
-                          <Image
-                            placeholder="blur"
-                            src={
-                              tagUrlMap.get(post.thumbnail as string) as string
-                            }
-                            alt="thumbnail"
-                          />
+                          {(tagUrlMap.get(
+                            post.thumbnail as string
+                          ) as string) ? (
+                            <>
+                              <FadeInImage
+                                width={100}
+                                height={200}
+                                src={
+                                  tagUrlMap.get(
+                                    post.thumbnail as string
+                                  ) as string
+                                }
+                                alt="thumbnail"
+                              />
+                            </>
+                          ) : (
+                            <Stack height={200} width={'100%'}>
+                              <Skeleton
+                                animation="wave"
+                                height={'100%'}
+                                width={'100%'}
+                                variant="rectangular"
+                              />
+                            </Stack>
+                          )}
                         </>
                       ) : (
                         <>
@@ -232,7 +252,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(1)}>
             <Image
-              placeholder="blur"
+              // placeholder="blur"
               alt="doubbleLeftArrow"
               className={styles.img}
               src={doubbleLeftArrow}
@@ -246,7 +266,7 @@ const PostCards: React.FC<PostProps> = (props) => {
               handlePageChange(currentPageIdx - 1 <= 1 ? 1 : currentPageIdx - 1)
             }>
             <Image
-              placeholder="blur"
+              // placeholder="blur"
               alt="leftArrow"
               className={styles.img}
               src={leftArrow}
@@ -285,7 +305,7 @@ const PostCards: React.FC<PostProps> = (props) => {
               )
             }>
             <Image
-              placeholder="blur"
+              // placeholder="blur"
               alt="rightArrow"
               className={styles.img}
               src={rightArrow}
@@ -299,7 +319,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(maxPageIdx)}>
             <Image
-              placeholder="blur"
+              // placeholder="blur"
               alt="doubbleRightArrow"
               className={styles.img}
               src={doubbleRightArrow}
