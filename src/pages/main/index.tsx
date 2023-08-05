@@ -61,13 +61,14 @@ export default function MainPage({
         <div className={styles.contentBox}>
           {/* <div className={styles.head}>
           <span>Main Projects</span>
-          <Image placeholder="blur" alt="right" src={chevron} />
+          <Image 
+          // placeholder="blur" alt="right" src={chevron} />
           </div>
           <MainCards /> */}
           <ToyProjects />
           <div className={styles.head}>
             <span>Posts</span>
-            <Image placeholder="blur" alt="right" src={chevron} />
+            <Image alt="right" src={chevron} />
           </div>
           <CategoryButtonList updateCategory={setCategory} />
           <PostCards

@@ -24,7 +24,7 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
           <Link href="/post/create/">
             <Image
               alt="writeIcon"
-              placeholder="blur"
+              // // placeholder="blur"
               style={{ height: 30, width: 30, marginLeft: 40 }}
               src={writeIcon}
             />
@@ -34,7 +34,7 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
           <Link href="/login/">
             <Image
               alt="loginIcon"
-              placeholder="blur"
+              // placeholder="blur"
               style={{
                 height: 30,
                 width: 30,
@@ -46,7 +46,7 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
           </Link>
         ) : (
           <Image
-            placeholder="blur"
+            // placeholder="blur"
             alt="logoutIcon"
             style={{
               height: 30,
