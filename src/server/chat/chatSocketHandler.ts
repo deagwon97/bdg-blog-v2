@@ -21,6 +21,9 @@ const ChatSocketHandler = async (
     // create websocket connection
     // when new client connects
     io.on('connection', async (socket) => {
+      // create redis sub
+      redisSub = await getRedisSub()
+
       socket.on('client-server-chat', (msg) => {
         userName = msg?.userName as string
         redisPub.publish(
@@ -49,13 +52,12 @@ const ChatSocketHandler = async (
         socket.disconnect()
         return
       })
-      if (!redisSub) {
-        redisSub = await getRedisSub()
-        redisSub.on('message', (_, message) => {
-          const redisMessage = JSON.parse(message)
-          socket.emit('server-client-chat', redisMessage.message)
-        })
-      }
+      
+      redisSub.on('message', (_, message) => {
+        const redisMessage = JSON.parse(message)
+        socket.emit('server-client-chat', redisMessage.message)
+      })
+      
     })
   }
   res.end()
