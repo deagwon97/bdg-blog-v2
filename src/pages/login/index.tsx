@@ -11,7 +11,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>('')
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('set email')
     setEmail(e.target.value)
   }
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
