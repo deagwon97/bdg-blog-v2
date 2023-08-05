@@ -14,8 +14,6 @@ generatorOptions:
 #     files:
 #       - .dockerconfigjson=01dockerconfig.json
 #     type: kubernetes.io/dockerconfigjson
-commonLabels:
-  app: bdg-blog
 resources:
   - 00namespace.yaml
   - 03serviceAccount.yaml
