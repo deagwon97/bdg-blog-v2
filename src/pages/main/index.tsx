@@ -16,23 +16,20 @@ import * as service from 'server/service/index.telefunc'
 import Image from 'next/image'
 // import MainCards from 'components/mainProjects/mainCards'
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const pageSize = 8
-  let posts = (await getPostListPageSortByDate(pageSize, 1)) as Post[]
-  posts = JSON.parse(JSON.stringify(posts))
-  let maxPageIdx = (await getMaxPageIndex(pageSize)) as number
-  return {
-    props: { posts, maxPageIdx }
-  }
-}
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const pageSize = 8
+//   // let posts = (await getPostListPageSortByDate(pageSize, 1)) as Post[]
+//   // posts = JSON.parse(JSON.stringify(posts))
+//   // let maxPageIdx = (await getMaxPageIndex(pageSize)) as number
+//   return {
+//     props: { posts, maxPageIdx }
+//   }
+// }
 
-export default function MainPage({
-  posts,
-  maxPageIdx
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function MainPage() {
   const [category, setCategory] = useState<string>('ALL')
-  const [categoryPosts, setCategoryPosts] = useState<Post[]>(posts)
-  const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(maxPageIdx)
+  const [categoryPosts, setCategoryPosts] = useState<Post[]>([])
+  const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(1)
 
   const updatePosts = useCallback(async () => {
     const pageSize = 8

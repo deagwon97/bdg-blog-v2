@@ -50,7 +50,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   const [currentButtonCount, setCurrentButtonCount] = useState(buttonCount)
   const [currentPageIdx, setCurrentPageIdx] = useState(1)
   const [firstButtonIdx, setFirstButtonIdx] = useState(1)
-  const [posts, setPosts] = useState<Post[]>(props.posts)
+  const [posts, setPosts] = useState<Post[]>([])
   const [postsWithImage, setPostsWithImage] = useState<Post[]>([])
   const [tagUrlMap, setTagUrlMap] = useState<Map<string, string>>(new Map())
 
@@ -160,8 +160,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   useEffect(() => {
     setCurrentPageIdx(1)
     setFirstButtonIdx(1)
-    setPosts(props.posts)
-  }, [props.posts])
+  }, [props.category])
 
   useEffect(() => {
     setPostsWithImage(posts)
