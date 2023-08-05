@@ -53,7 +53,7 @@ const ChatSocketHandler = async (
         redisSub = await getRedisSub()
         redisSub.on('message', (_, message) => {
           const redisMessage = JSON.parse(message)
-          socket.broadcast.emit('server-client-chat', redisMessage.message)
+          socket.emit('server-client-chat', redisMessage.message)
         })
       }
     })

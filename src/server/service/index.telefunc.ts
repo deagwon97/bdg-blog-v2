@@ -17,6 +17,5 @@ export const onLoadPresignedUrl = post.onLoadPresignedUrl
 export const onLoadPresignedUrlPutObject = post.onLoadPresignedUrlPutObject
 // connect
 export const onConnect: () => Promise<string> = async () => {
-  console.log('connect!!!!!!')
   return 'connected'
 }

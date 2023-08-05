@@ -164,7 +164,6 @@ const PostCards: React.FC<PostProps> = (props) => {
   }, [props.posts])
 
   useEffect(() => {
-    console.log(posts)
     setPostsWithImage(posts)
   }, [posts])
 
