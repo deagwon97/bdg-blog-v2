@@ -90,6 +90,43 @@ export const createPost: CreatePost = async (
   return post
 }
 
+export type UpdatePost = (
+  id: number,
+  title: string,
+  content: string,
+  categoryName: string,
+  thumbnail: string
+) => Promise<Post>
+export const updatePost: UpdatePost = async (
+  id: number,
+  title: string,
+  content: string,
+  categoryName: string,
+  thumbnail: string
+) => {
+  let post = await prisma.post.update({
+    where: {
+      id: id
+    },
+    data: {
+      title: title,
+      content: content,
+      thumbnail: thumbnail,
+      category: {
+        connectOrCreate: {
+          where: {
+            name: categoryName
+          },
+          create: {
+            name: categoryName
+          }
+        }
+      }
+    }
+  })
+  return post
+}
+
 //delete post
 export type DeletePost = (id: number) => Promise<Post>
 export const deletePost: DeletePost = async (id: number) => {

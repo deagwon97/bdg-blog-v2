@@ -7,6 +7,7 @@ export const onLoadUser = user.onLoadUser
 //post
 export const onCreateCategory = post.onCreateCategory
 export const onCreatePost = post.onCreatePost
+export const onUpdatePost = post.onUpdatePost
 export const onDeletePost = post.onDeletePost
 export const onLoadCategoryList = post.onLoadCategoryList
 export const onLoadMaxPageIndexByCategory = post.onLoadMaxPageIndexByCategory

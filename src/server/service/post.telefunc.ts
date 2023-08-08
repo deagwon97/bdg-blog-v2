@@ -65,6 +65,37 @@ export const onCreatePost: CreatePost = async (
   } as ErrorMessage
 }
 
+export type UpdatePost = (
+  id: number,
+  title: string,
+  content: string,
+  categoryName: string,
+  thumbnail: string
+) => Promise<Post | ErrorMessage>
+export const onUpdatePost: UpdatePost = async (
+  id: number,
+  title: string,
+  content: string,
+  categoryName: string,
+  thumbnail: string
+) => {
+  const { accessToken } = getContext()
+  const name = await checkAccessToken(accessToken as string)
+  if (name === 'bdg') {
+    let post = (await repo.updatePost(
+      id,
+      title,
+      content,
+      categoryName,
+      thumbnail
+    )) as Post
+    return post
+  }
+  return {
+    err: 'You are not authorized to update a post'
+  } as ErrorMessage
+}
+
 // delete post function
 export type DeletePost = (id: number) => Promise<Post | ErrorMessage>
 export const onDeletePost: DeletePost = async (id: number) => {

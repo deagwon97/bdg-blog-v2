@@ -20,7 +20,7 @@ export function CategoryDropDown({
   categoryList
 }: CategoryDropdownProps) {
   const [selected, setSelected] = useState<string>(value)
-  const [newCategory, setNewCategory] = useState<string>('')
+  const [newCategory, setNewCategory] = useState<string>(value || '')
   const onChangeHandler = (value: string) => {
     if (value === '+') {
       handler(value)
