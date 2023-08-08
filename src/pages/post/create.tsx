@@ -150,6 +150,7 @@ export default function PostCreatePage() {
       post.categoryName === '+' ? newCategory : post.categoryName,
       (post.thumbnail = imageTag)
     )
+
     window.location.href = '/'
   }
 
@@ -159,12 +160,28 @@ export default function PostCreatePage() {
       <div className={styles.background} ref={ref}>
         <br />
         <div className={styles.container}>
-          <textarea
-            placeholder="제목을 입력하세요..."
-            rows={1}
-            ref={titleRef}
-            onChange={onHandler}
-          />
+          <div className={styles.titleWithSave}>
+            <textarea
+              placeholder="제목을 입력하세요..."
+              rows={1}
+              ref={titleRef}
+              onChange={onHandler}
+            />
+            <div
+              className={styles.saveButton}
+              onClick={async () => {
+                post.content
+                const imageList = await getImageList(post.content || '')
+                setImageList(imageList)
+                if (imageList.length < 1) {
+                  await savePost('')
+                  return
+                }
+                handleOpen()
+              }}>
+              저장하기
+            </div>
+          </div>
 
           <CategoryDropDown
             value={'React'}
@@ -193,24 +210,7 @@ export default function PostCreatePage() {
               </div>
             )}
           </div>
-          {size.width > 800 && (
-            <div>
-              <div
-                onClick={async () => {
-                  post.content
-                  const imageList = await getImageList(post.content || '')
-                  setImageList(imageList)
-                  if (imageList.length < 1) {
-                    await savePost('')
-                    return
-                  }
-                  handleOpen()
-                }}
-                className={styles.saveButton}>
-                저장하기
-              </div>
-            </div>
-          )}
+
           <br />
         </div>
       </div>
@@ -218,6 +218,7 @@ export default function PostCreatePage() {
         <Box sx={style}>
           <div className={styles.modalBackground}>
             <div className={styles.modalImageContainer}>
+              <h3>썸네일 이미지 선택</h3>
               {imageList.map((tagImage) => {
                 const [tag, image] = tagImage
                 return (
@@ -227,7 +228,12 @@ export default function PostCreatePage() {
                     onClick={async () => {
                       await savePost(tag)
                     }}>
-                    <Image alt="postImage" src={image} />
+                    <Image
+                      alt="postImage"
+                      src={image}
+                      width={100}
+                      height={100}
+                    />
                   </div>
                 )
               })}
