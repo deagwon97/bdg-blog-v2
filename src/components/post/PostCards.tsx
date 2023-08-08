@@ -113,25 +113,23 @@ const PostCards: React.FC<PostProps> = (props) => {
   }, [isMobile])
 
   useEffect(() => {
-    if (!isMobile) {
-      setFirstButtonIdx(
-        Math.floor((currentPageIdx - 1) / buttonCount) * buttonCount + 1
-      )
-      if (currentPageIdx >= lastFirstButtonIdx) {
-        setCurrentButtonCount(lastButtonCount)
-      } else {
-        setCurrentButtonCount(buttonCount)
-      }
-      service
-        .onLoadPostListPageSortByDateByCategory(
-          pageSize,
-          currentPageIdx,
-          props.category
-        )
-        .then((res) => {
-          setPosts(res)
-        })
+    setFirstButtonIdx(
+      Math.floor((currentPageIdx - 1) / buttonCount) * buttonCount + 1
+    )
+    if (currentPageIdx >= lastFirstButtonIdx) {
+      setCurrentButtonCount(lastButtonCount)
+    } else {
+      setCurrentButtonCount(buttonCount)
     }
+    service
+      .onLoadPostListPageSortByDateByCategory(
+        pageSize,
+        currentPageIdx,
+        props.category
+      )
+      .then((res) => {
+        setPosts(res)
+      })
   }, [
     props.category,
     currentPageIdx,
