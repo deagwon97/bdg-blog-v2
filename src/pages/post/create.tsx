@@ -156,7 +156,7 @@ export default function PostCreatePage() {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className={styles.background} ref={ref}>
         <br />
         <div className={styles.container}>
