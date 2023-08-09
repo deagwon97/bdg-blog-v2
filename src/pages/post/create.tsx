@@ -33,7 +33,6 @@ export default function PostCreatePage() {
     title: '',
     content: '',
     categoryName: '',
-    summary: '',
     thumbnail: '',
     createdAt: null,
     updatedAt: null,
