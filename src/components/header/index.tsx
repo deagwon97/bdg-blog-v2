@@ -30,7 +30,7 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
             />
           </Link>
         )}
-        {!props.accessToken ? (
+        {props.accessToken === '' ? (
           <Link href="/login/">
             <Image
               alt="loginIcon"

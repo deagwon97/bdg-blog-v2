@@ -1,11 +1,6 @@
 import { Header } from 'components/header'
 import PostCards from 'components/post/PostCards'
 import styles from 'pages/main/main.module.scss'
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import {
-  getPostListPageSortByDate,
-  getMaxPageIndex
-} from 'server/repository/post'
 import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import ToyProjects from 'components/toyProjects/ToyProjects'
