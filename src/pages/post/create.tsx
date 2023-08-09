@@ -26,6 +26,7 @@ import Image from 'next/image'
 
 export default function PostCreatePage() {
   useEffect(() => {
+    console.log('scroll to top')
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
   })
   const [post, setPost] = useState<Post>({
