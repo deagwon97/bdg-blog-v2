@@ -1,5 +1,5 @@
 import { motion, useAnimation } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image, { ImageProps } from 'next/image'
 
 const animationVariants = {
@@ -10,11 +10,16 @@ const animationVariants = {
 export const FadeInImage = (props: ImageProps) => {
   const [loaded, setLoaded] = useState(false)
   const animationControls = useAnimation()
-  useEffect(() => {
+
+  const animationControlsCallback = useCallback(async () => {
     if (loaded) {
-      animationControls.start('visible')
+      await animationControls.start('visible')
     }
-  }, [loaded])
+  }, [loaded, animationControls])
+
+  useEffect(() => {
+    animationControlsCallback()
+  }, [animationControlsCallback])
 
   return (
     <motion.div
@@ -22,7 +27,7 @@ export const FadeInImage = (props: ImageProps) => {
       animate={animationControls}
       variants={animationVariants}
       transition={{ ease: 'easeOut', duration: 1 }}>
-      <Image {...props} onLoad={() => setLoaded(true)} />
+      <Image {...props} onLoad={() => setLoaded(true)} alt="thubnail" />
     </motion.div>
   )
 }

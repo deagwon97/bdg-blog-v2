@@ -34,7 +34,7 @@ export default function MainPage() {
 
   useEffect(() => {
     updatePosts()
-  }, [category])
+  }, [updatePosts])
 
   return (
     <>

@@ -21,34 +21,10 @@ export default function ChatPage() {
   const [userName, setUserName] = useState('')
   const [chatMessageList, setChatMessageList] = useState<ChatMessage[]>([])
 
-  const sendChat = () => {
-    if (input === '') {
-      return
-    }
-    if (socket === null) {
-      socketInitializer()
-      return
-    }
-    socket.emit('client-server-chat', {
-      type: 'chat',
-      userName: userName,
-      message: input
-    } as ChatMessage)
-    setInput('')
-  }
-
-  useEffect(() => {
-    socketInitCallback()
-  }, [userName])
-
-  const socketInitCallback = useCallback(async () => {
+  const initSocketCallback = useCallback(async () => {
     if (userName === '') {
       return
     }
-    await socketInitializer()
-  }, [userName])
-
-  const socketInitializer = async () => {
     await fetch('/api/socket')
     socket = io('', {
       path: '/socket.io',
@@ -65,6 +41,26 @@ export default function ChatPage() {
     socket.on('server-client-chat', (msg) => {
       setChatMessageList((chatMessageList) => [...chatMessageList, msg])
     })
+  }, [userName])
+
+  useEffect(() => {
+    initSocketCallback()
+  }, [initSocketCallback])
+
+  const sendChat = () => {
+    if (input === '') {
+      return
+    }
+    if (socket === null) {
+      initSocketCallback()
+      return
+    }
+    socket.emit('client-server-chat', {
+      type: 'chat',
+      userName: userName,
+      message: input
+    } as ChatMessage)
+    setInput('')
   }
 
   useEffect(() => {

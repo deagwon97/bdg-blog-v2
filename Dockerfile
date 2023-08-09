@@ -1,22 +1,17 @@
-FROM node:16 AS builder
+FROM node:18 AS builder
 LABEL builder=true
-RUN apt-get update -y 
-RUN apt-get install git -y
 RUN npm install -g npm@9.3.1
-RUN npm install --global yarn@1.22.19 --force
-RUN npm install -g prisma
+RUN npm install -g prisma@5.1.1
+RUN npm install -g pnpm@8.6.12
 COPY ./src /workdir/src
 WORKDIR /workdir/src
+RUN pnpm install
 RUN prisma generate
-RUN yarn build
+RUN pnpm build
 
-FROM node:16 AS server
+FROM node:18 AS server
 LABEL builder=false
 WORKDIR /build
-RUN apt-get update -y 
-RUN apt-get install git -y
-RUN npm install -g npm@9.3.1
-RUN npm install --global yarn@1.22.19 --force
 COPY --from=builder /workdir/src/package*.json /build
 COPY --from=builder /workdir/src/next.config.js /build
 COPY --from=builder /workdir/src/.next /build/.next
