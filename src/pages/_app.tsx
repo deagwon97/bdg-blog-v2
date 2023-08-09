@@ -3,7 +3,6 @@ import type { AppProps } from 'next/app'
 import { config } from 'telefunc/client'
 import { AnimatePresence } from 'framer-motion'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import * as service from 'server/service/index.telefunc'
 
 const isBrowser = typeof window !== 'undefined'
