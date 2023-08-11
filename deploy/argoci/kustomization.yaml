@@ -18,7 +18,7 @@ resources:
   - 16event-sensor.yaml
   # ingress
   - 21ingress.yaml
-patchesStrategicMerge:
+patches:
   - 31argo-patch.yaml
 secretGenerator:
   - name: git-secret
