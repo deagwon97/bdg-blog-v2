@@ -14,29 +14,32 @@ import rightArrow from 'assets/common/right-arrow.svg'
 import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
 import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
-import Link from 'next/link'
 import * as service from 'server/service/index.telefunc'
-import { FadeInImage } from 'components/fadeinImage/FadeinImage'
-import { Skeleton, Stack } from '@mui/material'
+import PostCard from 'components/post/PostCard'
 
 type Post = Prisma.PostGetPayload<{}>
 type PostProps = {
   category: string
   posts: Post[]
   maxPageIdx: number
+  published: boolean
 }
+
+const getImageUrl = async (imageTag: string) => {
+  const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
+  if (imageUID === null || imageUID === undefined || imageUID === '') {
+    return ''
+  }
+  const presignedUrl = await service.onLoadPresignedUrl(imageUID)
+  return presignedUrl
+}
+
 const PostCards: React.FC<PostProps> = (props) => {
-  // 모바일 여부
-  const [isMobile, setIsMobile] = useState(false)
-  const [boxWidth, setBoxWidth] = useState('380px')
-
-  // 페이지당 포스트 개수
-  const pageSize = 6
-  // 페이징 버튼 개수
-  let buttonCount = 5
-
+  const [isMobile, setIsMobile] = useState(false) // 모바일 여부
+  const [boxWidth, setBoxWidth] = useState('380px') // 포스트 박스 너비
+  const pageSize = 4 // 페이지당 포스트 개수
+  let buttonCount = 5 // 페이징 버튼 개수
   const maxPageIdx = props.maxPageIdx
-
   if (maxPageIdx < buttonCount) {
     buttonCount = maxPageIdx
   }
@@ -46,14 +49,12 @@ const PostCards: React.FC<PostProps> = (props) => {
     Math.floor(maxPageIdx / buttonCount) * buttonCount + 1
   // 마지막 버튼 그룹의 버튼 개수
   const lastButtonCount = maxPageIdx % buttonCount
-
   const [currentButtonCount, setCurrentButtonCount] = useState(buttonCount)
   const [currentPageIdx, setCurrentPageIdx] = useState(1)
   const [firstButtonIdx, setFirstButtonIdx] = useState(1)
   const [posts, setPosts] = useState<Post[]>([])
   const [postsWithImage, setPostsWithImage] = useState<Post[]>([])
   const [tagUrlMap, setTagUrlMap] = useState<Map<string, string>>(new Map())
-
   let ref = useRef() as MutableRefObject<HTMLInputElement>
   let size = useComponentSize(ref)
 
@@ -71,15 +72,6 @@ const PostCards: React.FC<PostProps> = (props) => {
           if (window.scrollY > baseY + pageSize * cardHeight * currentPageIdx) {
             let newPageIdx = currentPageIdx + 1
             setCurrentPageIdx(newPageIdx)
-            service
-              .onLoadPostListPageSortByDateByCategory(
-                pageSize,
-                newPageIdx,
-                props.category
-              )
-              .then((res) => {
-                setPosts((prev) => [...prev, ...res])
-              })
           }
         }
       }
@@ -89,15 +81,6 @@ const PostCards: React.FC<PostProps> = (props) => {
       window.removeEventListener('scroll', onScroll)
     }
   })
-
-  const getImageUrl = async (imageTag: string) => {
-    const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
-    if (imageUID === null || imageUID === undefined || imageUID === '') {
-      return ''
-    }
-    const presignedUrl = await service.onLoadPresignedUrl(imageUID)
-    return presignedUrl
-  }
 
   const handlePageChange = (pageIdx: number) => {
     if (pageIdx < 1) {
@@ -125,19 +108,55 @@ const PostCards: React.FC<PostProps> = (props) => {
       .onLoadPostListPageSortByDateByCategory(
         pageSize,
         currentPageIdx,
-        props.category
+        props.category,
+        props.published
       )
       .then((res) => {
         setPosts(res)
       })
   }, [
     props.category,
-    currentPageIdx,
     lastFirstButtonIdx,
     lastButtonCount,
     buttonCount,
     isMobile
   ])
+
+  useEffect(() => {
+    if (!isMobile) {
+      setFirstButtonIdx(
+        Math.floor((currentPageIdx - 1) / buttonCount) * buttonCount + 1
+      )
+      if (currentPageIdx >= lastFirstButtonIdx) {
+        setCurrentButtonCount(lastButtonCount)
+      } else {
+        setCurrentButtonCount(buttonCount)
+      }
+
+      service
+        .onLoadPostListPageSortByDateByCategory(
+          pageSize,
+          currentPageIdx,
+          props.category,
+          props.published
+        )
+        .then((res) => {
+          setPosts(res)
+        })
+    }
+    if (isMobile) {
+      service
+        .onLoadPostListPageSortByDateByCategory(
+          pageSize,
+          currentPageIdx,
+          props.category,
+          props.published
+        )
+        .then((res) => {
+          setPosts((prev) => [...prev, ...res])
+        })
+    }
+  }, [currentPageIdx])
 
   const updateTagUrlMap = useCallback(async (posts: Post[]) => {
     const newTagUrlMap = new Map()
@@ -164,20 +183,6 @@ const PostCards: React.FC<PostProps> = (props) => {
     setPostsWithImage(posts)
   }, [posts])
 
-  const getSummary = (content: string) => {
-    let summary = content
-    if (content.length > 200) {
-      summary = content.substring(0, 200)
-    }
-    return summary
-      .replace('#', '')
-      .replace('##', '')
-      .replace('###', '')
-      .replace(/^#\s+(.*)$/gm, '$1')
-      .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
-      .replace(/<bdg-minio=(.*?)\/>/g, '')
-  }
-
   return (
     <div>
       <div className={styles.postHead}>
@@ -187,55 +192,14 @@ const PostCards: React.FC<PostProps> = (props) => {
       <div className={styles.postContainer} ref={ref}>
         <div>
           {postsWithImage &&
-            postsWithImage.map((post) => {
+            postsWithImage.map((post, idx) => {
               return (
-                <Link key={post.id} href={`/post/${post.id}`}>
-                  <div className={styles.postBox} style={{ width: boxWidth }}>
-                    <div className={styles.imageBox}>
-                      {post.thumbnail ? (
-                        <>
-                          <div className={styles.imageOverlay} />
-                          {(tagUrlMap.get(
-                            post.thumbnail as string
-                          ) as string) ? (
-                            <>
-                              <FadeInImage
-                                width={100}
-                                height={200}
-                                src={
-                                  tagUrlMap.get(
-                                    post.thumbnail as string
-                                  ) as string
-                                }
-                                alt="thumbnail"
-                              />
-                            </>
-                          ) : (
-                            <Stack height={200} width={'100%'}>
-                              <Skeleton
-                                animation="wave"
-                                height={'100%'}
-                                width={'100%'}
-                                variant="rectangular"
-                              />
-                            </Stack>
-                          )}
-                        </>
-                      ) : (
-                        <>
-                          <div className={styles.imageOverlay} />
-                          <div className={styles.defaultThumbnail}>
-                            {post.categoryName}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <div className={styles.textBox}>
-                      <h4>{post.title}</h4>
-                      <span>{getSummary(post.content || '')}</span>
-                    </div>
-                  </div>
-                </Link>
+                <PostCard
+                  key={idx}
+                  post={post}
+                  tagUrlMap={tagUrlMap}
+                  boxWidth={boxWidth}
+                />
               )
             })}
         </div>
@@ -248,7 +212,6 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(1)}>
             <Image
-              // placeholder="blur"
               alt="doubbleLeftArrow"
               className={styles.img}
               src={doubbleLeftArrow}
@@ -261,12 +224,7 @@ const PostCards: React.FC<PostProps> = (props) => {
             onClick={() =>
               handlePageChange(currentPageIdx - 1 <= 1 ? 1 : currentPageIdx - 1)
             }>
-            <Image
-              // placeholder="blur"
-              alt="leftArrow"
-              className={styles.img}
-              src={leftArrow}
-            />
+            <Image alt="leftArrow" className={styles.img} src={leftArrow} />
           </div>
 
           {currentButtonCount > 0 &&
@@ -300,12 +258,7 @@ const PostCards: React.FC<PostProps> = (props) => {
                   : currentPageIdx + 1
               )
             }>
-            <Image
-              // placeholder="blur"
-              alt="rightArrow"
-              className={styles.img}
-              src={rightArrow}
-            />
+            <Image alt="rightArrow" className={styles.img} src={rightArrow} />
           </div>
           <div
             className={
@@ -315,7 +268,6 @@ const PostCards: React.FC<PostProps> = (props) => {
             }
             onClick={() => handlePageChange(maxPageIdx)}>
             <Image
-              // placeholder="blur"
               alt="doubbleRightArrow"
               className={styles.img}
               src={doubbleRightArrow}

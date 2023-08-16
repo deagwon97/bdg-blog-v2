@@ -17,23 +17,26 @@ export const onLoadPresignedUrlPutObject = async (
 
 export const onLoadPostListPageSortByDate = async (
   pageSize: number,
-  pageIdx: number
+  pageIdx: number,
+  published: boolean
 ) => {
-  return await repo.getPostListPageSortByDate(pageSize, pageIdx)
+  return await repo.getPostListPageSortByDate(pageSize, pageIdx, published)
 }
 
 export const onLoadPostListPageSortByDateByCategory = async (
   pageSize: number,
   pageIdx: number,
-  categoryName: string
+  categoryName: string,
+  published: boolean
 ) => {
   if (categoryName === 'ALL') {
-    return await repo.getPostListPageSortByDate(pageSize, pageIdx)
+    return await repo.getPostListPageSortByDate(pageSize, pageIdx, published)
   }
   return await repo.getPostListPageSortByDateCategory(
     pageSize,
     pageIdx,
-    categoryName
+    categoryName,
+    published
   )
 }
 
@@ -70,14 +73,16 @@ export type UpdatePost = (
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => Promise<Post | ErrorMessage>
 export const onUpdatePost: UpdatePost = async (
   id: number,
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => {
   const { accessToken } = getContext()
   const name = await checkAccessToken(accessToken as string)
@@ -87,7 +92,8 @@ export const onUpdatePost: UpdatePost = async (
       title,
       content,
       categoryName,
-      thumbnail
+      thumbnail,
+      published
     )) as Post
     return post
   }
@@ -124,10 +130,11 @@ export const onCreateCategory: (category: string) => Promise<string> = async (
 
 export const onLoadMaxPageIndexByCategory = async (
   pageSize: number,
-  category: string
+  category: string,
+  published: boolean
 ) => {
   if (category === 'ALL') {
-    return await repo.getMaxPageIndex(pageSize)
+    return await repo.getMaxPageIndex(pageSize, published)
   }
-  return await repo.getMaxPageIndexByCategory(pageSize, category)
+  return await repo.getMaxPageIndexByCategory(pageSize, category, published)
 }

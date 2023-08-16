@@ -3,6 +3,7 @@ import Image from 'next/image'
 import loginIcon from 'assets/header/login-icon.svg'
 import logoutIcon from 'assets/header/logout-icon.svg'
 import writeIcon from 'assets/header/write-icon.svg'
+import tempPostListIcon from 'assets/header/temp-post-list-icon.svg'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -24,9 +25,17 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
           <Link href="/post/create/">
             <Image
               alt="writeIcon"
-              // // placeholder="blur"
               style={{ height: 30, width: 30, marginLeft: 40 }}
               src={writeIcon}
+            />
+          </Link>
+        )}
+        {props.accessToken && (
+          <Link href="/post/temp/list/">
+            <Image
+              alt="tempPostListIcon"
+              style={{ height: 30, width: 30, marginLeft: 40 }}
+              src={tempPostListIcon}
             />
           </Link>
         )}
@@ -34,7 +43,6 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
           <Link href="/login/">
             <Image
               alt="loginIcon"
-              // placeholder="blur"
               style={{
                 height: 30,
                 width: 30,

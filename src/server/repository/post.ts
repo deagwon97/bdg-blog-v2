@@ -2,13 +2,30 @@ import { prisma } from 'prisma/prismaClient'
 import { Prisma } from '@prisma/client'
 
 type Post = Prisma.PostGetPayload<{}>
+
+type GetMaxPageIndex = (pageSize: number, published: boolean) => Promise<number>
+export const getMaxPageIndex: GetMaxPageIndex = async (
+  pageSize: number,
+  published: boolean
+) => {
+  let count = await prisma.post.count({
+    where: {
+      published: published
+    }
+  })
+  let pageNumbers = Math.ceil(count / pageSize)
+  return pageNumbers
+}
+
 export type GetPostListPageSortByDate = (
   pageSize: number,
-  pageIdx: number
+  pageIdx: number,
+  published: boolean
 ) => Promise<Post[]>
 export const getPostListPageSortByDate: GetPostListPageSortByDate = async (
   pageSize: number,
-  pageIdx: number
+  pageIdx: number,
+  published: boolean
 ) => {
   let posts = await prisma.post.findMany({
     take: pageSize,
@@ -17,7 +34,7 @@ export const getPostListPageSortByDate: GetPostListPageSortByDate = async (
       createdAt: 'desc'
     },
     where: {
-      published: true
+      published: published
     }
   })
   return posts
@@ -34,27 +51,6 @@ export const getPost: GetPost = async (id: number) => {
     throw new Error('post not found')
   }
   return post
-}
-
-type GetMaxPageIndex = (pageSize: number) => Promise<number>
-export const getMaxPageIndex: GetMaxPageIndex = async (pageSize: number) => {
-  let count = await prisma.post.count({})
-  let pageNumbers = Math.ceil(count / pageSize)
-  return pageNumbers
-}
-
-export const getMaxPageIndexByCategory: (
-  pageSize: number,
-  category: string
-) => Promise<number> = async (pageSize: number, category: string) => {
-  let count = await prisma.post.count({
-    where: {
-      categoryName: category,
-      published: true
-    }
-  })
-  let pageNumbers = Math.ceil(count / pageSize)
-  return pageNumbers
 }
 
 export type CreatePost = (
@@ -95,14 +91,16 @@ export type UpdatePost = (
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => Promise<Post>
 export const updatePost: UpdatePost = async (
   id: number,
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => {
   let post = await prisma.post.update({
     where: {
@@ -112,6 +110,7 @@ export const updatePost: UpdatePost = async (
       title: title,
       content: content,
       thumbnail: thumbnail,
+      published: published,
       category: {
         connectOrCreate: {
           where: {
@@ -159,14 +158,35 @@ export const createCategory: (name: string) => Promise<string> = async (
   return category.name
 }
 
+export const getMaxPageIndexByCategory: (
+  pageSize: number,
+  category: string,
+  published: boolean
+) => Promise<number> = async (
+  pageSize: number,
+  category: string,
+  published: boolean
+) => {
+  let count = await prisma.post.count({
+    where: {
+      categoryName: category,
+      published: published
+    }
+  })
+  let pageNumbers = Math.ceil(count / pageSize)
+  return pageNumbers
+}
+
 export const getPostListPageSortByDateCategory: (
   pageSize: number,
   pageIdx: number,
-  categoryName: string
+  categoryName: string,
+  published: boolean
 ) => Promise<Post[]> = async (
   pageSize: number,
   pageIdx: number,
-  categoryName: string
+  categoryName: string,
+  published: boolean
 ) => {
   let posts = await prisma.post.findMany({
     take: pageSize,
@@ -178,7 +198,7 @@ export const getPostListPageSortByDateCategory: (
       category: {
         name: categoryName
       },
-      published: true
+      published: published
     }
   })
   return posts

@@ -152,7 +152,8 @@ export default function PostEditPage({
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,
-      (post.thumbnail = imageTag)
+      (post.thumbnail = imageTag),
+      post.published
     )
 
     window.location.href = '/'
@@ -174,8 +175,14 @@ export default function PostEditPage({
             />
             <div
               className={styles.saveButton}
+              onClick={() => {
+                setPost({ ...post, published: !post.published })
+              }}>
+              {post.published ? '공개' : '비공개'}
+            </div>
+            <div
+              className={styles.saveButton}
               onClick={async () => {
-                post.content
                 const imageList = await getImageList(post.content || '')
                 setImageList(imageList)
                 if (imageList.length < 1) {
