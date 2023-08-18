@@ -158,21 +158,52 @@ export const createCategory: (name: string) => Promise<string> = async (
   return category.name
 }
 
-export const getMaxPageIndexByCategory: (
-  pageSize: number,
-  category: string,
-  published: boolean
-) => Promise<number> = async (
-  pageSize: number,
-  category: string,
-  published: boolean
-) => {
-  let count = await prisma.post.count({
+function getQueryObject(
+  categoryName: string,
+  published: boolean,
+  searchKeyword: string
+) {
+  let queryObject = {
     where: {
-      categoryName: category,
       published: published
     }
-  })
+  } as any
+  if (categoryName !== '') {
+    queryObject.where['categoryName'] = categoryName
+  }
+  if (searchKeyword !== '') {
+    queryObject.where['OR'] = [
+      {
+        title: {
+          search: searchKeyword
+        }
+      },
+      {
+        content: {
+          search: searchKeyword
+        }
+      }
+    ]
+  }
+  console.log('----------')
+  console.log(queryObject)
+  return queryObject
+}
+
+export const getMaxPageIndexByCategory: (
+  pageSize: number,
+  categoryName: string,
+  published: boolean,
+  searchKeyword: string
+) => Promise<number> = async (
+  pageSize: number,
+  categoryName: string,
+  published: boolean,
+  searchKeyword: string
+) => {
+  let count = 0
+  const queryObject = getQueryObject(categoryName, published, searchKeyword)
+  count = await prisma.post.count(queryObject)
   let pageNumbers = Math.ceil(count / pageSize)
   return pageNumbers
 }
@@ -181,25 +212,23 @@ export const getPostListPageSortByDateCategory: (
   pageSize: number,
   pageIdx: number,
   categoryName: string,
-  published: boolean
+  published: boolean,
+  searchKeyword: string
 ) => Promise<Post[]> = async (
   pageSize: number,
   pageIdx: number,
   categoryName: string,
-  published: boolean
+  published: boolean,
+  searchKeyword: string
 ) => {
+  const queryObject = getQueryObject(categoryName, published, searchKeyword)
   let posts = await prisma.post.findMany({
     take: pageSize,
     skip: pageSize * (pageIdx - 1),
     orderBy: {
       createdAt: 'desc'
     },
-    where: {
-      category: {
-        name: categoryName
-      },
-      published: published
-    }
+    where: queryObject.where
   })
   return posts
 }

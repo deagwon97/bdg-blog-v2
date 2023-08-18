@@ -12,7 +12,8 @@ import Image from 'next/image'
 // import MainCards from 'components/mainProjects/mainCards'
 
 export default function MainPage() {
-  const [category, setCategory] = useState<string>('ALL')
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
+  const [category, setCategory] = useState<string>('')
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([])
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(1)
   const published = true
@@ -22,13 +23,15 @@ export default function MainPage() {
       pageSize,
       1,
       category,
-      published
+      published,
+      searchKeyword
     )) as Post[]
     posts = JSON.parse(JSON.stringify(posts))
     let maxPageIdx = (await service.onLoadMaxPageIndexByCategory(
       pageSize,
       category,
-      published
+      published,
+      searchKeyword
     )) as number
     setCategoryPosts(posts)
     setMaxPageIdx(maxPageIdx)
@@ -63,6 +66,7 @@ export default function MainPage() {
           />
         </div>
       </div>
+
       <Footer />
     </>
   )

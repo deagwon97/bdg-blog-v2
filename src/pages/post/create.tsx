@@ -1,6 +1,5 @@
 // next js post view page
 import { Post } from '@prisma/client'
-import { Header } from 'components/header'
 import {
   MutableRefObject,
   useCallback,

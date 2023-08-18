@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { onLoadCategoryList } from 'server/service/post.telefunc'
 import styles from './styles.module.scss'
-import Button from '@mui/material/Button'
 
 const CategoryButton = ({
   category,
@@ -13,7 +12,9 @@ const CategoryButton = ({
   const onClickHandler = onClick
   return (
     <button className={styles.categoryButton} onClick={onClickHandler}>
-      <div className={styles.categoryName}>{category}</div>
+      <div className={styles.categoryName}>
+        {category === '' ? 'ALL' : category}
+      </div>
     </button>
   )
 }
@@ -34,9 +35,9 @@ const CategoryButtonList = ({
   return (
     <div className={styles.categoryButtonList}>
       <CategoryButton
-        key={'ALL'}
-        category={'ALL'}
-        onClick={() => updateCategory('ALL')}
+        key={''}
+        category={''}
+        onClick={() => updateCategory('')}
       />
       {categoryList.map((category) => (
         <CategoryButton

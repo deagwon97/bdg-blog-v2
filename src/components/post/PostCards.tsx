@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { Prisma } from '@prisma/client'
 import styles from './PostCards.module.scss'
 import chevron from 'assets/common/chevron-right.svg'
+import searchIcon from 'assets/common/search.svg'
 import leftArrow from 'assets/common/left-arrow.svg'
 import rightArrow from 'assets/common/right-arrow.svg'
 import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
@@ -18,12 +19,6 @@ import * as service from 'server/service/index.telefunc'
 import PostCard from 'components/post/PostCard'
 
 type Post = Prisma.PostGetPayload<{}>
-type PostProps = {
-  category: string
-  posts: Post[]
-  maxPageIdx: number
-  published: boolean
-}
 
 const getImageUrl = async (imageTag: string) => {
   const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
@@ -34,6 +29,41 @@ const getImageUrl = async (imageTag: string) => {
   return presignedUrl
 }
 
+type SearchBarProps = {
+  handleSearch: (searchKeyword: string) => void
+}
+const SearchBar: React.FC<SearchBarProps> = (props) => {
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
+
+  const handleSearchKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value)
+  }
+
+  return (
+    <div className={styles.searchBar}>
+      <input
+        className={styles.searchInput}
+        type="search"
+        placeholder="검색어를 입력하세요"
+        onChange={handleSearchKeyword}
+      />
+      <button
+        className={styles.searchButton}
+        onClick={() => {
+          props.handleSearch(searchKeyword)
+        }}>
+        <Image src={searchIcon} alt="search" />
+      </button>
+    </div>
+  )
+}
+
+type PostProps = {
+  category: string
+  posts: Post[]
+  maxPageIdx: number
+  published: boolean
+}
 const PostCards: React.FC<PostProps> = (props) => {
   const [isMobile, setIsMobile] = useState(false) // 모바일 여부
   const [boxWidth, setBoxWidth] = useState('380px') // 포스트 박스 너비
@@ -49,6 +79,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     Math.floor(maxPageIdx / buttonCount) * buttonCount + 1
   // 마지막 버튼 그룹의 버튼 개수
   const lastButtonCount = maxPageIdx % buttonCount
+  const [searchKeyword, setSearchKeyword] = useState<string>('')
   const [currentButtonCount, setCurrentButtonCount] = useState(buttonCount)
   const [currentPageIdx, setCurrentPageIdx] = useState(1)
   const [firstButtonIdx, setFirstButtonIdx] = useState(1)
@@ -109,7 +140,8 @@ const PostCards: React.FC<PostProps> = (props) => {
         pageSize,
         currentPageIdx,
         props.category,
-        props.published
+        props.published,
+        searchKeyword
       )
       .then((res) => {
         setPosts(res)
@@ -119,7 +151,8 @@ const PostCards: React.FC<PostProps> = (props) => {
     lastFirstButtonIdx,
     lastButtonCount,
     buttonCount,
-    isMobile
+    isMobile,
+    searchKeyword
   ])
 
   useEffect(() => {
@@ -138,7 +171,8 @@ const PostCards: React.FC<PostProps> = (props) => {
           pageSize,
           currentPageIdx,
           props.category,
-          props.published
+          props.published,
+          searchKeyword
         )
         .then((res) => {
           setPosts(res)
@@ -150,7 +184,8 @@ const PostCards: React.FC<PostProps> = (props) => {
           pageSize,
           currentPageIdx,
           props.category,
-          props.published
+          props.published,
+          searchKeyword
         )
         .then((res) => {
           setPosts((prev) => [...prev, ...res])
@@ -177,7 +212,7 @@ const PostCards: React.FC<PostProps> = (props) => {
   useEffect(() => {
     setCurrentPageIdx(1)
     setFirstButtonIdx(1)
-  }, [props.category])
+  }, [props.category, searchKeyword])
 
   useEffect(() => {
     setPostsWithImage(posts)
@@ -188,6 +223,11 @@ const PostCards: React.FC<PostProps> = (props) => {
       <div className={styles.postHead}>
         <span>{props.category}</span>
         <Image alt="right" src={chevron} />
+        <SearchBar
+          handleSearch={(searchKeyword: string) =>
+            setSearchKeyword(searchKeyword)
+          }
+        />
       </div>
       <div className={styles.postContainer} ref={ref}>
         <div>

@@ -27,16 +27,24 @@ export const onLoadPostListPageSortByDateByCategory = async (
   pageSize: number,
   pageIdx: number,
   categoryName: string,
-  published: boolean
+  published: boolean,
+  searchKeyword: string
 ) => {
-  if (categoryName === 'ALL') {
-    return await repo.getPostListPageSortByDate(pageSize, pageIdx, published)
+  if (categoryName === '') {
+    return await repo.getPostListPageSortByDateCategory(
+      pageSize,
+      pageIdx,
+      categoryName,
+      published,
+      searchKeyword
+    )
   }
   return await repo.getPostListPageSortByDateCategory(
     pageSize,
     pageIdx,
     categoryName,
-    published
+    published,
+    searchKeyword
   )
 }
 
@@ -131,10 +139,13 @@ export const onCreateCategory: (category: string) => Promise<string> = async (
 export const onLoadMaxPageIndexByCategory = async (
   pageSize: number,
   category: string,
-  published: boolean
+  published: boolean,
+  searchKeyword: string
 ) => {
-  if (category === 'ALL') {
-    return await repo.getMaxPageIndex(pageSize, published)
-  }
-  return await repo.getMaxPageIndexByCategory(pageSize, category, published)
+  return await repo.getMaxPageIndexByCategory(
+    pageSize,
+    category,
+    published,
+    searchKeyword
+  )
 }

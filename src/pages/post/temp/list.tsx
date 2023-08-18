@@ -10,7 +10,7 @@ import * as service from 'server/service/index.telefunc'
 import Image from 'next/image'
 
 export default function TempPostsPage() {
-  const [category, setCategory] = useState<string>('ALL')
+  const [category, setCategory] = useState<string>('')
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([])
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(1)
   const published = false
@@ -20,13 +20,15 @@ export default function TempPostsPage() {
       pageSize,
       1,
       category,
-      published
+      published,
+      ''
     )) as Post[]
     posts = JSON.parse(JSON.stringify(posts))
     let maxPageIdx = (await service.onLoadMaxPageIndexByCategory(
       pageSize,
       category,
-      published
+      published,
+      ''
     )) as number
     setCategoryPosts(posts)
     setMaxPageIdx(maxPageIdx)
