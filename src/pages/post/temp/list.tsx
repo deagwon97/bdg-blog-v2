@@ -53,6 +53,7 @@ export default function TempPostsPage() {
             posts={categoryPosts}
             maxPageIdx={categoryMaxPageIdx}
             published={published}
+            searchKeyword={''}
           />
         </div>
       </div>

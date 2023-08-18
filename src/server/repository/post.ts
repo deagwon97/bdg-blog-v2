@@ -175,12 +175,12 @@ function getQueryObject(
     queryObject.where['OR'] = [
       {
         title: {
-          search: searchKeyword
+          contains: searchKeyword
         }
       },
       {
         content: {
-          search: searchKeyword
+          contains: searchKeyword
         }
       }
     ]

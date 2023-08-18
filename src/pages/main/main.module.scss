@@ -13,6 +13,38 @@
   }
 }
 
+.searchBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin-left: auto;
+  .searchInput {
+    width: 200px;
+    height: 35px;
+    margin: 0 0 0 auto;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    &:focus {
+      outline: none;
+    }
+  }
+  .searchButton {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin: 0 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #ccc;
+    }
+  }
+}
+
 .box {
   margin-top: 100px;
   text-align: center;
@@ -25,5 +57,15 @@
   align-items: center;
   margin-top: 30px;
   margin-bottom: 0;
+  font-weight: 700;
+}
+
+.postHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
