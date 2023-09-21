@@ -67,3 +67,6 @@ Thumbs.db
 !.yarn/versions
 
 .pnpm-store
+/test-results/
+/playwright-report/
+/playwright/.cache/

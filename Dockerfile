@@ -2,12 +2,12 @@ FROM node:18 AS builder
 LABEL builder=true
 RUN npm install -g npm@9.3.1
 RUN npm install -g prisma@5.1.1
-RUN npm install -g pnpm@8.6.12
 COPY ./src /workdir/src
 WORKDIR /workdir/src
-RUN pnpm install
+RUN yarn install
 RUN prisma generate
-RUN pnpm build
+RUN yarn build
+RUN apt install xauth -y
 
 FROM node:18 AS server
 LABEL builder=false

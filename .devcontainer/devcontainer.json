@@ -5,10 +5,10 @@
   ],
   "service": "bdg-blog",
   "shutdownAction": "stopCompose",
+  "postCreateCommand": "npm init playwright@latest --yes -- --quiet --browser=chromium --browser=firefox --browser=webkit --gha --install-deps",
   "customizations": {
     "vscode": {
       "settings": {
-        // "eslint.nodePath": "/workdir/src/.yarn/sdks",
         "prettier.prettierPath": "/workdir/src/node_modules/prettier",
         "typescript.tsdk": "/workdir/src/node_modules/typescript/lib",
         "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -52,7 +52,8 @@
         "mhutchie.git-graph",
         "Prisma.prisma",
         "Shuyoou.ts-react-snippets",
-        "donjayamanne.githistory"
+        "donjayamanne.githistory",
+        "ms-playwright.playwright"
       ]
     }
   },

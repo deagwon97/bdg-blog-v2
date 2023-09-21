@@ -11,4 +11,6 @@ declare module 'telefunc' {
 
 import { config } from 'telefunc'
 
-config.disableNamingConvention = true
+if (config) {
+  config.disableNamingConvention = true
+}

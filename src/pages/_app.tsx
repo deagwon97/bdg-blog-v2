@@ -9,6 +9,24 @@ const isBrowser = typeof window !== 'undefined'
 if (isBrowser) {
   config.telefuncUrl = '/api/_telefunc'
   service.onConnect()
+
+  // accessToken = localStorage.getItem('accessToken')
+  // refreshToken = localStorage.getItem('refreshToken')
+  // if (accessToken && refreshToken) {
+  //   const valid = await service.onCheckAccessToken(accessToken)
+  //   if (!valid) {
+  //     const newTokens = await service.onRefreshAccessToken(refreshToken)
+  //     if (newTokens) {
+  //       accessToken = newTokens.accessToken
+  //       refreshToken = newTokens.refreshToken
+  //       localStorage.setItem('accessToken', accessToken)
+  //       localStorage.setItem('refreshToken', refreshToken)
+  //     } else {
+  //       localStorage.removeItem('accessToken')
+  //       localStorage.removeItem('refreshToken')
+  //     }
+  //   }
+  // }
 }
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'

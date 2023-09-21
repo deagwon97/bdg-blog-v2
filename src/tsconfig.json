@@ -2,7 +2,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "target": "es5",
-    "lib": ["es5", "dom", "dom.iterable", "esnext"],
+    "lib": [
+      "es5",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,7 +20,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "types": [
+      "jest"
+    ]
   },
   "baseUrl": "./",
   "include": [
@@ -27,5 +35,7 @@
     "tools/index.js",
     "pages/post/index.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
