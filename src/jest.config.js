@@ -28,7 +28,7 @@ const config = {
     // Handle module aliases
     'server/(.*)$': '<rootDir>/server/$1',
     'prisma/prismaClient': '<rootDir>/prisma/prismaClient.ts',
-    'minioStorage/minio': '<rootDir>/minioStorage/minio.ts',
+    'minioStorage/minioClient': '<rootDir>/minioStorage/minioClient.ts',
     telefunc: '<rootDir>/TelefuncContext.d.ts'
   },
   // Add more setup options before each test is run

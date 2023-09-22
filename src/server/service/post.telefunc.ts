@@ -1,7 +1,7 @@
 import { Post } from '@prisma/client'
-import { storage as sto } from 'server/storage'
 import { getContext } from 'telefunc'
-import repo from 'server/singletonRepository'
+import repo from 'server/diContainer/repository'
+import sto from 'server/diContainer/storage'
 import * as IApi from 'apiClient/interface'
 
 export const onLoadPresignedUrl: IApi.OnLoadPresignedUrl = async (
