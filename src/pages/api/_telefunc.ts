@@ -5,6 +5,7 @@ import { HttpResponse } from 'telefunc/dist/cjs/node/server/runTelefunc'
 import assert from 'assert'
 
 config.telefuncUrl = '/api/_telefunc'
+config.disableNamingConvention = true
 
 export default async function telefuncMiddleware(
   req: NextApiRequest,

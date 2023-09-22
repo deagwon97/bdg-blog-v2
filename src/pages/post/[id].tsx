@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react'
 import repo from 'server/singletonRepository'
 import PostContent from 'components/post/PostContent'
 import styles from './post.module.scss'
-import * as service from 'server/service/index.telefunc'
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
@@ -21,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function PostViewPage({
   post
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const api = useApi<IApi>(TYPES.Api)
   useEffect(() => {
     window.scrollTo(0, 0)
   })
@@ -57,7 +59,7 @@ export default function PostViewPage({
                 if (!result) {
                   return
                 }
-                const res = await service.onDeletePost(post.id)
+                const res = await api.onDeletePost(post.id)
                 if (res) {
                   window.location.href = '/'
                 } else {

@@ -5,12 +5,14 @@ import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import ToyProjects from 'components/toyProjects/ToyProjects'
 import CategoryButtonList from 'components/categoryButtonList'
-import { useCallback, useEffect, useState } from 'react'
-import * as service from 'server/service/index.telefunc'
+import { useCallback, useEffect, useState, useContext } from 'react'
 import Image from 'next/image'
 import chevron from 'assets/common/chevron-right.svg'
 import searchIcon from 'assets/common/search.svg'
-// import MainCards from 'components/mainProjects/mainCards'
+
+import ContainerContext from 'context/api'
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
 
 type SearchBarProps = {
   searchKeyword: string
@@ -62,9 +64,11 @@ export default function MainPage() {
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(1)
   const published = true
 
+  const api = useApi<IApi>(TYPES.Api)
+
   const updatePosts = async (searchKeyword: string) => {
     const pageSize = 4
-    let posts = (await service.onLoadPostListPageSortByDateByCategory(
+    let posts = (await api.onLoadPostListPageSortByDateByCategory(
       pageSize,
       1,
       category,
@@ -72,7 +76,7 @@ export default function MainPage() {
       searchKeyword
     )) as Post[]
     posts = JSON.parse(JSON.stringify(posts))
-    let maxPageIdx = (await service.onLoadMaxPageIndexByCategory(
+    let maxPageIdx = (await api.onLoadMaxPageIndexByCategory(
       pageSize,
       category,
       published,

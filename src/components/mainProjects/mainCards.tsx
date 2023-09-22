@@ -8,15 +8,19 @@ import {
   useCallback
 } from 'react'
 import useComponentSize from 'tools/useComponentSize'
-import * as service from 'server/service/index.telefunc'
+
+import { IApi, TYPES } from 'api/interface'
+
 import Image from 'next/image'
-const getImageUrl = async (imageTag: string) => {
+import useApi from 'hook/useApi'
+
+const getImageUrl = async (imageTag: string, api: IApi) => {
   if (imageTag === null) return ''
   const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
   if (imageUID === null || imageUID === undefined || imageUID === '') {
     return ''
   }
-  const presignedUrl = await service.onLoadPresignedUrl(imageUID)
+  const presignedUrl = await api.onLoadPresignedUrl(imageUID)
   return presignedUrl
 }
 
@@ -28,9 +32,10 @@ const MainPostCard = (props: {
   imageTag: string
 }) => {
   const [imageUrl, setImageUrl] = useState('')
+  const api = useApi<IApi>(TYPES.Api)
 
   const updateImageUrls = useCallback(async () => {
-    const imageUrl = await getImageUrl(props.imageTag)
+    const imageUrl = await getImageUrl(props.imageTag, api)
     setImageUrl(imageUrl)
   }, [props.imageTag])
 

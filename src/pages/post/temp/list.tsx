@@ -4,19 +4,22 @@ import styles from 'pages/main/main.module.scss'
 import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import CategoryButtonList from 'components/categoryButtonList'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useContext } from 'react'
 import chevron from 'assets/common/chevron-right.svg'
-import * as service from 'server/service/index.telefunc'
 import Image from 'next/image'
+
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
 
 export default function TempPostsPage() {
   const [category, setCategory] = useState<string>('')
   const [categoryPosts, setCategoryPosts] = useState<Post[]>([])
   const [categoryMaxPageIdx, setMaxPageIdx] = useState<number>(1)
+  const api = useApi<IApi>(TYPES.Api)
   const published = false
   const updatePosts = useCallback(async () => {
     const pageSize = 4
-    let posts = (await service.onLoadPostListPageSortByDateByCategory(
+    let posts = (await api.onLoadPostListPageSortByDateByCategory(
       pageSize,
       1,
       category,
@@ -24,7 +27,7 @@ export default function TempPostsPage() {
       ''
     )) as Post[]
     posts = JSON.parse(JSON.stringify(posts))
-    let maxPageIdx = (await service.onLoadMaxPageIndexByCategory(
+    let maxPageIdx = (await api.onLoadMaxPageIndexByCategory(
       pageSize,
       category,
       published,

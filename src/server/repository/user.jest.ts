@@ -1,16 +1,15 @@
 import 'server/repository/user'
 import { Prisma, PrismaClient } from '@prisma/client'
 import * as auth from 'server/utils/auth'
-import { createRepository } from 'server/singletonRepository'
-
-const prisma = new PrismaClient()
+import testWithRollback from 'server/utils/test'
+import { IRepository } from 'server/service/interface'
 
 type User = Prisma.UserGetPayload<{}>
 
 const createDummyUser = async (p: PrismaClient) => {
   const password = auth.encodePassword('test')
   const userForm = {
-    id: 100,
+    id: -1,
     name: 'test',
     email: 'test@test.io',
     password: password
@@ -21,60 +20,37 @@ const createDummyUser = async (p: PrismaClient) => {
   return user
 }
 
-test('getUser', async () => {
-  const rollback = async () => {
-    await prisma.$transaction(async (tx) => {
-      const p = tx as PrismaClient
-      const repo = createRepository(p)
-      const user = await createDummyUser(p)
-      const dbUser = await repo.userRepo.getUser(user.id)
-      expect(dbUser).toEqual(user)
-      throw new Error('prisma rollback')
-    })
-  }
-  await expect(rollback).rejects.toBeInstanceOf(Error)
+testWithRollback('getUser', async (p: PrismaClient, repo: IRepository) => {
+  const user = await createDummyUser(p)
+  const dbUser = await repo.userRepo.getUser(user.id)
+  expect(dbUser).toEqual(user)
 })
 
-test('isValidPassword', async () => {
-  const rollback = async () => {
-    await prisma.$transaction(async (tx) => {
-      const p = tx as PrismaClient
-      const repo = createRepository(p)
-      const user = await createDummyUser(p)
-      const isValid = await repo.userRepo.isValidPassword(user.email, 'test')
-      expect(isValid).toBe(true)
-      throw new Error('prisma rollback')
-    })
+testWithRollback(
+  'isValidPassword',
+  async (p: PrismaClient, repo: IRepository) => {
+    const user = await createDummyUser(p)
+    const isValid = await repo.userRepo.isValidPassword(user.email, 'test')
+    expect(isValid).toBe(true)
   }
-  await expect(rollback).rejects.toBeInstanceOf(Error)
-})
+)
 
-test('checkAccessToken', async () => {
-  const rollback = async () => {
-    await prisma.$transaction(async (tx) => {
-      const p = tx as PrismaClient
-      const repo = createRepository(p)
-      const user = await createDummyUser(p)
-      const token = await auth.generateAccessToken(user.name)
-      const userName = await repo.userRepo.checkAccessToken(token)
-      expect(userName).toEqual(user.name)
-      throw new Error('prisma rollback')
-    })
+testWithRollback(
+  'checkAccessToken',
+  async (p: PrismaClient, repo: IRepository) => {
+    const user = await createDummyUser(p)
+    const token = await auth.generateAccessToken(user.name)
+    const userName = await repo.userRepo.checkAccessToken(token)
+    expect(userName).toEqual(user.name)
   }
-  await expect(rollback).rejects.toBeInstanceOf(Error)
-})
+)
 
-test('checkRefreshToken', async () => {
-  const rollback = async () => {
-    await prisma.$transaction(async (tx) => {
-      const p = tx as PrismaClient
-      const repo = createRepository(p)
-      const user = await createDummyUser(p)
-      const token = await auth.generateRefreshToken(user.name)
-      const userName = await repo.userRepo.checkRefreshToken(token)
-      expect(userName).toEqual(user.name)
-      throw new Error('prisma rollback')
-    })
+testWithRollback(
+  'checkRefreshToken',
+  async (p: PrismaClient, repo: IRepository) => {
+    const user = await createDummyUser(p)
+    const token = await auth.generateRefreshToken(user.name)
+    const userName = await repo.userRepo.checkRefreshToken(token)
+    expect(userName).toEqual(user.name)
   }
-  await expect(rollback).rejects.toBeInstanceOf(Error)
-})
+)

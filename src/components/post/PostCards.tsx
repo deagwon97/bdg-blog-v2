@@ -14,17 +14,21 @@ import rightArrow from 'assets/common/right-arrow.svg'
 import doubbleLeftArrow from 'assets/common/double-left-arrow.svg'
 import doubbleRightArrow from 'assets/common/double-right-arrow.svg'
 import useComponentSize from 'tools/useComponentSize'
-import * as service from 'server/service/index.telefunc'
+
 import PostCard from 'components/post/PostCard'
+
+import ContainerContext from 'context/api'
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
 
 type Post = Prisma.PostGetPayload<{}>
 
-const getImageUrl = async (imageTag: string) => {
+const getImageUrl = async (imageTag: string, api: IApi) => {
   const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
   if (imageUID === null || imageUID === undefined || imageUID === '') {
     return ''
   }
-  const presignedUrl = await service.onLoadPresignedUrl(imageUID)
+  const presignedUrl = await api.onLoadPresignedUrl(imageUID)
   return presignedUrl
 }
 
@@ -44,6 +48,8 @@ const PostCards: React.FC<PostProps> = (props) => {
   if (maxPageIdx < buttonCount) {
     buttonCount = maxPageIdx
   }
+
+  const api = useApi<IApi>(TYPES.Api)
 
   // 마지막 버튼 그룹의 첫번째 버튼 인덱스
   const lastFirstButtonIdx =
@@ -105,7 +111,7 @@ const PostCards: React.FC<PostProps> = (props) => {
     } else {
       setCurrentButtonCount(buttonCount)
     }
-    service
+    api
       .onLoadPostListPageSortByDateByCategory(
         pageSize,
         currentPageIdx,
@@ -136,7 +142,7 @@ const PostCards: React.FC<PostProps> = (props) => {
         setCurrentButtonCount(buttonCount)
       }
 
-      service
+      api
         .onLoadPostListPageSortByDateByCategory(
           pageSize,
           currentPageIdx,
@@ -149,7 +155,7 @@ const PostCards: React.FC<PostProps> = (props) => {
         })
     }
     if (isMobile) {
-      service
+      api
         .onLoadPostListPageSortByDateByCategory(
           pageSize,
           currentPageIdx,
@@ -169,7 +175,7 @@ const PostCards: React.FC<PostProps> = (props) => {
       const post = posts[i]
       if (post.thumbnail === '') continue
       const imageTag = post.thumbnail as string
-      const imageUrl = await getImageUrl(imageTag)
+      const imageUrl = await getImageUrl(imageTag, api)
       newTagUrlMap.set(imageTag, imageUrl)
     }
     setTagUrlMap(newTagUrlMap)

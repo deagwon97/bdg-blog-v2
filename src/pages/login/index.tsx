@@ -1,12 +1,17 @@
 import { Header } from 'components/header'
 import Footer from 'components/footer'
 import styles from 'pages/login/login.module.scss'
-import { useState } from 'react'
-import * as service from 'server/service/index.telefunc'
+import { useState, useContext } from 'react'
+
 import Button from '@mui/material/Button'
+
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
+
 const LoginForm = () => {
+  const api = useApi<IApi>(TYPES.Api)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -18,7 +23,7 @@ const LoginForm = () => {
   }
   const onClickLogin = async () => {
     try {
-      const res = await service.onLogin(email, password)
+      const res = await api.onLogin(email, password)
       if (res.valid) {
         localStorage.setItem(
           'name',
@@ -75,7 +80,8 @@ const LoginForm = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const props = await service.onConnect()
+  const api = useApi<IApi>(TYPES.Api)
+  const props = await api.onConnect()
   return {
     props: { props }
   }

@@ -1,8 +1,11 @@
 import styles from 'components/login/LoginForm.module.scss'
 import { useState } from 'react'
-import * as service from 'server/service/index.telefunc'
+
+import { IApi, TYPES } from 'api/interface'
+import useApi from 'hook/useApi'
 
 const LoginForm = () => {
+  const api = useApi<IApi>(TYPES.Api)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
@@ -14,7 +17,7 @@ const LoginForm = () => {
   }
   const onClickLogin = () => {
     try {
-      service.onLogin(email, password).then((res) => {
+      api.onLogin(email, password).then((res) => {
         if (res.valid) {
           localStorage.setItem('id', JSON.stringify(res.id))
           localStorage.setItem('name', JSON.stringify(res.name))

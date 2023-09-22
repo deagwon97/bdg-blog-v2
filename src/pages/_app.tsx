@@ -1,35 +1,18 @@
 import 'styles/globals.css'
+import 'reflect-metadata'
 import type { AppProps } from 'next/app'
 import { config } from 'telefunc/client'
 import { AnimatePresence } from 'framer-motion'
 import Head from 'next/head'
-import * as service from 'server/service/index.telefunc'
+import DIContainerContext from 'context/api'
 
 const isBrowser = typeof window !== 'undefined'
 if (isBrowser) {
   config.telefuncUrl = '/api/_telefunc'
-  service.onConnect()
-
-  // accessToken = localStorage.getItem('accessToken')
-  // refreshToken = localStorage.getItem('refreshToken')
-  // if (accessToken && refreshToken) {
-  //   const valid = await service.onCheckAccessToken(accessToken)
-  //   if (!valid) {
-  //     const newTokens = await service.onRefreshAccessToken(refreshToken)
-  //     if (newTokens) {
-  //       accessToken = newTokens.accessToken
-  //       refreshToken = newTokens.refreshToken
-  //       localStorage.setItem('accessToken', accessToken)
-  //       localStorage.setItem('refreshToken', refreshToken)
-  //     } else {
-  //       localStorage.removeItem('accessToken')
-  //       localStorage.removeItem('refreshToken')
-  //     }
-  //   }
-  // }
 }
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { container } from 'context/api'
 
 const theme = createTheme({
   status: {
@@ -108,11 +91,13 @@ export default function App({ Component, pageProps }: AppProps) {
           content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
         />
       </Head>
-      <AnimatePresence mode="wait" initial={true}>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </AnimatePresence>
+      <DIContainerContext.Provider value={container}>
+        <AnimatePresence mode="wait" initial={true}>
+          <ThemeProvider theme={theme}>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </AnimatePresence>
+      </DIContainerContext.Provider>
     </>
   )
 }

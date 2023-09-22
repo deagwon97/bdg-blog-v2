@@ -1,11 +1,11 @@
-import { Post, PrismaClient } from '@prisma/client'
+import { Post, PrismaClient, User } from '@prisma/client'
 
 export type UserRepositoryFactory = (prisma: PrismaClient) => IUserRepo
 export interface IUserRepo {
   prisma: PrismaClient
-  getUser: (id: number) => Promise<any>
+  getUser: (id: number) => Promise<User>
   isValidPassword: (email: string, password: string) => Promise<boolean>
-  getUserByEmail: (email: string) => Promise<any>
+  getUserByEmail: (email: string) => Promise<User>
   checkAccessToken: (token: string) => Promise<string>
   checkRefreshToken: (token: string) => Promise<string>
 }

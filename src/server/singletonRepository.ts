@@ -11,25 +11,17 @@ const createPostRepository = (prisma: PrismaClient) => {
   return new PostRepo(prisma)
 }
 
-const repositorySingleton = (prisma: PrismaClient) => {
+export const createRepository = (prisma: PrismaClient) => {
   return new Repository(prisma, createUserRepository, createPostRepository)
 }
-export const createRepository = (prisma: PrismaClient) => {
-  const repository = new Repository(
-    prisma,
-    createUserRepository,
-    createPostRepository
-  )
-  return repository
-}
 
-type RepositorySingleton = ReturnType<typeof repositorySingleton>
+type RepositorySingleton = ReturnType<typeof createRepository>
 
 const globalForRepository = globalThis as unknown as {
   repository: RepositorySingleton | undefined
 }
 
-const repository = globalForRepository.repository ?? repositorySingleton(prisma)
+const repository = globalForRepository.repository ?? createRepository(prisma)
 
 export default repository
 

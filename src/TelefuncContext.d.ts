@@ -8,9 +8,3 @@ declare module 'telefunc' {
     }
   }
 }
-
-import { config } from 'telefunc'
-
-if (config) {
-  config.disableNamingConvention = true
-}

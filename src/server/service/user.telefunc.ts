@@ -1,22 +1,15 @@
 import repo from 'server/singletonRepository'
-
 import * as auth from 'server/utils/auth'
+import * as IServer from 'serverInterface'
 
-export const onLoadUser = async (id: number) => {
+export const onLoadUser: IServer.OnLoadUser = async (id: number) => {
   return repo.userRepo.getUser(id)
 }
 
-export type LoginResult = {
-  valid: boolean
-  errMessage: string
-  id: number
-  name: string
-  accessToken: string
-  refreshToken: string
-}
-
-export type Login = (email: string, password: string) => Promise<LoginResult>
-export const onLogin: Login = async (email: string, password: string) => {
+export const onLogin: IServer.OnLogin = async (
+  email: string,
+  password: string
+) => {
   let user = await repo.userRepo.getUserByEmail(email)
   if (user === null || !user) {
     return {

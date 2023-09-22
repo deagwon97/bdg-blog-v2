@@ -2,16 +2,18 @@ import { Post } from '@prisma/client'
 import { storage as sto } from 'server/storage'
 import { getContext } from 'telefunc'
 import repo from 'server/singletonRepository'
+import * as IApi from 'api/interface'
 
-export const onLoadPresignedUrl = async (filename: string) => {
+export const onLoadPresignedUrl: IApi.OnLoadPresignedUrl = async (
+  filename: string
+) => {
   return await sto.getPresignedUrl(filename)
 }
 
-export const onLoadPresignedUrlPutObject = async (
-  filename: string
-): Promise<string> => {
-  return await sto.getPresignedUrlPutObject(filename)
-}
+export const onLoadPresignedUrlPutObject: IApi.OnLoadPresignedUrlPutObject =
+  async (filename: string) => {
+    return await sto.getPresignedUrlPutObject(filename)
+  }
 
 export const onLoadPostListPageSortByDate = async (
   pageSize: number,
@@ -25,14 +27,23 @@ export const onLoadPostListPageSortByDate = async (
   )
 }
 
-export const onLoadPostListPageSortByDateByCategory = async (
-  pageSize: number,
-  pageIdx: number,
-  categoryName: string,
-  published: boolean,
-  searchKeyword: string
-) => {
-  if (categoryName === '') {
+export const onLoadPostListPageSortByDateByCategory: IApi.OnLoadPostListPageSortByDateByCategory =
+  async (
+    pageSize: number,
+    pageIdx: number,
+    categoryName: string,
+    published: boolean,
+    searchKeyword: string
+  ) => {
+    if (categoryName === '') {
+      return await repo.postRepo.getPostListPageSortByDateCategory(
+        pageSize,
+        pageIdx,
+        categoryName,
+        published,
+        searchKeyword
+      )
+    }
     return await repo.postRepo.getPostListPageSortByDateCategory(
       pageSize,
       pageIdx,
@@ -41,22 +52,8 @@ export const onLoadPostListPageSortByDateByCategory = async (
       searchKeyword
     )
   }
-  return await repo.postRepo.getPostListPageSortByDateCategory(
-    pageSize,
-    pageIdx,
-    categoryName,
-    published,
-    searchKeyword
-  )
-}
 
-type CreatePost = (
-  title: string,
-  content: string,
-  categoryName: string,
-  thumbnail: string
-) => Promise<Post>
-export const onCreatePost: CreatePost = async (
+export const onCreatePost: IApi.OnCreatePost = async (
   title: string,
   content: string,
   categoryName: string,
@@ -76,15 +73,7 @@ export const onCreatePost: CreatePost = async (
   return {} as Post
 }
 
-export type UpdatePost = (
-  id: number,
-  title: string,
-  content: string,
-  categoryName: string,
-  thumbnail: string,
-  published: boolean
-) => Promise<Post>
-export const onUpdatePost: UpdatePost = async (
+export const onUpdatePost: IApi.UpdatePost = async (
   id: number,
   title: string,
   content: string,
@@ -109,8 +98,8 @@ export const onUpdatePost: UpdatePost = async (
 }
 
 // delete post function
-export type DeletePost = (id: number) => Promise<Post>
-export const onDeletePost: DeletePost = async (id: number) => {
+
+export const onDeletePost: IApi.DeletePost = async (id: number) => {
   const { accessToken } = getContext()
   const name = await repo.userRepo.checkAccessToken(accessToken as string)
   if (name === 'bdg') {
@@ -120,28 +109,29 @@ export const onDeletePost: DeletePost = async (id: number) => {
   return {} as Post
 }
 
-export const onLoadCategoryList: () => Promise<string[]> = async () => {
+export const onLoadCategoryList: IApi.OnLoadCategoryList = async () => {
   const categoryList = repo.postRepo.getCategoryList()
   return categoryList
 }
 
-export const onCreateCategory: (category: string) => Promise<string> = async (
+export const onCreateCategory: IApi.OnCreateCategory = async (
   category: string
 ) => {
   repo.postRepo.createCategory(category)
   return category
 }
 
-export const onLoadMaxPageIndexByCategory = async (
-  pageSize: number,
-  category: string,
-  published: boolean,
-  searchKeyword: string
-) => {
-  return await repo.postRepo.getMaxPageIndexByCategory(
-    pageSize,
-    category,
-    published,
-    searchKeyword
-  )
-}
+export const onLoadMaxPageIndexByCategory: IApi.OnLoadMaxPageIndexByCategory =
+  async (
+    pageSize: number,
+    category: string,
+    published: boolean,
+    searchKeyword: string
+  ) => {
+    return await repo.postRepo.getMaxPageIndexByCategory(
+      pageSize,
+      category,
+      published,
+      searchKeyword
+    )
+  }
