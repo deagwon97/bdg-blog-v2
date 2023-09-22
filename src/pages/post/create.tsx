@@ -10,24 +10,21 @@ import {
 import PostContent from 'components/post/PostContent'
 import styles from './create.module.scss'
 import useComponentSize from 'tools/useComponentSize'
-import {
-  onCreateCategory,
-  onCreatePost,
-  onLoadCategoryList,
-  onLoadPresignedUrlPutObject,
-  onLoadPresignedUrl
-} from 'server/service/index.telefunc'
 import { CategoryDropDown } from 'components/dropdown'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, Modal } from '@mui/material'
 import Image from 'next/image'
 
+import { IApi, TYPES } from 'apiClient/interface'
+import useApi from 'context/hook'
+
 export default function PostCreatePage() {
   useEffect(() => {
     console.log('scroll to top')
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
   })
+  const api = useApi<IApi>(TYPES.Api)
   const [post, setPost] = useState<Post>({
     id: 0,
     title: '',
@@ -74,7 +71,7 @@ export default function PostCreatePage() {
     Array.from(event.clipboardData.files).forEach(async (file: File) => {
       if (file.type.startsWith('image/')) {
         const uid = uuidv4()
-        const presignedUrlPutObject = await onLoadPresignedUrlPutObject(uid) // 업로드
+        const presignedUrlPutObject = await api.onLoadPresignedUrlPutObject(uid) // 업로드
 
         const res = await axios({
           method: 'put',
@@ -99,7 +96,7 @@ export default function PostCreatePage() {
   }
 
   const loadCategoryList = useCallback(async () => {
-    const categoryList = await onLoadCategoryList()
+    const categoryList = await api.onLoadCategoryList()
     setCategoryList(categoryList)
   }, [])
 
@@ -117,7 +114,7 @@ export default function PostCreatePage() {
     const imageList = await Promise.all(
       tagList.map(async (tag) => {
         const fileUID = tag.replace('<bdg-minio=', '').replace('/>', '')
-        const url = await onLoadPresignedUrl(fileUID)
+        const url = await api.onLoadPresignedUrl(fileUID)
         return [tag, url]
       })
     )
@@ -141,9 +138,9 @@ export default function PostCreatePage() {
 
   const savePost = async (imageTag: string) => {
     if (post.categoryName === '+') {
-      await onCreateCategory(newCategory)
+      await api.onCreateCategory(newCategory)
     }
-    const res = await onCreatePost(
+    const res = await api.onCreatePost(
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,

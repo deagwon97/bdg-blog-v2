@@ -1,12 +1,12 @@
-import repo from 'server/singletonRepository'
-import * as auth from 'server/utils/auth'
-import * as IServer from 'serverInterface'
+import repo from 'server/diContainer/repository'
+import * as auth from 'server/auth'
+import * as IApi from 'apiClient/interface'
 
-export const onLoadUser: IServer.OnLoadUser = async (id: number) => {
+export const onLoadUser: IApi.OnLoadUser = async (id: number) => {
   return repo.userRepo.getUser(id)
 }
 
-export const onLogin: IServer.OnLogin = async (
+export const onLogin: IApi.OnLogin = async (
   email: string,
   password: string
 ) => {

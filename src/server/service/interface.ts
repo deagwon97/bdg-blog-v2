@@ -1,6 +1,5 @@
 import { Post, PrismaClient, User } from '@prisma/client'
 
-export type UserRepositoryFactory = (prisma: PrismaClient) => IUserRepo
 export interface IUserRepo {
   prisma: PrismaClient
   getUser: (id: number) => Promise<User>
@@ -9,8 +8,8 @@ export interface IUserRepo {
   checkAccessToken: (token: string) => Promise<string>
   checkRefreshToken: (token: string) => Promise<string>
 }
+export type UserRepoFactory = (prisma: PrismaClient) => IUserRepo
 
-export type PostRepositoryFactory = (prisma: PrismaClient) => IPostRepo
 export interface IPostRepo {
   getMaxPageIndex: (pageSize: number, published: boolean) => Promise<number>
   getPostListPageSortByDate: (
@@ -50,9 +49,19 @@ export interface IPostRepo {
     searchKeyword: string
   ) => Promise<Post[]>
 }
+export type PostRepoFactory = (prisma: PrismaClient) => IPostRepo
 
 export interface IRepository {
   prisma: PrismaClient
   userRepo: IUserRepo
   postRepo: IPostRepo
 }
+export type RepositoryFactory = (prisma: PrismaClient) => IRepository
+
+export interface IStorage {
+  minio: any
+  getPresignedUrlPutObject: (filename: string) => Promise<string>
+  getPresignedUrl: (filename: string) => Promise<string>
+}
+
+export type StorageFactory = (minio: any) => IStorage

@@ -1,7 +1,7 @@
 import 'server/repository/user'
 import { Prisma, PrismaClient } from '@prisma/client'
-import * as auth from 'server/utils/auth'
-import testWithRollback from 'server/utils/test'
+import * as auth from 'server/auth'
+import testWithRollback from 'server/test'
 import { IRepository } from 'server/service/interface'
 
 type User = Prisma.UserGetPayload<{}>

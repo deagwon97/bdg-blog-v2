@@ -1,6 +1,6 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, User } from '@prisma/client'
 import { IUserRepo } from 'server/service/interface'
-import * as auth from 'server/utils/auth'
+import * as auth from 'server/auth'
 
 export class UserRepo implements IUserRepo {
   prisma: PrismaClient
@@ -37,7 +37,7 @@ export class UserRepo implements IUserRepo {
         email: email
       }
     })
-    return user
+    return user as User
   }
   checkToken = async (
     token: string,

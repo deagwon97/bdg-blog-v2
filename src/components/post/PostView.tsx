@@ -6,19 +6,20 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { NormalComponents } from 'react-markdown/lib/complex-types'
 import { SpecialComponents } from 'react-markdown/lib/ast-to-react'
-import { onLoadPresignedUrl } from 'server/service/post.telefunc'
+import { IApi, TYPES } from 'apiClient/interface'
+import useApi from 'context/hook'
 
 type Props = {
   content: string
 }
 
-const reloadImage = async (content: string): Promise<string> => {
+const reloadImage = async (content: string, api: IApi): Promise<string> => {
   const fileTagList = content.match(/<bdg-minio=(.*?)\/>/g)
   if (fileTagList === null) return content
   const convertMap: Map<string, string> = new Map()
   for (const fileTag of fileTagList) {
     const fileUID = fileTag.replace('<bdg-minio=', '').replace('/>', '')
-    const url = await onLoadPresignedUrl(fileUID)
+    const url = await api.onLoadPresignedUrl(fileUID)
     const imageTag = `<Image  src="${url}" alt="thumbnail"/>`
     convertMap.set(fileTag, imageTag)
   }
@@ -58,9 +59,11 @@ const PostMarkdown: React.FunctionComponent<Props> = (props) => {
   }
 
   const [content, setContent] = useState(props.content)
+  const api = useApi<IApi>(TYPES.Api)
+
   const updateContent = useCallback(async () => {
-    setContent(await reloadImage(props.content))
-  }, [props.content])
+    setContent(await reloadImage(props.content, api))
+  }, [props.content, api])
 
   useEffect(() => {
     updateContent()

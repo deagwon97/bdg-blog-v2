@@ -10,7 +10,9 @@
     "export": "next export",
     "test-e2e": "playwright test",
     "test-server": "jest",
-    "test": "yarn test-server && yarn test-e2e"
+    "test": "yarn test-server && yarn test-e2e",
+    "draw-server": "depcruise server --include-only \"^server\" --output-type dot | dot -T svg > dependencyGraph/server.svg",
+    "draw-all": "depcruise ./ --output-type dot | dot -T svg > dependencyGraph/all.svg"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -91,6 +93,7 @@
     "@typescript-eslint/parser": "^5.45.0",
     "add": "^2.0.6",
     "babel-jest": "^29.7.0",
+    "dependency-cruiser": "^13.1.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-react": "^7.31.11",

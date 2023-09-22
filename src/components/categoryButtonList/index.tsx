@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { onLoadCategoryList } from 'server/service/post.telefunc'
+import { IApi, TYPES } from 'apiClient/interface'
+import useApi from 'context/hook'
+
 import styles from './styles.module.scss'
 
 const CategoryButton = ({
@@ -25,9 +27,9 @@ const CategoryButtonList = ({
   updateCategory: (category: string) => void
 }) => {
   const [categoryList, setCategoryList] = useState<string[]>([])
-
+  const api = useApi<IApi>(TYPES.Api)
   useEffect(() => {
-    onLoadCategoryList().then((res) => {
+    api.onLoadCategoryList().then((res) => {
       setCategoryList(res)
     })
   }, [])

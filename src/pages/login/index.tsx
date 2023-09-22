@@ -4,11 +4,8 @@ import styles from 'pages/login/login.module.scss'
 import { useState } from 'react'
 
 import Button from '@mui/material/Button'
-
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-
-import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
+import { IApi, TYPES } from 'apiClient/interface'
 
 const LoginForm = () => {
   const api = useApi<IApi>(TYPES.Api)
@@ -79,17 +76,7 @@ const LoginForm = () => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const api = useApi<IApi>(TYPES.Api)
-  const props = await api.onConnect()
-  return {
-    props: { props }
-  }
-}
-
-export default function LoginPage({
-  props
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function LoginPage() {
   return (
     <>
       <Header />

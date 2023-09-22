@@ -10,20 +10,24 @@ import {
 import PostContent from 'components/post/PostContent'
 import styles from './edit.module.scss'
 import useComponentSize from 'tools/useComponentSize'
-import {
-  onCreateCategory,
-  onUpdatePost,
-  onLoadCategoryList,
-  onLoadPresignedUrlPutObject,
-  onLoadPresignedUrl
-} from 'server/service/index.telefunc'
+// import {
+//   onCreateCategory,
+//   onUpdatePost,
+//   onLoadCategoryList,
+//   onLoadPresignedUrlPutObject,
+//   onLoadPresignedUrl
+// } from 'server/service/index.telefunc'
+
 import { CategoryDropDown } from 'components/dropdown'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { Box, Modal } from '@mui/material'
 import Image from 'next/image'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import repo from 'server/singletonRepository'
+import repo from 'server/diContainer/repository'
+
+import { IApi, TYPES } from 'apiClient/interface'
+import useApi from 'context/hook'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
@@ -50,6 +54,8 @@ export default function PostEditPage({
 
   let ref = useRef() as MutableRefObject<HTMLInputElement>
   let size = useComponentSize(ref)
+
+  const api = useApi<IApi>(TYPES.Api)
 
   const onHandler = () => {
     if (titleRef.current && contentRef.current) {
@@ -78,7 +84,7 @@ export default function PostEditPage({
     Array.from(event.clipboardData.files).forEach(async (file: File) => {
       if (file.type.startsWith('image/')) {
         const uid = uuidv4()
-        const presignedUrlPutObject = await onLoadPresignedUrlPutObject(uid) // 업로드
+        const presignedUrlPutObject = await api.onLoadPresignedUrlPutObject(uid) // 업로드
 
         const res = await axios({
           method: 'put',
@@ -103,7 +109,7 @@ export default function PostEditPage({
   }
 
   const loadCategoryList = useCallback(async () => {
-    const categoryList = await onLoadCategoryList()
+    const categoryList = await api.onLoadCategoryList()
     setCategoryList(categoryList)
   }, [])
 
@@ -121,7 +127,7 @@ export default function PostEditPage({
     const imageList = await Promise.all(
       tagList.map(async (tag) => {
         const fileUID = tag.replace('<bdg-minio=', '').replace('/>', '')
-        const url = await onLoadPresignedUrl(fileUID)
+        const url = await api.onLoadPresignedUrl(fileUID)
         return [tag, url]
       })
     )
@@ -145,9 +151,9 @@ export default function PostEditPage({
 
   const savePost = async (imageTag: string) => {
     if (post.categoryName === '+') {
-      await onCreateCategory(newCategory)
+      await api.onCreateCategory(newCategory)
     }
-    const res = await onUpdatePost(
+    const res = await api.onUpdatePost(
       post.id,
       post.title,
       post.content || '',

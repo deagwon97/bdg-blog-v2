@@ -1,4 +1,4 @@
-import * as auth from 'server/utils/auth'
+import * as auth from 'server/auth'
 
 it('encodePassword', () => {
   const password = auth.encodePassword('test')

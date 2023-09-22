@@ -1,7 +1,7 @@
 import { NextApiRequest } from 'next'
 import { Server } from 'socket.io'
 import { NextApiResponseWithSocket } from 'socket.d'
-import { redisPub, getRedisSub } from 'server/chat/golbalRedis'
+import { redisPub, getRedisSub } from 'server/chat/redisSingleton'
 import Redis from 'ioredis'
 
 let io: Server | null = null
@@ -52,12 +52,11 @@ const ChatSocketHandler = async (
         socket.disconnect()
         return
       })
-      
+
       redisSub.on('message', (_, message) => {
         const redisMessage = JSON.parse(message)
         socket.emit('server-client-chat', redisMessage.message)
       })
-      
     })
   }
   res.end()

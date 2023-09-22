@@ -3,7 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { parseAccessToken } from 'server/telefunc/checkUser'
 import { HttpResponse } from 'telefunc/dist/cjs/node/server/runTelefunc'
 import assert from 'assert'
-
+import 'server/diContainer/repository'
+import 'server/diContainer/storage'
 config.telefuncUrl = '/api/_telefunc'
 config.disableNamingConvention = true
 

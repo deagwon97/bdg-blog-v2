@@ -10,11 +10,11 @@ export class Repository implements IRepository {
   public postRepo: IPostRepo
   constructor(
     prisma: PrismaClient,
-    createUserRepository: UserRepo,
-    createPostRepository: PostRepo
+    userRepoFactory: UserRepo,
+    postRepoFactory: PostRepo
   ) {
     this.prisma = prisma
-    this.userRepo = createUserRepository(prisma)
-    this.postRepo = createPostRepository(prisma)
+    this.userRepo = userRepoFactory(prisma)
+    this.postRepo = postRepoFactory(prisma)
   }
 }
