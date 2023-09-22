@@ -74,15 +74,6 @@ const LoginForm = () => {
   )
 }
 
-export type LoginResult = {
-  valid: boolean
-  errMessage: string
-  linuxName: string
-  name: string
-  accessToken: string
-  refreshToken: string
-}
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const props = await service.onConnect()
   return {

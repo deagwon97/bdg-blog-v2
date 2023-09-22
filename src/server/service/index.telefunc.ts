@@ -1,6 +1,5 @@
 import * as user from 'server/service/user.telefunc'
 import * as post from 'server/service/post.telefunc'
-
 //user
 export const onLogin = user.onLogin
 export const onLoadUser = user.onLoadUser
@@ -16,7 +15,7 @@ export const onLoadPostListPageSortByDateByCategory =
   post.onLoadPostListPageSortByDateByCategory
 export const onLoadPresignedUrl = post.onLoadPresignedUrl
 export const onLoadPresignedUrlPutObject = post.onLoadPresignedUrlPutObject
-// connect
+
 export const onConnect: () => Promise<string> = async () => {
   return 'connected'
 }

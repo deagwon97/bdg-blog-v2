@@ -1,14 +1,23 @@
-import { repository as repo } from 'server/repository'
-import { LoginResult } from 'server/types/user'
+import repo from 'server/singletonRepository'
+
 import * as auth from 'server/utils/auth'
 
 export const onLoadUser = async (id: number) => {
-  return repo.getUser(id)
+  return repo.userRepo.getUser(id)
+}
+
+export type LoginResult = {
+  valid: boolean
+  errMessage: string
+  id: number
+  name: string
+  accessToken: string
+  refreshToken: string
 }
 
 export type Login = (email: string, password: string) => Promise<LoginResult>
 export const onLogin: Login = async (email: string, password: string) => {
-  let user = await repo.getUserByEmail(email)
+  let user = await repo.userRepo.getUserByEmail(email)
   if (user === null || !user) {
     return {
       valid: false,
@@ -19,7 +28,7 @@ export const onLogin: Login = async (email: string, password: string) => {
       refreshToken: ''
     }
   }
-  let validPassword = await repo.isValidPassword(email, password)
+  let validPassword = await repo.userRepo.isValidPassword(email, password)
   if (!validPassword) {
     return {
       valid: false,

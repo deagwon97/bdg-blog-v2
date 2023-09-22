@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
-import { prisma } from 'prisma/prismaClient'
 
 export type EncodePassword = (password: string) => string
 export const encodePassword: EncodePassword = (password: string) => {
@@ -58,34 +57,4 @@ export const decodeAccessToken: DecodeToken = (token: string) => {
 
 export const decodeRefreshToken: DecodeToken = (token: string) => {
   return decodeToken(token, 'refresh')
-}
-
-export const checkToken = async (
-  token: string,
-  decoder: (token: string) => {
-    name: string
-    valid: boolean
-  }
-) => {
-  const { name, valid } = decoder(token)
-  if (!valid) {
-    return undefined
-  }
-  let user = await prisma.user.findUnique({
-    where: {
-      name: name
-    }
-  })
-  if (!user) {
-    return undefined
-  }
-  return user.name
-}
-
-export const checkAccessToken = async (token: string) => {
-  return await checkToken(token, decodeAccessToken)
-}
-
-export const checkRefreshToken = async (token: string) => {
-  return await checkToken(token, decodeRefreshToken)
 }

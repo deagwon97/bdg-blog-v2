@@ -1,47 +1,69 @@
-import { prisma } from 'prisma/prismaClient'
-import { Prisma } from '@prisma/client'
-import { encodePassword } from 'server/utils/auth'
+import { PrismaClient } from '@prisma/client'
+import { IUserRepo } from 'server/service/interface'
+import * as auth from 'server/utils/auth'
 
-type User = Prisma.UserGetPayload<{}>
-export type GetUser = (id: number) => Promise<User>
-export const getUser: GetUser = async (id: number) => {
-  let user = await prisma.user.findUnique({
-    where: {
-      id: id
-    }
-  })
-  if (!user) {
-    throw new Error('user not found')
+export class UserRepo implements IUserRepo {
+  prisma: PrismaClient
+  constructor(prisma: PrismaClient) {
+    this.prisma = prisma
   }
-  return user
-}
 
-export type IsValidPassword = (
-  email: string,
-  password: string
-) => Promise<boolean>
-export const isValidPassword: IsValidPassword = async (
-  email: string,
-  password: string
-) => {
-  let user = await prisma.user.findUnique({
-    where: {
-      email: email
+  public getUser = async (id: number) => {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        id: id
+      }
+    })
+    if (!user) {
+      throw new Error('user not found')
     }
-  })
-  if (!user) {
-    throw new Error('user not found')
+    return user
   }
-  return user.password === encodePassword(password)
-}
 
-// function get user by email
-export type GetUserByEmail = (email: string) => Promise<User | null>
-export const getUserByEmail: GetUserByEmail = async (email: string) => {
-  let user = await prisma.user.findUnique({
-    where: {
-      email: email
+  public isValidPassword = async (email: string, password: string) => {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        email: email
+      }
+    })
+    if (!user) {
+      throw new Error('user not found')
     }
-  })
-  return user
+    return user.password === auth.encodePassword(password)
+  }
+  public getUserByEmail = async (email: string) => {
+    let user = await this.prisma.user.findUnique({
+      where: {
+        email: email
+      }
+    })
+    return user
+  }
+  checkToken = async (
+    token: string,
+    decoder: (token: string) => {
+      name: string
+      valid: boolean
+    }
+  ) => {
+    const { name, valid } = decoder(token)
+    if (!valid) {
+      return ''
+    }
+    let user = await this.prisma.user.findUnique({
+      where: {
+        name: name
+      }
+    })
+    if (!user) {
+      return ''
+    }
+    return user.name
+  }
+  public checkAccessToken = async (token: string) => {
+    return await this.checkToken(token, auth.decodeAccessToken)
+  }
+  public checkRefreshToken = async (token: string) => {
+    return await this.checkToken(token, auth.decodeRefreshToken)
+  }
 }

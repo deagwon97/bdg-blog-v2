@@ -22,8 +22,10 @@
     "jsx": "preserve",
     "incremental": true,
     "types": [
-      "jest"
-    ]
+      "jest",
+      "@types/jest",
+      "@quramy/jest-prisma"
+    ],
   },
   "baseUrl": "./",
   "include": [

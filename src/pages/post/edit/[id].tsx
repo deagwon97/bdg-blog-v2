@@ -23,12 +23,12 @@ import { v4 as uuidv4 } from 'uuid'
 import { Box, Modal } from '@mui/material'
 import Image from 'next/image'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import { getPost } from 'server/repository/post'
+import repo from 'server/singletonRepository'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   const postId = parseInt(id as string)
-  let oldPost = (await getPost(postId)) as Post
+  let oldPost = (await repo.postRepo.getPost(postId)) as Post
   oldPost = JSON.parse(JSON.stringify(oldPost))
   return {
     props: { oldPost }

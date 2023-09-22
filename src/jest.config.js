@@ -1,5 +1,5 @@
 const config = {
-  testMatch: ['**/tests/jest/*.test.(js|jsx|ts|tsx)'],
+  testMatch: ['**/*.jest.ts'],
   collectCoverage: true,
   coverageProvider: 'v8',
   collectCoverageFrom: [
@@ -34,7 +34,11 @@ const config = {
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
-  testEnvironment: 'node',
+  // testEnvironment: 'node',
+  testEnvironment: '@quramy/jest-prisma/environment',
+  testEnvironmentOptions: {
+    verboseQuery: true
+  },
   transform: {
     // Use babel-jest to transpile tests with the next/babel preset
     // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object

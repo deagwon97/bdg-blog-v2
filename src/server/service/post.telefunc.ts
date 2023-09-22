@@ -1,9 +1,7 @@
 import { Post } from '@prisma/client'
-import { repository as repo } from 'server/repository'
 import { storage as sto } from 'server/storage'
-import { ErrorMessage } from 'server/types/error'
 import { getContext } from 'telefunc'
-import { checkAccessToken } from 'server/utils/auth'
+import repo from 'server/singletonRepository'
 
 export const onLoadPresignedUrl = async (filename: string) => {
   return await sto.getPresignedUrl(filename)
@@ -20,7 +18,11 @@ export const onLoadPostListPageSortByDate = async (
   pageIdx: number,
   published: boolean
 ) => {
-  return await repo.getPostListPageSortByDate(pageSize, pageIdx, published)
+  return await repo.postRepo.getPostListPageSortByDate(
+    pageSize,
+    pageIdx,
+    published
+  )
 }
 
 export const onLoadPostListPageSortByDateByCategory = async (
@@ -31,7 +33,7 @@ export const onLoadPostListPageSortByDateByCategory = async (
   searchKeyword: string
 ) => {
   if (categoryName === '') {
-    return await repo.getPostListPageSortByDateCategory(
+    return await repo.postRepo.getPostListPageSortByDateCategory(
       pageSize,
       pageIdx,
       categoryName,
@@ -39,7 +41,7 @@ export const onLoadPostListPageSortByDateByCategory = async (
       searchKeyword
     )
   }
-  return await repo.getPostListPageSortByDateCategory(
+  return await repo.postRepo.getPostListPageSortByDateCategory(
     pageSize,
     pageIdx,
     categoryName,
@@ -53,7 +55,7 @@ type CreatePost = (
   content: string,
   categoryName: string,
   thumbnail: string
-) => Promise<Post | ErrorMessage>
+) => Promise<Post>
 export const onCreatePost: CreatePost = async (
   title: string,
   content: string,
@@ -61,9 +63,9 @@ export const onCreatePost: CreatePost = async (
   thumbnail: string
 ) => {
   const { accessToken } = getContext()
-  const name = await checkAccessToken(accessToken as string)
+  const name = await repo.userRepo.checkAccessToken(accessToken as string)
   if (name === 'bdg') {
-    let post = (await repo.createPost(
+    let post = (await repo.postRepo.createPost(
       title,
       content,
       categoryName,
@@ -71,9 +73,7 @@ export const onCreatePost: CreatePost = async (
     )) as Post
     return post
   }
-  return {
-    err: 'You are not authorized to create a post'
-  } as ErrorMessage
+  return {} as Post
 }
 
 export type UpdatePost = (
@@ -83,7 +83,7 @@ export type UpdatePost = (
   categoryName: string,
   thumbnail: string,
   published: boolean
-) => Promise<Post | ErrorMessage>
+) => Promise<Post>
 export const onUpdatePost: UpdatePost = async (
   id: number,
   title: string,
@@ -93,9 +93,9 @@ export const onUpdatePost: UpdatePost = async (
   published: boolean
 ) => {
   const { accessToken } = getContext()
-  const name = await checkAccessToken(accessToken as string)
+  const name = await repo.userRepo.checkAccessToken(accessToken as string)
   if (name === 'bdg') {
-    let post = (await repo.updatePost(
+    let post = (await repo.postRepo.updatePost(
       id,
       title,
       content,
@@ -105,34 +105,30 @@ export const onUpdatePost: UpdatePost = async (
     )) as Post
     return post
   }
-  return {
-    err: 'You are not authorized to update a post'
-  } as ErrorMessage
+  return {} as Post
 }
 
 // delete post function
-export type DeletePost = (id: number) => Promise<Post | ErrorMessage>
+export type DeletePost = (id: number) => Promise<Post>
 export const onDeletePost: DeletePost = async (id: number) => {
   const { accessToken } = getContext()
-  const name = await checkAccessToken(accessToken as string)
+  const name = await repo.userRepo.checkAccessToken(accessToken as string)
   if (name === 'bdg') {
-    let post = (await repo.deletePost(id)) as Post
+    let post = (await repo.postRepo.deletePost(id)) as Post
     return post
   }
-  return {
-    err: 'You are not authorized to delete a post'
-  } as ErrorMessage
+  return {} as Post
 }
 
 export const onLoadCategoryList: () => Promise<string[]> = async () => {
-  const categoryList = repo.getCategoryList()
+  const categoryList = repo.postRepo.getCategoryList()
   return categoryList
 }
 
 export const onCreateCategory: (category: string) => Promise<string> = async (
   category: string
 ) => {
-  repo.createCategory(category)
+  repo.postRepo.createCategory(category)
   return category
 }
 
@@ -142,7 +138,7 @@ export const onLoadMaxPageIndexByCategory = async (
   published: boolean,
   searchKeyword: string
 ) => {
-  return await repo.getMaxPageIndexByCategory(
+  return await repo.postRepo.getMaxPageIndexByCategory(
     pageSize,
     category,
     published,

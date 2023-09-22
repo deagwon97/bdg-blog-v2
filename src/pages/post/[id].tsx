@@ -3,7 +3,7 @@ import Footer from 'components/footer'
 import { Header } from 'components/header'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react'
-import { getPost } from 'server/repository/post'
+import repo from 'server/singletonRepository'
 import PostContent from 'components/post/PostContent'
 import styles from './post.module.scss'
 import * as service from 'server/service/index.telefunc'
@@ -11,7 +11,7 @@ import * as service from 'server/service/index.telefunc'
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   const postId = parseInt(id as string)
-  let post = (await getPost(postId)) as Post
+  let post = (await repo.postRepo.getPost(postId)) as Post
   post = JSON.parse(JSON.stringify(post))
   return {
     props: { post }
