@@ -1,10 +1,3 @@
-// import { createContext } from 'react'
-// import { Container } from 'inversify'
-
-// const ContainerContext = createContext<Container>({} as Container)
-
-// export default ContainerContext
-
 import { Container } from 'inversify'
 import { TYPES, IApi } from 'api/interface'
 import { Api } from 'api'
