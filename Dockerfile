@@ -7,7 +7,8 @@ WORKDIR /workdir/src
 RUN yarn install
 RUN prisma generate
 RUN yarn build
-RUN apt install xauth -y
+RUN apt update -y
+RUN apt install graphviz -y
 
 FROM node:18 AS server
 LABEL builder=false
