@@ -7,7 +7,7 @@ import repo from 'server/singletonRepository'
 import PostContent from 'components/post/PostContent'
 import styles from './post.module.scss'
 import { IApi, TYPES } from 'api/interface'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query

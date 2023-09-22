@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
 import { IApi, TYPES } from 'api/interface'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 const LoginForm = () => {
   const api = useApi<IApi>(TYPES.Api)

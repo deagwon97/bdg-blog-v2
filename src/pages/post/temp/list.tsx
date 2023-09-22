@@ -9,7 +9,7 @@ import chevron from 'assets/common/chevron-right.svg'
 import Image from 'next/image'
 
 import { IApi, TYPES } from 'api/interface'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 export default function TempPostsPage() {
   const [category, setCategory] = useState<string>('')

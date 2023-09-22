@@ -7,6 +7,4 @@ const minioClient = new Minio.Client({
   secretKey: process.env.NEXT_PUBLIC_MINIO_SECRETKEY || 'no-secret-key'
 })
 
-console.log('minioClient', process.env.NEXT_PUBLIC_MINIO_ACCESSKEY)
-
 export default minioClient

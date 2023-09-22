@@ -19,7 +19,7 @@ import PostCard from 'components/post/PostCard'
 
 import ContainerContext from 'context/api'
 import { IApi, TYPES } from 'api/interface'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 type Post = Prisma.PostGetPayload<{}>
 

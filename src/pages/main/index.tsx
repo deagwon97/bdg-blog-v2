@@ -12,7 +12,7 @@ import searchIcon from 'assets/common/search.svg'
 
 import ContainerContext from 'context/api'
 import { IApi, TYPES } from 'api/interface'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 type SearchBarProps = {
   searchKeyword: string

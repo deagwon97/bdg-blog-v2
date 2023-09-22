@@ -12,7 +12,7 @@ import useComponentSize from 'tools/useComponentSize'
 import { IApi, TYPES } from 'api/interface'
 
 import Image from 'next/image'
-import useApi from 'hook/useApi'
+import useApi from 'context/hook'
 
 const getImageUrl = async (imageTag: string, api: IApi) => {
   if (imageTag === null) return ''
