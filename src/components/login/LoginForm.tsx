@@ -1,7 +1,7 @@
 import styles from 'components/login/LoginForm.module.scss'
 import { useState } from 'react'
 
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 const LoginForm = () => {

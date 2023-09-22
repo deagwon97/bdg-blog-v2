@@ -11,7 +11,7 @@ import chevron from 'assets/common/chevron-right.svg'
 import searchIcon from 'assets/common/search.svg'
 
 import ContainerContext from 'context/api'
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 type SearchBarProps = {

@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState, useContext } from 'react'
 import chevron from 'assets/common/chevron-right.svg'
 import Image from 'next/image'
 
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 export default function TempPostsPage() {

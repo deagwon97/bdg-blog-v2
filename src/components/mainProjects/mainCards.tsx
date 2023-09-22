@@ -9,7 +9,7 @@ import {
 } from 'react'
 import useComponentSize from 'tools/useComponentSize'
 
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 
 import Image from 'next/image'
 import useApi from 'context/hook'

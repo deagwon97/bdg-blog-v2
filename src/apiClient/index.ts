@@ -1,6 +1,6 @@
 import { onConnect } from 'server/service/connect.telefunc'
 import { injectable } from 'inversify'
-import { IApi } from 'api/interface'
+import { IApi } from 'apiClient/interface'
 import * as user from 'server/service/user.telefunc'
 import * as post from 'server/service/post.telefunc'
 

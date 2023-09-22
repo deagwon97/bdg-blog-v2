@@ -18,7 +18,7 @@ import useComponentSize from 'tools/useComponentSize'
 import PostCard from 'components/post/PostCard'
 
 import ContainerContext from 'context/api'
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 type Post = Prisma.PostGetPayload<{}>

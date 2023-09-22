@@ -1,13 +1,13 @@
 import { Header } from 'components/header'
 import Footer from 'components/footer'
 import styles from 'pages/login/login.module.scss'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 
 import Button from '@mui/material/Button'
 
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 
-import { IApi, TYPES } from 'api/interface'
+import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 const LoginForm = () => {
