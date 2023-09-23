@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import { IPostRepo } from 'server/service/interface'
-
 export class PostRepo implements IPostRepo {
   prisma: PrismaClient
   constructor(prisma: PrismaClient) {
@@ -15,7 +14,6 @@ export class PostRepo implements IPostRepo {
     let pageNumbers = Math.ceil(count / pageSize)
     return pageNumbers
   }
-
   getPostListPageSortByDate = async (
     pageSize: number,
     pageIdx: number,

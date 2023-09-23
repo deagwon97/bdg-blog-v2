@@ -32,3 +32,7 @@ export default repository
 
 if (process.env.NODE_ENV !== 'production')
   globalForRepository.repository = repository
+
+// export const updateGlobalRepository = (prisma: PrismaClient) => {
+//   globalForRepository.repository = repoFactory(prisma)
+// }

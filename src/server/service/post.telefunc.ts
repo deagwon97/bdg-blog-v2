@@ -98,7 +98,6 @@ export const onUpdatePost: IApi.UpdatePost = async (
 }
 
 // delete post function
-
 export const onDeletePost: IApi.DeletePost = async (id: number) => {
   const { accessToken } = getContext()
   const name = await repo.userRepo.checkAccessToken(accessToken as string)

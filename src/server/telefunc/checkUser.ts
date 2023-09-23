@@ -1,4 +1,3 @@
-export { parseAccessToken }
 import { NextApiRequest } from 'next'
 
 const parseAccessToken = async (
@@ -9,3 +8,4 @@ const parseAccessToken = async (
     return token
   }
 }
+export { parseAccessToken }
