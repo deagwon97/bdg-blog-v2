@@ -23,6 +23,8 @@ const config = {
     '!<rootDir>/context/**',
     '!<rootDir>/tools/**',
     '!<rootDir>/server/telefunc/**',
+    '!<rootDir>/server/control/**',
+    '!<rootDir>/server/service/interface.ts',
     '!<rootDir>/.dependency-cruiser.js',
     '!<rootDir>/palywright.config.ts'
   ],

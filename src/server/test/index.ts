@@ -1,4 +1,3 @@
-import prisma from 'prisma/prismaClient'
 import { PrismaClient } from '@prisma/client'
 import { IRepository } from 'server/service/interface'
 import { repoFactory, stoFactory } from 'server/diContainer'
@@ -10,6 +9,7 @@ export const testRepoWithRollback = async (
   testFunction: (p: PrismaClient, repo: IRepository) => Promise<void>
 ) => {
   test(testMessage, async () => {
+    const prisma = new PrismaClient()
     const transaction = async () => {
       await prisma.$transaction(async (tx) => {
         const p = tx as PrismaClient
@@ -19,6 +19,7 @@ export const testRepoWithRollback = async (
       })
     }
     await expect(transaction).rejects.toThrow('prisma rollback')
+    prisma.$disconnect()
   })
 }
 
@@ -27,6 +28,7 @@ export const testServiceWithRollback = async (
   testFunction: (s: Service) => Promise<void>
 ) => {
   test(testMessage, async () => {
+    const prisma = new PrismaClient()
     const transaction = async () => {
       await prisma.$transaction(async (tx) => {
         const p = tx as PrismaClient
@@ -38,5 +40,6 @@ export const testServiceWithRollback = async (
       })
     }
     await expect(transaction).rejects.toThrow('prisma rollback')
+    prisma.$disconnect()
   })
 }
