@@ -6,7 +6,7 @@ test('test', async ({ page }) => {
   await page.locator('input[type="text"]').click()
   await page.locator('input[type="text"]').fill('azaz09112@gmail.com')
   await page.locator('input[type="text"]').press('Tab')
-  await page.locator('input[type="password"]').fill('darkenergy621')
+  await page.locator('input[type="password"]').fill('password')
   await page.locator('input[type="password"]').press('Enter')
   await page.getByRole('img', { name: 'rightArrow', exact: true }).click()
   await page.getByRole('img', { name: 'rightArrow', exact: true }).click()

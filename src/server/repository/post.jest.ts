@@ -1,9 +1,9 @@
 import 'server/repository/user'
 import { Category, Post, PrismaClient } from '@prisma/client'
-import testWithRollback from 'server/test'
+import { testRepoWithRollback } from 'server/test'
 import { IRepository } from 'server/service/interface'
 
-testWithRollback(
+testRepoWithRollback(
   'getMaxPageIndex',
   async (p: PrismaClient, repo: IRepository) => {
     let postCount = await p.post.count({
@@ -17,7 +17,7 @@ testWithRollback(
   }
 )
 
-testWithRollback(
+testRepoWithRollback(
   'getPostListPageSortByDate',
   async (p: PrismaClient, repo: IRepository) => {
     const posts = await repo.postRepo.getPostListPageSortByDate(10, 1, true)
@@ -28,34 +28,37 @@ testWithRollback(
   }
 )
 
-testWithRollback('createPost', async (p: PrismaClient, repo: IRepository) => {
-  const post = await repo.postRepo.createPost(
-    'testTitle',
-    'testContent',
-    'testCategory',
-    'testThumbnail'
-  )
-  const createdPost = (await p.post.findUnique({
-    where: {
-      id: post.id
-    }
-  })) as Post
-  expect(createdPost).not.toBeNull()
-  expect(post.title).toBe(createdPost.title)
-  expect(post.content).toBe(createdPost.content)
-  expect(post.categoryName).toBe(createdPost.categoryName)
-  expect(post.thumbnail).toBe(createdPost.thumbnail)
+testRepoWithRollback(
+  'createPost',
+  async (p: PrismaClient, repo: IRepository) => {
+    const post = await repo.postRepo.createPost(
+      'testTitle',
+      'testContent',
+      'testCategory',
+      'testThumbnail'
+    )
+    const createdPost = (await p.post.findUnique({
+      where: {
+        id: post.id
+      }
+    })) as Post
+    expect(createdPost).not.toBeNull()
+    expect(post.title).toBe(createdPost.title)
+    expect(post.content).toBe(createdPost.content)
+    expect(post.categoryName).toBe(createdPost.categoryName)
+    expect(post.thumbnail).toBe(createdPost.thumbnail)
 
-  const createdCategory = (await p.category.findUnique({
-    where: {
-      name: createdPost?.categoryName
-    }
-  })) as Category
-  expect(createdCategory).not.toBeNull()
-  expect(createdCategory.name).toBe(createdPost.categoryName)
-})
+    const createdCategory = (await p.category.findUnique({
+      where: {
+        name: createdPost?.categoryName
+      }
+    })) as Category
+    expect(createdCategory).not.toBeNull()
+    expect(createdCategory.name).toBe(createdPost.categoryName)
+  }
+)
 
-testWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
+testRepoWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
   const dummyPost = await p.post.create({
     data: {
       title: 'testTitle',
@@ -82,76 +85,82 @@ testWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
   expect(post.thumbnail).toBe(dummyPost.thumbnail)
 })
 
-testWithRollback('updatePost', async (p: PrismaClient, repo: IRepository) => {
-  const dummyPost = await p.post.create({
-    data: {
-      title: 'testTitle',
-      content: 'testContent',
-      thumbnail: 'testThumbnail',
-      published: true,
-      category: {
-        connectOrCreate: {
-          where: {
-            name: 'testCategory'
-          },
-          create: {
-            name: 'testCategory'
+testRepoWithRollback(
+  'updatePost',
+  async (p: PrismaClient, repo: IRepository) => {
+    const dummyPost = await p.post.create({
+      data: {
+        title: 'testTitle',
+        content: 'testContent',
+        thumbnail: 'testThumbnail',
+        published: true,
+        category: {
+          connectOrCreate: {
+            where: {
+              name: 'testCategory'
+            },
+            create: {
+              name: 'testCategory'
+            }
           }
         }
       }
-    }
-  })
+    })
 
-  const updatedPost = await repo.postRepo.updatePost(
-    dummyPost.id,
-    'updatedTitle',
-    'updatedContent',
-    'updatedCategory',
-    'updatedThumbnail',
-    false
-  )
-  const post = await p.post.findUnique({
-    where: {
-      id: dummyPost.id
-    }
-  })
-  expect(post).not.toBeNull()
-  expect(post?.title).toBe(updatedPost.title)
-  expect(post?.content).toBe(updatedPost.content)
-  expect(post?.categoryName).toBe(updatedPost.categoryName)
-  expect(post?.thumbnail).toBe(updatedPost.thumbnail)
-  expect(post?.published).toBe(updatedPost.published)
-})
+    const updatedPost = await repo.postRepo.updatePost(
+      dummyPost.id,
+      'updatedTitle',
+      'updatedContent',
+      'updatedCategory',
+      'updatedThumbnail',
+      false
+    )
+    const post = await p.post.findUnique({
+      where: {
+        id: dummyPost.id
+      }
+    })
+    expect(post).not.toBeNull()
+    expect(post?.title).toBe(updatedPost.title)
+    expect(post?.content).toBe(updatedPost.content)
+    expect(post?.categoryName).toBe(updatedPost.categoryName)
+    expect(post?.thumbnail).toBe(updatedPost.thumbnail)
+    expect(post?.published).toBe(updatedPost.published)
+  }
+)
 
-testWithRollback('deletePost', async (p: PrismaClient, repo: IRepository) => {
-  const dummyPost = await p.post.create({
-    data: {
-      title: 'testTitle',
-      content: 'testContent',
-      thumbnail: 'testThumbnail',
-      published: true,
-      category: {
-        connectOrCreate: {
-          where: {
-            name: 'testCategory'
-          },
-          create: {
-            name: 'testCategory'
+testRepoWithRollback(
+  'deletePost',
+  async (p: PrismaClient, repo: IRepository) => {
+    const dummyPost = await p.post.create({
+      data: {
+        title: 'testTitle',
+        content: 'testContent',
+        thumbnail: 'testThumbnail',
+        published: true,
+        category: {
+          connectOrCreate: {
+            where: {
+              name: 'testCategory'
+            },
+            create: {
+              name: 'testCategory'
+            }
           }
         }
       }
-    }
-  })
-  await repo.postRepo.deletePost(dummyPost.id)
-  const post = await p.post.findUnique({
-    where: {
-      id: dummyPost.id
-    }
-  })
-  expect(post).toBeNull()
-})
+    })
+    await repo.postRepo.deletePost(dummyPost.id)
+    const post = await p.post.findUnique({
+      where: {
+        id: dummyPost.id
+      }
+    })
+    expect(post).toBeNull()
+  }
+)
 
-testWithRollback(
+testRepoWithRollback(
   'getCategoryList',
   async (p: PrismaClient, repo: IRepository) => {
     const dummyCategoryList = [

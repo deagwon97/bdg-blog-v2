@@ -10,13 +10,6 @@ import {
 import PostContent from 'components/post/PostContent'
 import styles from './edit.module.scss'
 import useComponentSize from 'tools/useComponentSize'
-// import {
-//   onCreateCategory,
-//   onUpdatePost,
-//   onLoadCategoryList,
-//   onLoadPresignedUrlPutObject,
-//   onLoadPresignedUrl
-// } from 'server/service/index.telefunc'
 
 import { CategoryDropDown } from 'components/dropdown'
 import axios from 'axios'
@@ -24,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Box, Modal } from '@mui/material'
 import Image from 'next/image'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
-import repo from 'server/diContainer/repository'
+import { repository as repo } from 'server/diContainer'
 
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'

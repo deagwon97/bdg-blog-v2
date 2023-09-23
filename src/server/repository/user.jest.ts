@@ -1,18 +1,18 @@
 import 'server/repository/user'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, User } from '@prisma/client'
 import * as auth from 'server/auth'
-import testWithRollback from 'server/test'
-import { createDummyUser } from 'server/test'
+import { testRepoWithRollback } from 'server/test'
 import { IRepository } from 'server/service/interface'
+import { createDummyUser } from 'server/test/tools'
 
-testWithRollback('getUser', async (p: PrismaClient, repo: IRepository) => {
+testRepoWithRollback('getUser', async (p: PrismaClient, repo: IRepository) => {
   const passsword = 'testpw'
   const user = await createDummyUser(p, passsword)
   const dbUser = await repo.userRepo.getUser(user.id)
   expect(dbUser).toEqual(user)
 })
 
-testWithRollback(
+testRepoWithRollback(
   'isValidPassword',
   async (p: PrismaClient, repo: IRepository) => {
     const passsword = 'testpw'
@@ -22,7 +22,7 @@ testWithRollback(
   }
 )
 
-testWithRollback(
+testRepoWithRollback(
   'checkAccessToken',
   async (p: PrismaClient, repo: IRepository) => {
     const passsword = 'testpw'
@@ -33,7 +33,7 @@ testWithRollback(
   }
 )
 
-testWithRollback(
+testRepoWithRollback(
   'checkRefreshToken',
   async (p: PrismaClient, repo: IRepository) => {
     const passsword = 'testpw'

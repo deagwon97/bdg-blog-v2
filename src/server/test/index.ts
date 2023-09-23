@@ -1,12 +1,11 @@
 import prisma from 'prisma/prismaClient'
 import { PrismaClient } from '@prisma/client'
 import { IRepository } from 'server/service/interface'
-import { repoFactory } from 'server/diContainer/repository'
-import * as auth from 'server/auth'
-import { User } from '@prisma/client'
-import { updateGlobalRepository } from 'server/diContainer/repository'
+import { repoFactory, stoFactory } from 'server/diContainer'
+import { Service } from 'server/service'
+import minio from 'minioStorage/minioClient'
 
-const testWithRollback = async (
+export const testRepoWithRollback = async (
   testMessage: string,
   testFunction: (p: PrismaClient, repo: IRepository) => Promise<void>
 ) => {
@@ -22,35 +21,22 @@ const testWithRollback = async (
     await expect(transaction).rejects.toThrow('prisma rollback')
   })
 }
-export default testWithRollback
 
 export const testServiceWithRollback = async (
   testMessage: string,
-  testFunction: () => Promise<void>
+  testFunction: (s: Service) => Promise<void>
 ) => {
   test(testMessage, async () => {
     const transaction = async () => {
       await prisma.$transaction(async (tx) => {
         const p = tx as PrismaClient
-        updateGlobalRepository(p)
-        await testFunction()
+        const repo = repoFactory(p)
+        const sto = stoFactory(minio)
+        const service = new Service(repo, sto)
+        await testFunction(service)
         throw new Error('prisma rollback')
       })
     }
     await expect(transaction).rejects.toThrow('prisma rollback')
   })
-}
-
-export const createDummyUser = async (p: PrismaClient, password: string) => {
-  const endocedPassword = auth.encodePassword(password)
-  const userForm = {
-    id: -1,
-    name: 'test',
-    email: 'test@test.io',
-    password: endocedPassword
-  } as User
-  const user = await p.user.create({
-    data: userForm
-  })
-  return user
 }

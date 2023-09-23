@@ -8,6 +8,7 @@ export interface IUserRepo {
   checkAccessToken: (token: string) => Promise<string>
   checkRefreshToken: (token: string) => Promise<string>
 }
+
 export type UserRepoFactory = (prisma: PrismaClient) => IUserRepo
 
 export interface IPostRepo {
