@@ -68,18 +68,7 @@ export default function ToyProject({
           </div>
           {postUrl && (
             <div className={styles.hiddenBox}>
-              <a
-                href={postUrl}
-                onClick={(e: React.MouseEvent<HTMLElement>) => {
-                  if (title === 'Tox AI') {
-                    alert('준비중입니다.')
-                    e.preventDefault()
-                  }
-                  if (title === 'bdg.chat') {
-                    alert('준비중입니다.')
-                    e.preventDefault()
-                  }
-                }}>
+              <a href={postUrl}>
                 <Image
                   // placeholder="blur"
                   className={styles.image}

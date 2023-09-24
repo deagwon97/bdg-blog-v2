@@ -4,7 +4,7 @@ import chevron from 'assets/common/chevron-right.svg'
 import ToyProject from 'components/toyProjects/ToyProject'
 import cahtIcon from 'assets/common/chat-icon.svg'
 import solarSystemIcon from 'assets/common/solar-system.svg'
-import benzeneRingIcon from 'assets/common/benzene-ring.svg'
+// import benzeneRingIcon from 'assets/common/benzene-ring.svg'
 
 export default function ToyProjects() {
   return (
@@ -23,7 +23,7 @@ export default function ToyProjects() {
                   title="bdg.chat"
                   projectUrl="/chat"
                   githubUrl="https://github.com/deagwon97/bdg-blog-v2"
-                  postUrl="https://github.com/deagwon97/bdg-blog-v2"
+                  postUrl="https://deagwon.com/post/811"
                 />
               </div>
               <div className={styles.item}>
