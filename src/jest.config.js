@@ -24,6 +24,8 @@ const config = {
     '!<rootDir>/tools/**',
     '!<rootDir>/server/telefunc/**',
     '!<rootDir>/server/control/**',
+    '!<rootDir>/server/chat/**',
+    '!<rootDir>/server/test/**',
     '!<rootDir>/server/service/interface.ts',
     '!<rootDir>/.dependency-cruiser.js',
     '!<rootDir>/palywright.config.ts'

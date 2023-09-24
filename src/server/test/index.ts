@@ -43,3 +43,34 @@ export const testServiceWithRollback = async (
     prisma.$disconnect()
   })
 }
+
+export const describeServiceWithRollback = async (
+  describeMessage: string,
+  testBlocks: {
+    msg: string
+    func: (s: Service) => Promise<void>
+  }[]
+) => {
+  const prisma = new PrismaClient()
+  describe(describeMessage, () => {
+    const transaction = async () => {
+      await prisma.$transaction(async (tx) => {
+        const p = tx as PrismaClient
+        const repo = repoFactory(p)
+        const sto = stoFactory(minio)
+        const service = new Service(repo, sto)
+        console.log('runtest')
+        for (const testBlock of testBlocks) {
+          test(testBlock.msg, async () => {
+            await testBlock.func(service)
+          })
+        }
+        throw new Error('prisma rollback')
+      })
+    }
+
+    expect(transaction).rejects.toThrow('prisma rollback')
+
+    prisma.$disconnect()
+  })
+}

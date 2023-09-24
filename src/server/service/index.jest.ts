@@ -148,3 +148,13 @@ testServiceWithRollback('onCreateCategory', async (service) => {
   )
   expect(maxPageIndex > 0).toBe(true)
 })
+
+test('onLoadMaxPageIndexByCategory', async () => {
+  const maxPageIndex = await service.onLoadMaxPageIndexByCategory(
+    10,
+    '',
+    true,
+    ''
+  )
+  expect(maxPageIndex > 0).toBe(true)
+})

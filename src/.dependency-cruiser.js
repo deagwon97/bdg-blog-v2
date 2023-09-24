@@ -26,6 +26,7 @@ module.exports = {
         pathNot: [
           '(^|/).[^/]+.(js|cjs|mjs|ts|json)$', // dot files
           '.d.ts$', // TypeScript declaration files
+          '^(test)$',
           '(^|/)tsconfig.json$', // TypeScript config
           '(^|/)(babel|webpack).config.(js|cjs|mjs|ts|json)$' // other configs
         ]
@@ -187,6 +188,7 @@ module.exports = {
         'node_modules',
         '.next',
         'telefunc',
+        'test',
         'test.ts',
         'assets',
         'coverage'
