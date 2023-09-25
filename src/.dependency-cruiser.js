@@ -191,7 +191,8 @@ module.exports = {
         'test',
         'test.ts',
         'assets',
-        'coverage'
+        'coverage',
+        'server/auth'
       ]
     },
 
@@ -206,7 +207,8 @@ module.exports = {
         'node_modules',
         '.next',
         'assets',
-        'coverage'
+        'coverage',
+        'server/auth'
       ],
       dynamic: true
     },
