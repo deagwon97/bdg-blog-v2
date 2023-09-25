@@ -23,11 +23,11 @@ model Category {
   Post Post[]
 }
 
-model Tag {
-  id    Int           @id @default(autoincrement())
-  name  String        @unique
-  posts TagsOnPosts[]
-}
+// model Tag {
+//   id    Int           @id @default(autoincrement())
+//   name  String        @unique
+//   posts TagsOnPosts[]
+// }
 
 model Post {
   id           Int       @id @default(autoincrement())
@@ -40,17 +40,17 @@ model Post {
   createdAt    DateTime? @default(now())
   updatedAt    DateTime? @default(now())
 
-  tags TagsOnPosts[]
+  // tags TagsOnPosts[]
 
   @@fulltext([content])
   @@fulltext([title])
   @@fulltext([title, content])
 }
 
-model TagsOnPosts {
-  id     Int  @id @default(autoincrement())
-  postId Int
-  tagId  Int
-  Post   Post @relation(fields: [postId], references: [id])
-  Tag    Tag  @relation(fields: [tagId], references: [id])
-}
+// model TagsOnPosts {
+//   id     Int  @id @default(autoincrement())
+//   postId Int
+//   tagId  Int
+//   Post   Post @relation(fields: [postId], references: [id])
+//   Tag    Tag  @relation(fields: [tagId], references: [id])
+// }
