@@ -4,7 +4,7 @@ import chevron from 'assets/common/chevron-right.svg'
 import ToyProject from 'components/toyProjects/ToyProject'
 import cahtIcon from 'assets/common/chat-icon.svg'
 import solarSystemIcon from 'assets/common/solar-system.svg'
-// import benzeneRingIcon from 'assets/common/benzene-ring.svg'
+import rbacIcon from 'assets/common/rbac.svg'
 
 export default function ToyProjects() {
   return (
@@ -28,20 +28,20 @@ export default function ToyProjects() {
               </div>
               <div className={styles.item}>
                 <ToyProject
+                  image={rbacIcon}
+                  title="rbac"
+                  projectUrl="https://rbac.deagwon.com/"
+                  githubUrl="https://github.com/deagwon97/rbac-go"
+                />
+              </div>
+              <div className={styles.item}>
+                <ToyProject
                   image={solarSystemIcon}
                   title="Solar System"
                   projectUrl="https://solarsystem.deagwon.com/"
                   githubUrl="https://github.com/deagwon97/solar-system"
                 />
               </div>
-              {/* <div className={styles.item}>
-                <ToyProject
-                  image={benzeneRingIcon}
-                  title="Tox AI"
-                  projectUrl="https://toxai.manycore.uos.ac.kr/"
-                  postUrl="https://github.com/deagwon97/solar-system"
-                />
-              </div> */}
             </div>
           </div>
         </div>

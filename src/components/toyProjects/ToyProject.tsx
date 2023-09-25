@@ -36,12 +36,7 @@ export default function ToyProject({
       <div className={backgoundStyle}>
         <div className={styles.cardBackground} onClick={onClickHandler}>
           <div className={styles.imageBox}>
-            <Image
-              // placeholder="blur"
-              className={styles.image}
-              alt="right"
-              src={image}
-            />
+            <Image className={styles.image} alt="right" src={image} />
           </div>
           <div className={styles.titleBox}>
             {fontSize ? (
@@ -58,35 +53,20 @@ export default function ToyProject({
         <div className={styles.hiddenBoxes}>
           <div className={styles.hiddenBox}>
             <a href={projectUrl}>
-              <Image
-                className={styles.image}
-                alt="right"
-                // placeholder="blur"
-                src={image}
-              />
+              <Image className={styles.image} alt="right" src={image} />
             </a>
           </div>
           {postUrl && (
             <div className={styles.hiddenBox}>
               <a href={postUrl}>
-                <Image
-                  // placeholder="blur"
-                  className={styles.image}
-                  alt="right"
-                  src={articleIcon}
-                />
+                <Image className={styles.image} alt="right" src={articleIcon} />
               </a>
             </div>
           )}
           {githubUrl && (
             <div className={styles.hiddenBox}>
               <a href={githubUrl}>
-                <Image
-                  // placeholder="blur"
-                  className={styles.image}
-                  alt="right"
-                  src={githubIcon}
-                />
+                <Image className={styles.image} alt="right" src={githubIcon} />
               </a>
             </div>
           )}
