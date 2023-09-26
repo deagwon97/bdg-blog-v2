@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { IPostRepo } from 'server/service/interface'
+import { IPostRepo } from 'server/service/repositoryInterface'
 export class PostRepo implements IPostRepo {
   prisma: PrismaClient
   constructor(prisma: PrismaClient) {

@@ -1,7 +1,8 @@
 import * as auth from 'server/auth'
-import { IRepository, IStorage } from 'server/service/interface'
+import { IRepository } from 'server/service/repositoryInterface'
+import { IStorage } from 'server/service/storageInterface'
 import { Post } from '@prisma/client'
-import { IService } from 'server/control/interface'
+import { IService } from 'server/service/interface'
 
 export class Service implements IService {
   repo: IRepository

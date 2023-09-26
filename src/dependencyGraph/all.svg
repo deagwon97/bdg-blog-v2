@@ -70,9 +70,9 @@
 <text text-anchor="middle" x="411.5" y="-1051.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">context</text>
 </g>
 <g id="clust13" class="cluster">
-<title>cluster_minioStorage</title>
+<title>cluster_server/minioStorage</title>
 <path fill="#ffffff" stroke="black" stroke-width="2" d="M445.5,-411C445.5,-411 515.5,-411 515.5,-411 521.5,-411 527.5,-417 527.5,-423 527.5,-423 527.5,-451 527.5,-451 527.5,-457 521.5,-463 515.5,-463 515.5,-463 445.5,-463 445.5,-463 439.5,-463 433.5,-457 433.5,-451 433.5,-451 433.5,-423 433.5,-423 433.5,-417 439.5,-411 445.5,-411"/>
-<text text-anchor="middle" x="480.5" y="-451.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">minioStorage</text>
+<text text-anchor="middle" x="480.5" y="-451.8" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="9.00">server/minioStorage</text>
 </g>
 <g id="clust14" class="cluster">
 <title>cluster_pages</title>
@@ -700,10 +700,10 @@
 </a>
 </g>
 </g>
-<!-- minioStorage/minioClient.ts -->
+<!-- server/minioStorage/minioClient.ts -->
 <g id="node35" class="node">
-<title>minioStorage/minioClient.ts</title>
-<g id="a_node35"><a xlink:href="minioStorage/minioClient.ts" xlink:title="minioClient.ts">
+<title>server/minioStorage/minioClient.ts</title>
+<g id="a_node35"><a xlink:href="server/minioStorage/minioClient.ts" xlink:title="minioClient.ts">
 <path fill="#ddfeff" stroke="black" d="M513.5,-437C513.5,-437 447.5,-437 447.5,-437 444.5,-437 441.5,-434 441.5,-431 441.5,-431 441.5,-425 441.5,-425 441.5,-422 444.5,-419 447.5,-419 447.5,-419 513.5,-419 513.5,-419 516.5,-419 519.5,-422 519.5,-425 519.5,-425 519.5,-431 519.5,-431 519.5,-434 516.5,-437 513.5,-437"/>
 <text text-anchor="start" x="449.5" y="-425.8" font-family="Helvetica,sans-Serif" font-size="9.00">minioClient.ts</text>
 </a>
@@ -1318,9 +1318,9 @@
 </a>
 </g>
 </g>
-<!-- server/diContainer/storage.ts&#45;&gt;minioStorage/minioClient.ts -->
+<!-- server/diContainer/storage.ts&#45;&gt;server/minioStorage/minioClient.ts -->
 <g id="edge90" class="edge">
-<title>server/diContainer/storage.ts&#45;&gt;minioStorage/minioClient.ts</title>
+<title>server/diContainer/storage.ts&#45;&gt;server/minioStorage/minioClient.ts</title>
 <path fill="none" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" d="M373.55,-307.26C387.13,-308.57 402.27,-312.59 412,-323 429.49,-341.71 407.82,-357.75 420.5,-380 429.08,-395.06 444.37,-407.29 457.24,-415.64"/>
 <polygon fill="#000000" fill-opacity="0.200000" stroke="#000000" stroke-width="2" stroke-opacity="0.200000" points="456.37,-417.58 462.57,-418.98 458.6,-414.02 456.37,-417.58"/>
 </g>

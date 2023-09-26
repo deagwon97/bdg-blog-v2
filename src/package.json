@@ -11,7 +11,7 @@
     "test-e2e": "playwright test",
     "test-server": "jest",
     "test": "yarn test-server && yarn test-e2e",
-    "draw-server": "depcruise server --include-only \"^server\" --output-type dot | dot -T svg > dependencyGraph/server.svg",
+    "draw-server": "depcruise ./server --output-type dot | dot -T svg > dependencyGraph/server.svg",
     "draw-all": "depcruise ./ --output-type dot | dot -T svg > dependencyGraph/all.svg"
   },
   "dependencies": {

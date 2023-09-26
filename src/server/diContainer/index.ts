@@ -2,20 +2,19 @@ import {
   UserRepoFactory,
   PostRepoFactory,
   RepositoryFactory,
-  IStorage,
   IRepository
-} from 'server/service/interface'
+} from 'server/service/repositoryInterface'
+import { IStorage } from 'server/service/storageInterface'
 import { PrismaClient } from '@prisma/client'
 import { Repository } from 'server/repository/index'
 import { UserRepo } from 'server/repository/user'
 import { PostRepo } from 'server/repository/post'
 import prisma from 'prisma/prismaClient'
-import { IApi } from 'apiClient/interface'
 import { Service } from 'server/service'
-import { StorageFactory } from 'server/service/interface'
+import { StorageFactory } from 'server/service/storageInterface'
 import { Storage } from 'server/storage'
-import minio from 'minioStorage/minioClient'
-import { IService } from 'server/control/interface'
+import minio from 'server/minioStorage/minioClient'
+import { IService } from 'server/service/interface'
 
 const userRepoFactory: UserRepoFactory = (prisma: PrismaClient) => {
   return new UserRepo(prisma)

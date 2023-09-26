@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client'
-import { IPostRepo, IRepository, IUserRepo } from 'server/service/interface'
+import {
+  IPostRepo,
+  IRepository,
+  IUserRepo
+} from 'server/service/repositoryInterface'
 
 type UserRepo = (prisma: PrismaClient) => IUserRepo
 type PostRepo = (prisma: PrismaClient) => IPostRepo

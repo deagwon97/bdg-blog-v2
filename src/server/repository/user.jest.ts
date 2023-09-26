@@ -2,7 +2,7 @@ import 'server/repository/user'
 import { PrismaClient, User } from '@prisma/client'
 import * as auth from 'server/auth'
 import { testRepoWithRollback } from 'server/test'
-import { IRepository } from 'server/service/interface'
+import { IRepository } from 'server/service/repositoryInterface'
 import { createDummyUser } from 'server/test/tools'
 
 testRepoWithRollback('getUser', async (p: PrismaClient, repo: IRepository) => {

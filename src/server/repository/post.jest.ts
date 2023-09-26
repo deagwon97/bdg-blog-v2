@@ -1,7 +1,7 @@
 import 'server/repository/user'
 import { Category, Post, PrismaClient } from '@prisma/client'
 import { testRepoWithRollback } from 'server/test'
-import { IRepository } from 'server/service/interface'
+import { IRepository } from 'server/service/repositoryInterface'
 
 testRepoWithRollback(
   'getMaxPageIndex',

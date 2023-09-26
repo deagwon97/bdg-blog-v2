@@ -1,4 +1,4 @@
-import { IStorage } from 'server/service/interface'
+import { IStorage } from 'server/service/storageInterface'
 
 export class Storage implements IStorage {
   minio: any

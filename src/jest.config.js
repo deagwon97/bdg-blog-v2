@@ -15,7 +15,7 @@ const config = {
     '!<rootDir>/coverage/**',
     '!<rootDir>/jest.config.js',
     '!<rootDir>/prisma/**',
-    '!<rootDir>/minioStorage/**',
+    '!<rootDir>/server/minioStorage/**',
     '!<rootDir>/pages/**',
     '!<rootDir>/apiClient/**',
     '!<rootDir>/tests/**',
@@ -27,6 +27,7 @@ const config = {
     '!<rootDir>/server/chat/**',
     '!<rootDir>/server/test/**',
     '!<rootDir>/server/service/interface.ts',
+    '!<rootDir>/server/service/*Interface.ts',
     '!<rootDir>/.dependency-cruiser.js',
     '!<rootDir>/palywright.config.ts'
   ],
@@ -47,7 +48,8 @@ const config = {
     // Handle module aliases
     'server/(.*)$': '<rootDir>/server/$1',
     'prisma/prismaClient': '<rootDir>/prisma/prismaClient.ts',
-    'minioStorage/minioClient': '<rootDir>/minioStorage/minioClient.ts',
+    'server/minioStorage/minioClient':
+      '<rootDir>/server/minioStorage/minioClient.ts',
     telefunc: '<rootDir>/TelefuncContext.d.ts'
   },
   // Add more setup options before each test is run

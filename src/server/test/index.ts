@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import { IRepository } from 'server/service/interface'
+import { IRepository } from 'server/service/repositoryInterface'
 import { repoFactory, stoFactory } from 'server/diContainer'
 import { Service } from 'server/service'
-import minio from 'minioStorage/minioClient'
+import minio from 'server/minioStorage/minioClient'
 
 export const testRepoWithRollback = async (
   testMessage: string,

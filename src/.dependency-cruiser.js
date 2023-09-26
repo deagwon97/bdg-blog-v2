@@ -110,11 +110,11 @@ module.exports = {
       severity: 'warn',
       from: {},
       to: {
-        moreThanOneDependencyType: true
+        moreThanOneDependencyType: true,
         // as it's pretty common to have a type import be a type only import
         // _and_ (e.g.) a devDependency - don't consider type-only dependency
         // types for this rule
-        // dependencyTypesNot: ['type-only']
+        dependencyTypesNot: ['type-only']
       }
     },
 
@@ -187,11 +187,12 @@ module.exports = {
       path: [
         'node_modules',
         '.next',
-        'telefunc',
         'test',
+        'checkUser.ts',
         'test.ts',
         'assets',
         'coverage',
+        'chat',
         'server/auth'
       ]
     },
@@ -314,7 +315,7 @@ module.exports = {
          If you have an `exportsFields` attribute in your webpack config, that one
          will have precedence over the one specified here.
       */
-      exportsFields: ['exports'],
+      exportsFields: ['exports', 'export'],
       /* List of conditions to check for in the exports field. e.g. use ['imports']
          if you're only interested in exposed es6 modules, ['require'] for commonjs,
          or all conditions at once `(['import', 'require', 'node', 'default']`)

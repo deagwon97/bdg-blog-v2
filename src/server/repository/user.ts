@@ -1,5 +1,5 @@
 import { PrismaClient, User } from '@prisma/client'
-import { IUserRepo } from 'server/service/interface'
+import { IUserRepo } from 'server/service/repositoryInterface'
 import * as auth from 'server/auth'
 
 export class UserRepo implements IUserRepo {
