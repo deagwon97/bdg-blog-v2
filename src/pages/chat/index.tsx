@@ -21,6 +21,10 @@ export default function ChatPage() {
   const [userName, setUserName] = useState('')
   const [chatMessageList, setChatMessageList] = useState<ChatMessage[]>([])
 
+  useEffect(() => {
+    fetch('/api/socket')
+  }, [])
+
   const initSocketCallback = useCallback(async () => {
     if (userName === '') {
       return
