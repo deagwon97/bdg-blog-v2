@@ -5,9 +5,14 @@ RUN npm install -g prisma@5.1.1
 COPY ./src /workdir/src
 WORKDIR /workdir/src
 RUN yarn install
+# for e2e test by playwright
+RUN yarn playwright install-deps
+# for prisma type generation
 RUN prisma generate
+# build project
 RUN yarn build
 RUN apt update -y
+# for visualizing project dependency
 RUN apt install graphviz -y
 
 FROM node:18 AS server
