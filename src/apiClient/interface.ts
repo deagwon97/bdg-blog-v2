@@ -5,17 +5,17 @@ export const TYPES = {
 }
 
 export interface IApi {
-  onConnect: ci.onConnect
-  onLoadUser: ci.onLoadUser
-  onLogin: ci.onLogin
-  onLoadPresignedUrl: ci.onLoadPresignedUrl
-  onLoadPresignedUrlPutObject: ci.onLoadPresignedUrlPutObject
-  onLoadPostListPageSortByDate: ci.onLoadPostListPageSortByDate
-  onLoadPostListPageSortByDateByCategory: ci.onLoadPostListPageSortByDateByCategory
-  onCreatePost: ci.onCreatePost
-  onUpdatePost: ci.onUpdatePost
-  onDeletePost: ci.onDeletePost
-  onLoadCategoryList: ci.onLoadCategoryList
-  onCreateCategory: ci.onCreateCategory
-  onLoadMaxPageIndexByCategory: ci.onLoadMaxPageIndexByCategory
+  onConnect: ci.OnConnect
+  onLoadUser: ci.OnLoadUser
+  onLogin: ci.OnLogin
+  onLoadPresignedUrl: ci.OnLoadPresignedUrl
+  onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject
+  onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate
+  onLoadPostListPageSortByDateByCategory: ci.OnLoadPostListPageSortByDateByCategory
+  onCreatePost: ci.OnCreatePost
+  onUpdatePost: ci.OnUpdatePost
+  onDeletePost: ci.OnDeletePost
+  onLoadCategoryList: ci.OnLoadCategoryList
+  onCreateCategory: ci.OnCreateCategory
+  onLoadMaxPageIndexByCategory: ci.OnLoadMaxPageIndexByCategory
 }

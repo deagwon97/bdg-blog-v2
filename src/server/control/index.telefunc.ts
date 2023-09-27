@@ -2,18 +2,18 @@ import { getContext } from 'telefunc'
 import service from 'server/diContainer'
 import * as ci from 'server/service/controlInterface'
 
-export const onConnect: ci.onConnect = service.onConnect
-export const onLoadUser: ci.onLoadUser = service.onLoadUser
-export const onLogin: ci.onLogin = service.onLogin
-export const onLoadPresignedUrl: ci.onLoadPresignedUrl =
-  service.onLoadPresignedUrl
-export const onLoadPresignedUrlPutObject: ci.onLoadPresignedUrlPutObject =
-  service.onLoadPresignedUrlPutObject
-export const onLoadPostListPageSortByDate: ci.onLoadPostListPageSortByDate =
-  service.onLoadPostListPageSortByDate
-export const onLoadPostListPageSortByDateByCategory: ci.onLoadPostListPageSortByDateByCategory =
-  service.onLoadPostListPageSortByDateByCategory
-export const onCreatePost: ci.onCreatePost = async (
+export const onConnect: ci.OnConnect = service.Connect
+export const onLoadUser: ci.OnLoadUser = service.LoadUser
+export const onLogin: ci.OnLogin = service.Login
+export const onLoadPresignedUrl: ci.OnLoadPresignedUrl =
+  service.LoadPresignedUrl
+export const onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject =
+  service.LoadPresignedUrlPutObject
+export const onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate =
+  service.LoadPostListPageSortByDate
+export const onLoadPostListPageSortByDateByCategory: ci.OnLoadPostListPageSortByDateByCategory =
+  service.LoadPostListPageSortByDateByCategory
+export const onCreatePost: ci.OnCreatePost = async (
   title: string,
   content: string,
   categoryName: string,
@@ -21,7 +21,7 @@ export const onCreatePost: ci.onCreatePost = async (
 ) => {
   let { accessToken } = getContext()
   accessToken = accessToken as string
-  return await service.onCreatePost(
+  return await service.CreatePost(
     accessToken,
     title,
     content,
@@ -29,7 +29,7 @@ export const onCreatePost: ci.onCreatePost = async (
     thumbnail
   )
 }
-export const onUpdatePost: ci.onUpdatePost = async (
+export const onUpdatePost: ci.OnUpdatePost = async (
   id: number,
   title: string,
   content: string,
@@ -39,7 +39,7 @@ export const onUpdatePost: ci.onUpdatePost = async (
 ) => {
   let { accessToken } = getContext()
   accessToken = accessToken as string
-  return await service.onUpdatePost(
+  return await service.UpdatePost(
     accessToken,
     id,
     title,
@@ -50,20 +50,20 @@ export const onUpdatePost: ci.onUpdatePost = async (
   )
 }
 
-export const onDeletePost: ci.onDeletePost = async (id: number) => {
+export const onDeletePost: ci.OnDeletePost = async (id: number) => {
   let { accessToken } = getContext()
   accessToken = accessToken as string
-  return await service.onDeletePost(accessToken, id)
+  return await service.DeletePost(accessToken, id)
 }
 
-export const onLoadCategoryList: ci.onLoadCategoryList =
-  service.onLoadCategoryList
-export const onCreateCategory: ci.onCreateCategory = async (
+export const onLoadCategoryList: ci.OnLoadCategoryList =
+  service.LoadCategoryList
+export const onCreateCategory: ci.OnCreateCategory = async (
   categoryName: string
 ) => {
   let { accessToken } = getContext()
   accessToken = accessToken as string
-  return await service.onCreateCategory(accessToken, categoryName)
+  return await service.CreateCategory(accessToken, categoryName)
 }
-export const onLoadMaxPageIndexByCategory: ci.onLoadMaxPageIndexByCategory =
-  service.onLoadMaxPageIndexByCategory
+export const onLoadMaxPageIndexByCategory: ci.OnLoadMaxPageIndexByCategory =
+  service.LoadMaxPageIndexByCategory

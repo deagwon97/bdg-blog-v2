@@ -2,7 +2,7 @@ import { Post, User } from '@prisma/client'
 import { IRepository } from 'server/service/repositoryInterface'
 import { IStorage } from 'server/service/storageInterface'
 
-export type OnConnect = () => Promise<string>
+export type Connect = () => Promise<string>
 export type LoginResult = {
   valid: boolean
   errMessage: string
@@ -11,18 +11,18 @@ export type LoginResult = {
   accessToken: string
   refreshToken: string
 }
-export type OnLogin = (email: string, password: string) => Promise<LoginResult>
-export type OnLoadUser = (id: number) => Promise<User>
+export type Login = (email: string, password: string) => Promise<LoginResult>
+export type LoadUser = (id: number) => Promise<User>
 
-export type OnLoadPresignedUrl = (filename: string) => Promise<string>
-export type OnLoadPresignedUrlPutObject = (filename: string) => Promise<string>
-export type OnLoadPostListPageSortByDate = (
+export type LoadPresignedUrl = (filename: string) => Promise<string>
+export type LoadPresignedUrlPutObject = (filename: string) => Promise<string>
+export type LoadPostListPageSortByDate = (
   pageSize: number,
   pageIdx: number,
   published: boolean
 ) => Promise<Post[]>
 
-export type OnLoadPostListPageSortByDateByCategory = (
+export type LoadPostListPageSortByDateByCategory = (
   pageSize: number,
   pageIdx: number,
   categoryName: string,
@@ -30,7 +30,7 @@ export type OnLoadPostListPageSortByDateByCategory = (
   searchKeyword: string
 ) => Promise<Post[]>
 
-export type OnCreatePost = (
+export type CreatePost = (
   accessToken: string,
   title: string,
   content: string,
@@ -50,14 +50,14 @@ export type UpdatePost = (
 
 export type DeletePost = (accessToken: string, id: number) => Promise<Post>
 
-export type OnLoadCategoryList = () => Promise<string[]>
+export type LoadCategoryList = () => Promise<string[]>
 
-export type OnCreateCategory = (
+export type CreateCategory = (
   accessToken: string,
   categoryName: string
 ) => Promise<string>
 
-export type OnLoadMaxPageIndexByCategory = (
+export type LoadMaxPageIndexByCategory = (
   pageSize: number,
   categoryName: string,
   published: boolean,
@@ -67,17 +67,17 @@ export type OnLoadMaxPageIndexByCategory = (
 export interface IService {
   repo: IRepository
   sto: IStorage
-  onConnect: OnConnect
-  onLogin: OnLogin
-  onLoadUser: OnLoadUser
-  onLoadPresignedUrl: OnLoadPresignedUrl
-  onLoadPresignedUrlPutObject: OnLoadPresignedUrlPutObject
-  onLoadPostListPageSortByDate: OnLoadPostListPageSortByDate
-  onLoadPostListPageSortByDateByCategory: OnLoadPostListPageSortByDateByCategory
-  onCreatePost: OnCreatePost
-  onUpdatePost: UpdatePost
-  onDeletePost: DeletePost
-  onLoadCategoryList: OnLoadCategoryList
-  onCreateCategory: OnCreateCategory
-  onLoadMaxPageIndexByCategory: OnLoadMaxPageIndexByCategory
+  Connect: Connect
+  Login: Login
+  LoadUser: LoadUser
+  LoadPresignedUrl: LoadPresignedUrl
+  LoadPresignedUrlPutObject: LoadPresignedUrlPutObject
+  LoadPostListPageSortByDate: LoadPostListPageSortByDate
+  LoadPostListPageSortByDateByCategory: LoadPostListPageSortByDateByCategory
+  CreatePost: CreatePost
+  UpdatePost: UpdatePost
+  DeletePost: DeletePost
+  LoadCategoryList: LoadCategoryList
+  CreateCategory: CreateCategory
+  LoadMaxPageIndexByCategory: LoadMaxPageIndexByCategory
 }
