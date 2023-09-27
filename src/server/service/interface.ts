@@ -67,17 +67,17 @@ export type LoadMaxPageIndexByCategory = (
 export interface IService {
   repo: IRepository
   sto: IStorage
-  Connect: Connect
-  Login: Login
-  LoadUser: LoadUser
-  LoadPresignedUrl: LoadPresignedUrl
-  LoadPresignedUrlPutObject: LoadPresignedUrlPutObject
-  LoadPostListPageSortByDate: LoadPostListPageSortByDate
-  LoadPostListPageSortByDateByCategory: LoadPostListPageSortByDateByCategory
-  CreatePost: CreatePost
-  UpdatePost: UpdatePost
-  DeletePost: DeletePost
-  LoadCategoryList: LoadCategoryList
-  CreateCategory: CreateCategory
-  LoadMaxPageIndexByCategory: LoadMaxPageIndexByCategory
+  connect: Connect
+  login: Login
+  loadUser: LoadUser
+  loadPresignedUrl: LoadPresignedUrl
+  loadPresignedUrlPutObject: LoadPresignedUrlPutObject
+  loadPostListPageSortByDate: LoadPostListPageSortByDate
+  loadPostListPageSortByDateByCategory: LoadPostListPageSortByDateByCategory
+  createPost: CreatePost
+  updatePost: UpdatePost
+  deletePost: DeletePost
+  loadCategoryList: LoadCategoryList
+  createCategory: CreateCategory
+  loadMaxPageIndexByCategory: LoadMaxPageIndexByCategory
 }

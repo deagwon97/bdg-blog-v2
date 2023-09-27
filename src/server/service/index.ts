@@ -11,13 +11,13 @@ export class Service implements IService {
     this.repo = repo
     this.sto = sto
   }
-  Connect = async () => {
+  connect = async () => {
     return 'connected'
   }
-  LoadUser = async (id: number) => {
+  loadUser = async (id: number) => {
     return this.repo.userRepo.getUser(id)
   }
-  Login = async (email: string, password: string) => {
+  login = async (email: string, password: string) => {
     let user = await this.repo.userRepo.getUserByEmail(email)
     if (user === null || !user) {
       return {
@@ -54,13 +54,13 @@ export class Service implements IService {
       refreshToken: refreshToken
     }
   }
-  LoadPresignedUrl = async (filename: string) => {
+  loadPresignedUrl = async (filename: string) => {
     return await this.sto.getPresignedUrl(filename)
   }
-  LoadPresignedUrlPutObject = async (filename: string) => {
+  loadPresignedUrlPutObject = async (filename: string) => {
     return await this.sto.getPresignedUrlPutObject(filename)
   }
-  LoadPostListPageSortByDate = async (
+  loadPostListPageSortByDate = async (
     pageSize: number,
     pageIdx: number,
     published: boolean
@@ -71,7 +71,7 @@ export class Service implements IService {
       published
     )
   }
-  LoadPostListPageSortByDateByCategory = async (
+  loadPostListPageSortByDateByCategory = async (
     pageSize: number,
     pageIdx: number,
     categoryName: string,
@@ -95,7 +95,7 @@ export class Service implements IService {
       searchKeyword
     )
   }
-  CreatePost = async (
+  createPost = async (
     accessToken: string,
     title: string,
     content: string,
@@ -116,7 +116,7 @@ export class Service implements IService {
     }
     return {} as Post
   }
-  UpdatePost = async (
+  updatePost = async (
     accessToken: string,
     id: number,
     title: string,
@@ -141,7 +141,7 @@ export class Service implements IService {
     }
     return {} as Post
   }
-  DeletePost = async (accessToken: string, id: number) => {
+  deletePost = async (accessToken: string, id: number) => {
     const name = await this.repo.userRepo.checkAccessToken(
       accessToken as string
     )
@@ -151,15 +151,15 @@ export class Service implements IService {
     }
     return {} as Post
   }
-  LoadCategoryList = async () => {
+  loadCategoryList = async () => {
     const categoryList = this.repo.postRepo.getCategoryList()
     return categoryList
   }
-  CreateCategory = async (category: string) => {
+  createCategory = async (category: string) => {
     this.repo.postRepo.createCategory(category)
     return category
   }
-  LoadMaxPageIndexByCategory = async (
+  loadMaxPageIndexByCategory = async (
     pageSize: number,
     category: string,
     published: boolean,
