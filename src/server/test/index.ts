@@ -2,7 +2,14 @@ import { PrismaClient } from '@prisma/client'
 import { IRepository } from 'server/service/repositoryInterface'
 import { repoFactory, stoFactory } from 'server/diContainer'
 import { Service } from 'server/service'
-import minio from 'server/minioStorage/minioClient'
+const Minio = require('minio')
+
+const minio = new Minio.Client({
+  endPoint: process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'no-entpoint',
+  useSSL: true,
+  accessKey: process.env.NEXT_PUBLIC_MINIO_ACCESSKEY || 'no-access-key',
+  secretKey: process.env.NEXT_PUBLIC_MINIO_SECRETKEY || 'no-secret-key'
+})
 
 export const testRepoWithRollback = async (
   testMessage: string,

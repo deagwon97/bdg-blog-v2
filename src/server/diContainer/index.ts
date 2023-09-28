@@ -9,12 +9,21 @@ import { PrismaClient } from '@prisma/client'
 import { Repository } from 'server/repository/index'
 import { UserRepo } from 'server/repository/user'
 import { PostRepo } from 'server/repository/post'
-import prisma from 'prisma/prismaClient'
 import { Service } from 'server/service'
 import { StorageFactory } from 'server/service/storageInterface'
 import { Storage } from 'server/storage'
-import minio from 'server/minioStorage/minioClient'
 import { IService } from 'server/service/interface'
+
+const Minio = require('minio')
+
+const minio = new Minio.Client({
+  endPoint: process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'no-entpoint',
+  useSSL: true,
+  accessKey: process.env.NEXT_PUBLIC_MINIO_ACCESSKEY || 'no-access-key',
+  secretKey: process.env.NEXT_PUBLIC_MINIO_SECRETKEY || 'no-secret-key'
+})
+
+const prisma = new PrismaClient()
 
 const userRepoFactory: UserRepoFactory = (prisma: PrismaClient) => {
   return new UserRepo(prisma)
