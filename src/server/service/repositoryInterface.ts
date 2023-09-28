@@ -19,6 +19,7 @@ export interface IPostRepo {
     published: boolean
   ) => Promise<Post[]>
   getPost: (id: number) => Promise<Post>
+  getPostByTitle: (title: string) => Promise<Post>
   createPost: (
     title: string,
     content: string,

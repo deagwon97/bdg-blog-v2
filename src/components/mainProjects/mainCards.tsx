@@ -71,14 +71,14 @@ export default function MainCards() {
         <MainPostCard
           title={'온프레미스 블로그 서비스 bdg.blog'}
           summary={'홈메이드 온프레미스로 어디까지 가능할까?'}
-          link={'/post/51'}
+          link={'/post/온프레미스 블로그 서비스 bdg.blog'}
           boxWidth={boxWidth}
           imageTag={'<bdg-minio=8b20162b-dc8f-4532-99d4-068298c76931/>'}
         />
         <MainPostCard
           title={'MyUBAI - 도시과학 빅데이터 AI 연구원'}
           summary={'HPC 클러스터 사용자를 위한 웹 어플리케이션'}
-          link={'/post/52'}
+          link={'/post/MyUBAI - 도시과학 빅데이터 AI 연구원'}
           boxWidth={boxWidth}
           imageTag={'<bdg-minio=71716a2e-8b46-45ff-a85c-2b38775df821/>'}
         />

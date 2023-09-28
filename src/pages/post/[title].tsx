@@ -70,9 +70,9 @@ const HeadMeta: React.FC<MetaData> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query
-  const postId = parseInt(id as string)
-  let post = (await repo.postRepo.getPost(postId)) as Post
+  const { title } = context.query
+  const postTitle = title as string
+  let post = (await repo.postRepo.getPostByTitle(postTitle)) as Post
   post = JSON.parse(JSON.stringify(post))
   const imageTag = post.thumbnail as string
   const imageUrl = await getImageUrl(imageTag, sto)

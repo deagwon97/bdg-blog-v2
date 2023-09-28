@@ -22,7 +22,7 @@ model Post {
   id           Int       @id @default(autoincrement())
   categoryName String
   category     Category  @relation(fields: [categoryName], references: [name])
-  title        String
+  title        String    @unique
   content      String?   @db.LongText
   thumbnail    String?
   published    Boolean   @default(false)

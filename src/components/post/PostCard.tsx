@@ -28,7 +28,7 @@ type PostCardProps = {
 const PostCard = (props: PostCardProps) => {
   const { post, boxWidth, tagUrlMap } = props
   return (
-    <Link key={post.id} href={`/post/${post.id}`}>
+    <Link key={post.id} href={`/post/${post.title}`}>
       <div className={styles.postBox} style={{ width: boxWidth }}>
         <div className={styles.imageBox}>
           {post.thumbnail ? (

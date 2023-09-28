@@ -23,7 +23,7 @@ export default function ToyProjects() {
                   title="bdg.chat"
                   projectUrl="/chat"
                   githubUrl="https://github.com/deagwon97/bdg-blog-v2"
-                  postUrl="https://deagwon.com/post/811"
+                  postUrl="/post/chatting app 개발"
                 />
               </div>
               <div className={styles.item}>

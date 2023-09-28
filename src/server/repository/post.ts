@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { Post, PrismaClient } from '@prisma/client'
 import { IPostRepo } from 'server/service/repositoryInterface'
 export class PostRepo implements IPostRepo {
   prisma: PrismaClient
@@ -36,6 +36,17 @@ export class PostRepo implements IPostRepo {
     let post = await this.prisma.post.findUnique({
       where: {
         id: id
+      }
+    })
+    if (!post) {
+      throw new Error('post not found')
+    }
+    return post
+  }
+  getPostByTitle = async (title: string) => {
+    let post = await this.prisma.post.findUnique({
+      where: {
+        title: title
       }
     })
     if (!post) {

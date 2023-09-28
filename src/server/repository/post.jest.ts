@@ -86,6 +86,36 @@ testRepoWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
 })
 
 testRepoWithRollback(
+  'getPostByTitle',
+  async (p: PrismaClient, repo: IRepository) => {
+    const dummyPost = await p.post.create({
+      data: {
+        title: 'testTitle',
+        content: 'testContent',
+        thumbnail: 'testThumbnail',
+        published: true,
+        category: {
+          connectOrCreate: {
+            where: {
+              name: 'testCategory'
+            },
+            create: {
+              name: 'testCategory'
+            }
+          }
+        }
+      }
+    })
+    const post = await repo.postRepo.getPostByTitle(dummyPost.title)
+    expect(post).not.toBeNull()
+    expect(post.title).toBe(dummyPost.title)
+    expect(post.content).toBe(dummyPost.content)
+    expect(post.categoryName).toBe(dummyPost.categoryName)
+    expect(post.thumbnail).toBe(dummyPost.thumbnail)
+  }
+)
+
+testRepoWithRollback(
   'updatePost',
   async (p: PrismaClient, repo: IRepository) => {
     const dummyPost = await p.post.create({
