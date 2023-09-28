@@ -54,6 +54,15 @@ export class PostRepo implements IPostRepo {
     }
     return post
   }
+  getPostTitleList = async () => {
+    const posts = await this.prisma.post.findMany({
+      select: {
+        title: true
+      }
+    })
+    const titleList = posts.map((post) => post.title)
+    return titleList
+  }
 
   createPost = async (
     title: string,
