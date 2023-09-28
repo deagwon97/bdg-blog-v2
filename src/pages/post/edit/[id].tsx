@@ -160,7 +160,7 @@ export default function PostEditPage({
 
   return (
     <>
-      <Header />
+      <Header title="post edit" />
       <div className={styles.background} ref={ref}>
         <br />
         <div className={styles.container}>

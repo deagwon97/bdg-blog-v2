@@ -79,7 +79,7 @@ const LoginForm = () => {
 export default function LoginPage() {
   return (
     <>
-      <Header />
+      <Header title="login" />
       <div className={styles.container}>
         <div className={styles.background}>
           <LoginForm />

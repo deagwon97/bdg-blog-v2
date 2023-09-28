@@ -12,7 +12,6 @@ import useApi from 'context/hook'
 
 import { NextSeo } from 'next-seo'
 
-import Head from 'next/head'
 import { IStorage } from 'server/service/storageInterface'
 
 const getImageUrl = async (imageTag: string, sto: IStorage) => {
@@ -66,17 +65,6 @@ const HeadMeta: React.FC<MetaData> = (props) => {
           site_name: 'bdg.blog'
         }}
       />
-      {/* <Head>
-        <title>{props.title}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta property="og:title" content={props.title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={props.url} />
-        {props.image !== '' && (
-          <meta property="og:image" content={props.image} />
-        )}
-        <meta property="og:article:author" content="bdg.blog" />
-      </Head> */}
     </>
   )
 }
@@ -118,7 +106,7 @@ export default function PostViewPage({
         image={post.thumbnail}
       />
 
-      <Header />
+      <Header title={post.title} />
       <div className={styles.background}>
         <div className={styles.postHead}>
           <span> # {post.categoryName}</span>

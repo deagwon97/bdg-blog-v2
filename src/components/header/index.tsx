@@ -71,7 +71,10 @@ const HeaderItem: React.FC<HeaderItemProps> = (props) => {
   )
 }
 
-export const Header: React.FC = () => {
+export type HeaderProps = {
+  title: string | undefined
+}
+export const Header: React.FC<HeaderProps> = (props) => {
   const [accessToken, setAccessToken] = useState<string>('')
 
   useEffect(() => {
@@ -90,7 +93,7 @@ export const Header: React.FC = () => {
   return (
     <>
       <Head>
-        <title>bdg.blog</title>
+        <title>{props.title || 'bdg.blog'}</title>
       </Head>
       <div className={styles.fakeBackground} />
       <div className={styles.background}>

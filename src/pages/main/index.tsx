@@ -104,7 +104,7 @@ export default function MainPage() {
 
   return (
     <>
-      <Header />
+      <Header title="bdg.blog" />
       <div className={styles.background}>
         <div className={styles.contentBox}>
           {/* <div className={styles.head}>

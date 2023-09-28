@@ -43,7 +43,7 @@ export default function TempPostsPage() {
 
   return (
     <>
-      <Header />
+      <Header title="temp posts" />
       <div className={styles.background}>
         <div className={styles.contentBox}>
           <div className={styles.head}>
