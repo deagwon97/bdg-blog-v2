@@ -10,6 +10,8 @@ import styles from './post.module.scss'
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
+import { NextSeo } from 'next-seo'
+
 import Head from 'next/head'
 import { IStorage } from 'server/service/storageInterface'
 
@@ -45,15 +47,37 @@ type MetaData = {
 
 const HeadMeta: React.FC<MetaData> = (props) => {
   return (
-    <Head>
-      <meta name="description" content={props.description} />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta property="og:title" content={props.title} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={props.url} />
-      {props.image !== '' && <meta property="og:image" content={props.image} />}
-      <meta property="og:article:author" content="bdg.blog" />
-    </Head>
+    <>
+      <NextSeo
+        title={props.title}
+        description={props.description}
+        openGraph={{
+          title: props.title,
+          description: props.description,
+          url: props.url,
+          images: [
+            {
+              url: props.image,
+              width: 800,
+              height: 600,
+              alt: props.title
+            }
+          ],
+          site_name: 'bdg.blog'
+        }}
+      />
+      {/* <Head>
+        <title>{props.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta property="og:title" content={props.title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={props.url} />
+        {props.image !== '' && (
+          <meta property="og:image" content={props.image} />
+        )}
+        <meta property="og:article:author" content="bdg.blog" />
+      </Head> */}
+    </>
   )
 }
 
