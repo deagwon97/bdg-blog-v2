@@ -3,7 +3,6 @@ import 'reflect-metadata'
 import type { AppProps } from 'next/app'
 import { config } from 'telefunc/client'
 import { AnimatePresence } from 'framer-motion'
-import Head from 'next/head'
 import DIContainerContext from 'context/api'
 
 const isBrowser = typeof window !== 'undefined'
@@ -25,7 +24,7 @@ const theme = createTheme({
     },
     neutral: {
       main: '#64748B',
-      contrastText: '#fff'
+      contrastText: '#f9f9f9'
     }
   },
   components: {
@@ -85,12 +84,6 @@ declare module '@mui/material/styles' {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content"
-        />
-      </Head>
       <DIContainerContext.Provider value={container}>
         <AnimatePresence mode="wait" initial={true}>
           <ThemeProvider theme={theme}>
