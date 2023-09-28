@@ -16,9 +16,9 @@ a {
 * {
   background-color: '#ffffff';
   box-sizing: border-box;
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     display: none;
-  }
+  } */
 }
 
 @media (prefers-color-scheme: dark) {

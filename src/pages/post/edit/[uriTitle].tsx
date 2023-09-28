@@ -23,9 +23,9 @@ import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.query
-  const postId = parseInt(id as string)
-  let oldPost = (await repo.postRepo.getPost(postId)) as Post
+  const { uriTitle } = context.query
+  const postUriTitle = uriTitle as string
+  let oldPost = (await repo.postRepo.getPostByUriTitle(postUriTitle)) as Post
   oldPost = JSON.parse(JSON.stringify(oldPost))
   return {
     props: { oldPost }

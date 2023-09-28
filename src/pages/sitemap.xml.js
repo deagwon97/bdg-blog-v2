@@ -13,10 +13,8 @@ function generateSiteMap(postTitleList) {
       <loc>${URL}/main</loc>
     </url>
     ${postTitleList
-      .map((title) => {
-        const url = `${URL}/post/${title}`
-          .replace('&', '&amp;')
-          .replace('?', '?amp;')
+      .map((uriTtile) => {
+        const url = `${URL}/post/${uriTtile}`
         return `
           <url>
               <loc>${url}</loc>
@@ -29,10 +27,10 @@ function generateSiteMap(postTitleList) {
 }
 
 export const getServerSideProps = async (context) => {
-  const postTitleList = await repo.postRepo.getPostTitleList()
+  const postUriTitleList = await repo.postRepo.getPostTitleList()
 
   // Generate the XML sitemap with the blog data
-  const sitemap = generateSiteMap(postTitleList)
+  const sitemap = generateSiteMap(postUriTitleList)
 
   context.res.setHeader('Content-Type', 'text/xml')
   // Send the XML to the browser

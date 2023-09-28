@@ -62,6 +62,7 @@ testRepoWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
   const dummyPost = await p.post.create({
     data: {
       title: 'testTitle',
+      uriTitle: 'testTitle',
       content: 'testContent',
       thumbnail: 'testThumbnail',
       published: true,
@@ -86,11 +87,12 @@ testRepoWithRollback('getPost', async (p: PrismaClient, repo: IRepository) => {
 })
 
 testRepoWithRollback(
-  'getPostByTitle',
+  'getPostByUriTitle',
   async (p: PrismaClient, repo: IRepository) => {
     const dummyPost = await p.post.create({
       data: {
         title: 'testTitle',
+        uriTitle: 'testTitle',
         content: 'testContent',
         thumbnail: 'testThumbnail',
         published: true,
@@ -106,7 +108,7 @@ testRepoWithRollback(
         }
       }
     })
-    const post = await repo.postRepo.getPostByTitle(dummyPost.title)
+    const post = await repo.postRepo.getPostByUriTitle(dummyPost.title)
     expect(post).not.toBeNull()
     expect(post.title).toBe(dummyPost.title)
     expect(post.content).toBe(dummyPost.content)
@@ -121,6 +123,7 @@ testRepoWithRollback(
     const dummyPost = await p.post.create({
       data: {
         title: 'testTitle',
+        uriTitle: 'testTitle',
         content: 'testContent',
         thumbnail: 'testThumbnail',
         published: true,
@@ -165,6 +168,7 @@ testRepoWithRollback(
     const dummyPost = await p.post.create({
       data: {
         title: 'testTitle',
+        uriTitle: 'testTitle',
         content: 'testContent',
         thumbnail: 'testThumbnail',
         published: true,

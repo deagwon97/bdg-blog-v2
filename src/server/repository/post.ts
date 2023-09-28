@@ -43,10 +43,10 @@ export class PostRepo implements IPostRepo {
     }
     return post
   }
-  getPostByTitle = async (title: string) => {
+  getPostByUriTitle = async (uriTtile: string) => {
     let post = await this.prisma.post.findUnique({
       where: {
-        title: title
+        uriTitle: uriTtile
       }
     })
     if (!post) {
@@ -57,11 +57,11 @@ export class PostRepo implements IPostRepo {
   getPostTitleList = async () => {
     const posts = await this.prisma.post.findMany({
       select: {
-        title: true
+        uriTitle: true
       }
     })
-    const titleList = posts.map((post) => post.title)
-    return titleList
+    const uriTitleList = posts.map((post) => post.uriTitle)
+    return uriTitleList
   }
 
   createPost = async (
@@ -73,6 +73,9 @@ export class PostRepo implements IPostRepo {
     let post = await this.prisma.post.create({
       data: {
         title: title,
+        uriTitle: title
+          .replace(/[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/]/gim, '-')
+          .replace(/ /g, '-'),
         content: content,
         thumbnail: thumbnail,
         published: true,
@@ -105,6 +108,9 @@ export class PostRepo implements IPostRepo {
       },
       data: {
         title: title,
+        uriTitle: title
+          .replace(/[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/]/gim, '-')
+          .replace(/ /g, '-'),
         content: content,
         thumbnail: thumbnail,
         published: published,
@@ -122,8 +128,6 @@ export class PostRepo implements IPostRepo {
     })
     return post
   }
-
-  //delete post
 
   deletePost = async (id: number) => {
     let post = await this.prisma.post.delete({

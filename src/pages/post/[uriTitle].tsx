@@ -70,9 +70,9 @@ const HeadMeta: React.FC<MetaData> = (props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { title } = context.query
-  const postTitle = title as string
-  let post = (await repo.postRepo.getPostByTitle(postTitle)) as Post
+  const { uriTitle } = context.query
+  const postUriTitle = uriTitle as string
+  let post = (await repo.postRepo.getPostByUriTitle(postUriTitle)) as Post
   post = JSON.parse(JSON.stringify(post))
   const imageTag = post.thumbnail as string
   const imageUrl = await getImageUrl(imageTag, sto)
@@ -102,7 +102,7 @@ export default function PostViewPage({
       <HeadMeta
         title={post.title}
         description={getSummary(post.content)}
-        url={`https://bdg.blog/post/${post.id}`}
+        url={`https://deagwon.com/post/${post.uriTitle}`}
         image={post.thumbnail}
       />
 
@@ -119,7 +119,7 @@ export default function PostViewPage({
             <button
               className={styles.button}
               onClick={() => {
-                window.location.href = `/post/edit/${post.id}`
+                window.location.href = `/post/edit/${post.uriTitle}`
               }}>
               수정
             </button>

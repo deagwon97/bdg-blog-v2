@@ -64,6 +64,7 @@ testServiceWithRollback('onUpdatePost', async (service) => {
   const dummyPost = await service.repo.prisma.post.create({
     data: {
       title: 'title',
+      uriTitle: 'title',
       content: 'content',
       thumbnail: 'thumbnail',
       published: true,
@@ -104,6 +105,7 @@ testServiceWithRollback('onDeletePost', async (service) => {
   const dummyPost = await service.repo.prisma.post.create({
     data: {
       title: 'title',
+      uriTitle: 'title',
       content: 'content',
       thumbnail: 'thumbnail',
       published: true,

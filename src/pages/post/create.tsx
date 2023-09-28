@@ -28,6 +28,7 @@ export default function PostCreatePage() {
   const [post, setPost] = useState<Post>({
     id: 0,
     title: '',
+    uriTitle: '',
     content: '',
     categoryName: '',
     thumbnail: '',

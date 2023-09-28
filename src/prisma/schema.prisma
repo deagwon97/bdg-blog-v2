@@ -23,6 +23,7 @@ model Post {
   categoryName String
   category     Category  @relation(fields: [categoryName], references: [name])
   title        String    @unique
+  uriTitle     String    @unique
   content      String?   @db.LongText
   thumbnail    String?
   published    Boolean   @default(false)
