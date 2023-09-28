@@ -5,19 +5,28 @@ const path = require('path')
 const withTelefunc = require('telefunc/next').default
 
 const nextConfig = {
-  reactStrictMode: false, // to be disable twice render in useEffenct
+  reactStrictMode: true, 
   swcMinify: true,
   sassOptions: {
     includePaths: [path.join(__dirname, '*')]
-  }
-}
-
-module.exports = {
-  ...nextConfig,
-  ...withTelefunc(),
+  },
   images: {
     domains: ['file.minio.deagwon.com', 'deagwon.com']
   },
+}
+
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+});
+
+module.exports = {
+  ...withPWA({
+    ...nextConfig,
+    ...withTelefunc(),
+    
+  }),
   async redirects() {
     return [
       {

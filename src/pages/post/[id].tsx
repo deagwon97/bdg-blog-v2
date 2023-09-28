@@ -4,16 +4,67 @@ import { Header } from 'components/header'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react'
 import { repository as repo } from 'server/diContainer'
+import { storage as sto } from 'server/diContainer'
 import PostContent from 'components/post/PostContent'
 import styles from './post.module.scss'
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
+
+import Head from 'next/head'
+import { IStorage } from 'server/service/storageInterface'
+
+const getImageUrl = async (imageTag: string, sto: IStorage) => {
+  const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
+  if (imageUID === null || imageUID === undefined || imageUID === '') {
+    return ''
+  }
+  const presignedUrl = await sto.getPresignedUrl(imageUID)
+  return presignedUrl
+}
+
+const getSummary = (content: string) => {
+  let summary = content
+  if (content.length > 200) {
+    summary = content.substring(0, 200)
+  }
+  return summary
+    .replace('#', '')
+    .replace('##', '')
+    .replace('###', '')
+    .replace(/^#\s+(.*)$/gm, '$1')
+    .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
+    .replace(/<bdg-minio=(.*?)\/>/g, '')
+}
+
+type MetaData = {
+  title: string
+  description: string
+  url: string
+  image: string
+}
+
+const HeadMeta: React.FC<MetaData> = (props) => {
+  return (
+    <Head>
+      <meta name="description" content={props.description} />
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta property="og:title" content={props.title} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={props.url} />
+      {props.image !== '' && <meta property="og:image" content={props.image} />}
+      <meta property="og:article:author" content="bdg.blog" />
+    </Head>
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.query
   const postId = parseInt(id as string)
   let post = (await repo.postRepo.getPost(postId)) as Post
   post = JSON.parse(JSON.stringify(post))
+  const imageTag = post.thumbnail as string
+  const imageUrl = await getImageUrl(imageTag, sto)
+  post.thumbnail = imageUrl
   return {
     props: { post }
   }
@@ -36,6 +87,13 @@ export default function PostViewPage({
   }, [])
   return (
     <>
+      <HeadMeta
+        title={post.title}
+        description={getSummary(post.content)}
+        url={`https://bdg.blog/post/${post.id}`}
+        image={post.thumbnail}
+      />
+
       <Header />
       <div className={styles.background}>
         <div className={styles.postHead}>
