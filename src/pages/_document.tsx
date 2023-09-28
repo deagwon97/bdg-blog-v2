@@ -9,8 +9,11 @@ class BlogDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta name="description" content="개발자 기록" />
+          <meta name="theme-color" content="#000000" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link rel="manifest" href="/manifest.json" />
           <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@350;400&display=swap"
             rel="stylesheet"

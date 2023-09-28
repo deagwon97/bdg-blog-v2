@@ -71,3 +71,8 @@ Thumbs.db
 /playwright-report/
 /playwright/.cache/
 .auth
+
+# pwa
+sw.js
+sw.js*
+workbox*

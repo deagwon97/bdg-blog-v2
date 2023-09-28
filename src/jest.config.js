@@ -11,6 +11,7 @@ const config = {
     '!**/node_modules/**',
     '!<rootDir>/out/**',
     '!<rootDir>/.next/**',
+    '!<rootDir>/public/**',
     '!<rootDir>/*.config.js',
     '!<rootDir>/coverage/**',
     '!<rootDir>/jest.config.js',
@@ -54,7 +55,11 @@ const config = {
   },
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/.next/',
+    '<rootDir>/public/'
+  ],
   // testEnvironment: 'node',
   testEnvironment: '@quramy/jest-prisma/environment',
   testEnvironmentOptions: {
