@@ -2,6 +2,7 @@ import 'server/repository/user'
 import { Category, Post, PrismaClient } from '@prisma/client'
 import { testRepoWithRollback } from 'server/test'
 import { IRepository } from 'server/service/repositoryInterface'
+import { createUriTitle } from 'server/repository/post'
 
 testRepoWithRollback(
   'getMaxPageIndex',
@@ -32,7 +33,7 @@ testRepoWithRollback(
   'createPost',
   async (p: PrismaClient, repo: IRepository) => {
     const post = await repo.postRepo.createPost(
-      'testTitle',
+      'test&!@#Title',
       'testContent',
       'testCategory',
       'testThumbnail'
@@ -44,6 +45,7 @@ testRepoWithRollback(
     })) as Post
     expect(createdPost).not.toBeNull()
     expect(post.title).toBe(createdPost.title)
+    expect(createdPost.uriTitle).toBe(createUriTitle(post.title))
     expect(post.content).toBe(createdPost.content)
     expect(post.categoryName).toBe(createdPost.categoryName)
     expect(post.thumbnail).toBe(createdPost.thumbnail)
@@ -142,7 +144,7 @@ testRepoWithRollback(
 
     const updatedPost = await repo.postRepo.updatePost(
       dummyPost.id,
-      'updatedTitle',
+      'updated*!@Title',
       'updatedContent',
       'updatedCategory',
       'updatedThumbnail',
@@ -155,6 +157,7 @@ testRepoWithRollback(
     })
     expect(post).not.toBeNull()
     expect(post?.title).toBe(updatedPost.title)
+    expect(updatedPost.uriTitle).toBe(createUriTitle(updatedPost.title))
     expect(post?.content).toBe(updatedPost.content)
     expect(post?.categoryName).toBe(updatedPost.categoryName)
     expect(post?.thumbnail).toBe(updatedPost.thumbnail)

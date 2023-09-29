@@ -1,5 +1,13 @@
-import { Post, PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { IPostRepo } from 'server/service/repositoryInterface'
+
+export const createUriTitle = (title: string) => {
+  return title
+    .replace(/[`,.~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/]/gim, '-')
+    .replace(/ /g, '-')
+    .replace(/-+/g, '-')
+}
+
 export class PostRepo implements IPostRepo {
   prisma: PrismaClient
   constructor(prisma: PrismaClient) {
@@ -73,9 +81,7 @@ export class PostRepo implements IPostRepo {
     let post = await this.prisma.post.create({
       data: {
         title: title,
-        uriTitle: title
-          .replace(/[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/]/gim, '-')
-          .replace(/ /g, '-'),
+        uriTitle: createUriTitle(title),
         content: content,
         thumbnail: thumbnail,
         published: true,
@@ -108,9 +114,7 @@ export class PostRepo implements IPostRepo {
       },
       data: {
         title: title,
-        uriTitle: title
-          .replace(/[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/]/gim, '-')
-          .replace(/ /g, '-'),
+        uriTitle: createUriTitle(title),
         content: content,
         thumbnail: thumbnail,
         published: published,
