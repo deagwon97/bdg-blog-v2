@@ -5,10 +5,11 @@ import { Post } from '@prisma/client'
 import Footer from 'components/footer'
 import ToyProjects from 'components/toyProjects/ToyProjects'
 import CategoryButtonList from 'components/categoryButtonList'
-import { useCallback, useEffect, useState, useContext } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import chevron from 'assets/common/chevron-right.svg'
 import searchIcon from 'assets/common/search.svg'
+import Head from 'next/head'
 
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
@@ -104,6 +105,12 @@ export default function MainPage() {
 
   return (
     <>
+      <Head>
+        <meta
+          name="description"
+          content="bdg.blog 개발 블로그: 웹, 운영체제, 네트워크, 아키텍쳐 등을 공부하면서 작성한 블로그입니다."
+        />
+      </Head>
       <Header title="bdg.blog" />
       <div className={styles.background}>
         <div className={styles.contentBox}>
