@@ -81,7 +81,7 @@ export default function PostCreatePage() {
 
         if (res.status === 200) {
           const cursorPosition = contentRef.current?.selectionStart as number
-          const bdgMinioTag = `\n<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${uid}"/>\n`
+          const bdgMinioTag = `\n<img alt="image" src="https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/${uid}"/>\n`
           setPost({
             ...post,
             content:
@@ -110,7 +110,7 @@ export default function PostCreatePage() {
   const [imageList, setImageList] = useState<string[][]>([])
   const getImageList = (content: string): string[][] => {
     const regex = new RegExp(
-      `<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/(.*?)"\\/?>`,
+      `<img alt="image" src="https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/(.*?)"\\/?>`,
       'g'
     )
 
@@ -118,7 +118,7 @@ export default function PostCreatePage() {
     if (imageTagList === null) return []
     const imageList = imageTagList.map((tag) => {
       const fileUid = tag.replace(regex, '$1')
-      const url = `https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}`
+      const url = `https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/${fileUid}`
       return [url, fileUid]
     })
     return imageList

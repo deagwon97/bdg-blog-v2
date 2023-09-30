@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let post = (await repo.postRepo.getPostByUriTitle(postUriTitle)) as Post
   post = JSON.parse(JSON.stringify(post))
   const fileUid = post.thumbnail as string
-  post.thumbnail = `<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}"/>`
+  post.thumbnail = `<img alt="image" src="https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/${fileUid}"/>`
   return {
     props: { post }
   }

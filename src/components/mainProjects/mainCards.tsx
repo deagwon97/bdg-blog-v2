@@ -59,18 +59,14 @@ export default function MainCards() {
           summary={'홈메이드 온프레미스로 어디까지 가능할까?'}
           link={'/post/온프레미스-블로그-서비스-bdgblog'}
           boxWidth={boxWidth}
-          imageUrl={
-            'https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/8b20162b-dc8f-4532-99d4-068298c76931'
-          }
+          imageUrl={`https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/8b20162b-dc8f-4532-99d4-068298c76931`}
         />
         <MainPostCard
           title={'MyUBAI - 도시과학 빅데이터 AI 연구원'}
           summary={'HPC 클러스터 사용자를 위한 웹 어플리케이션'}
           link={'/post/MyUBAI--도시과학-빅데이터-AI-연구원'}
           boxWidth={boxWidth}
-          imageUrl={
-            'https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/71716a2e-8b46-45ff-a85c-2b38775df821'
-          }
+          imageUrl={`https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/71716a2e-8b46-45ff-a85c-2b38775df821`}
         />
       </div>
     </div>

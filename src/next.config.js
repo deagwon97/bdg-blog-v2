@@ -5,7 +5,7 @@ const path = require('path')
 const withTelefunc = require('telefunc/next').default
 
 const nextConfig = {
-  reactStrictMode: true, 
+  reactStrictMode: true,
   swcMinify: true,
   sassOptions: {
     includePaths: [path.join(__dirname, '*')]
@@ -13,19 +13,22 @@ const nextConfig = {
   images: {
     domains: ['file.minio.deagwon.com', 'deagwon.com']
   },
+  env: {
+    MINIO_ENDPOINT: 'file.minio.deagwon.com',
+    MINIO_BUCKET_NAME: 'bdg-blog'
+  }
 }
 
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
-  skipWaiting: true,
-});
+  skipWaiting: true
+})
 
 module.exports = {
   ...withPWA({
     ...nextConfig,
-    ...withTelefunc(),
-    
+    ...withTelefunc()
   }),
   async redirects() {
     return [

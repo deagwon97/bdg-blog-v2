@@ -166,7 +166,7 @@ const PostCards: React.FC<PostProps> = (props) => {
       const post = posts[i]
       if (post.thumbnail === '') continue
       const fileUid = post.thumbnail as string
-      const imageUrl = `https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}`
+      const imageUrl = `https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/${fileUid}`
       newTagUrlMap.set(fileUid, imageUrl)
     }
     setTagUrlMap(newTagUrlMap)
