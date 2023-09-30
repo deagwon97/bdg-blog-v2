@@ -5,6 +5,7 @@ const config = {
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
     '!**/*.jest.ts',
+    '!**/*.xml.js',
     '!**/*.e2d.ts',
     '!**/*.config.ts',
     '!**/*.d.ts',
