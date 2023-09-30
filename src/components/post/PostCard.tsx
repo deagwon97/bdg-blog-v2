@@ -16,7 +16,7 @@ const getSummary = (content: string) => {
     .replace('###', '')
     .replace(/^#\s+(.*)$/gm, '$1')
     .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
-    .replace(/<bdg-minio=(.*?)\/>/g, '')
+    .replace(/<img alt=".*" src=".*"\/>/g, '')
 }
 
 type PostCardProps = {

@@ -7,7 +7,6 @@ export class Api implements IApi {
   onConnect = api.onConnect
   onLoadUser = api.onLoadUser
   onLogin = api.onLogin
-  onLoadPresignedUrl = api.onLoadPresignedUrl
   onLoadPresignedUrlPutObject = api.onLoadPresignedUrlPutObject
   onLoadPostListPageSortByDate = api.onLoadPostListPageSortByDate
   onLoadPostListPageSortByDateByCategory =

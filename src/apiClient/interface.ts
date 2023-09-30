@@ -8,7 +8,6 @@ export interface IApi {
   onConnect: ci.OnConnect
   onLoadUser: ci.OnLoadUser
   onLogin: ci.OnLogin
-  onLoadPresignedUrl: ci.OnLoadPresignedUrl
   onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject
   onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate
   onLoadPostListPageSortByDateByCategory: ci.OnLoadPostListPageSortByDateByCategory

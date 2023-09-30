@@ -87,7 +87,7 @@ export default function PostEditPage({
 
         if (res.status === 200) {
           const cursorPosition = contentRef.current?.selectionStart as number
-          const bdgMinioTag = `\n<bdg-minio=${uid}/>\n`
+          const bdgMinioTag = `\n<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${uid}"/>\n`
           setPost({
             ...post,
             content:
@@ -114,16 +114,19 @@ export default function PostEditPage({
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [imageList, setImageList] = useState<string[][]>([])
-  const getImageList = async (content: string): Promise<string[][]> => {
-    const tagList = content.match(/<bdg-minio=(.*?)\/>/g) as string[]
-    if (tagList === null) return []
-    const imageList = await Promise.all(
-      tagList.map(async (tag) => {
-        const fileUID = tag.replace('<bdg-minio=', '').replace('/>', '')
-        const url = await api.onLoadPresignedUrl(fileUID)
-        return [tag, url]
-      })
+  const getImageList = (content: string): string[][] => {
+    const regex = new RegExp(
+      `<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/(.*?)"\\/?>`,
+      'g'
     )
+
+    const imageTagList = content.match(regex) as string[]
+    if (imageTagList === null) return []
+    const imageList = imageTagList.map((tag) => {
+      const fileUid = tag.replace(regex, '$1')
+      const url = `https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}`
+      return [url, fileUid]
+    })
     return imageList
   }
 
@@ -142,7 +145,7 @@ export default function PostEditPage({
     p: 4
   }
 
-  const savePost = async (imageTag: string) => {
+  const savePost = async (thumbnailUid: string) => {
     if (post.categoryName === '+') {
       await api.onCreateCategory(newCategory)
     }
@@ -151,7 +154,7 @@ export default function PostEditPage({
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,
-      (post.thumbnail = imageTag),
+      (post.thumbnail = thumbnailUid),
       post.published
     )
 
@@ -182,7 +185,7 @@ export default function PostEditPage({
             <div
               className={styles.saveButton}
               onClick={async () => {
-                const imageList = await getImageList(post.content || '')
+                const imageList = getImageList(post.content || '')
                 setImageList(imageList)
                 if (imageList.length < 1) {
                   await savePost('')
@@ -231,20 +234,15 @@ export default function PostEditPage({
             <div className={styles.modalImageContainer}>
               <h3>썸네일 이미지 선택</h3>
               {imageList.map((tagImage) => {
-                const [tag, image] = tagImage
+                const [tag, fileUid] = tagImage
                 return (
                   <div
-                    key={tag}
+                    key={fileUid}
                     className={styles.modalImage}
                     onClick={async () => {
-                      await savePost(tag)
+                      await savePost(fileUid)
                     }}>
-                    <Image
-                      alt="postImage"
-                      src={image}
-                      width={300}
-                      height={300}
-                    />
+                    <Image alt="postImage" src={tag} width={300} height={300} />
                   </div>
                 )
               })}

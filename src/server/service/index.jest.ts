@@ -28,11 +28,6 @@ testServiceWithRollback('onLogin', async (service) => {
   expect(result.refreshToken).not.toBe('')
 })
 
-test('onLoadPresignedUrl', async () => {
-  const result = await service.loadPresignedUrl('filename')
-  expect(typeof result).toBe('string')
-})
-
 test('onLoadPresignedUrlPutObject', async () => {
   const result = await service.loadPresignedUrlPutObject('filename')
   expect(typeof result).toBe('string')

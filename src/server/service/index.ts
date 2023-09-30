@@ -54,9 +54,7 @@ export class Service implements IService {
       refreshToken: refreshToken
     }
   }
-  loadPresignedUrl = async (filename: string) => {
-    return await this.sto.getPresignedUrl(filename)
-  }
+
   loadPresignedUrlPutObject = async (filename: string) => {
     return await this.sto.getPresignedUrlPutObject(filename)
   }

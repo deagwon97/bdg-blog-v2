@@ -12,17 +12,6 @@ import useApi from 'context/hook'
 
 import { NextSeo } from 'next-seo'
 
-import { IStorage } from 'server/service/storageInterface'
-
-const getImageUrl = async (imageTag: string, sto: IStorage) => {
-  const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
-  if (imageUID === null || imageUID === undefined || imageUID === '') {
-    return ''
-  }
-  const presignedUrl = await sto.getPresignedUrl(imageUID)
-  return presignedUrl
-}
-
 const getSummary = (content: string) => {
   let summary = content
   if (content.length > 200) {
@@ -34,7 +23,6 @@ const getSummary = (content: string) => {
     .replace('###', '')
     .replace(/^#\s+(.*)$/gm, '$1')
     .replace(/\*{1,2}(.*?)\*{1,2}/g, '$1')
-    .replace(/<bdg-minio=(.*?)\/>/g, '')
 }
 
 type MetaData = {
@@ -74,9 +62,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const postUriTitle = uriTitle as string
   let post = (await repo.postRepo.getPostByUriTitle(postUriTitle)) as Post
   post = JSON.parse(JSON.stringify(post))
-  const imageTag = post.thumbnail as string
-  const imageUrl = await getImageUrl(imageTag, sto)
-  post.thumbnail = imageUrl
+  const fileUid = post.thumbnail as string
+  post.thumbnail = `<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}"/>`
   return {
     props: { post }
   }

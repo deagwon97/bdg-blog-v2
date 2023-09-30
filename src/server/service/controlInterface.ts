@@ -4,7 +4,6 @@ import { Post } from '@prisma/client'
 export type OnConnect = service.Connect
 export type OnLogin = service.Login
 export type OnLoadUser = service.LoadUser
-export type OnLoadPresignedUrl = service.LoadPresignedUrl
 export type OnLoadPresignedUrlPutObject = service.LoadPresignedUrlPutObject
 export type OnLoadPostListPageSortByDate = service.LoadPostListPageSortByDate
 export type OnLoadPostListPageSortByDateByCategory =

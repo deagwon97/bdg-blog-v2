@@ -13,21 +13,6 @@ type Props = {
   content: string
 }
 
-const reloadImage = async (content: string, api: IApi): Promise<string> => {
-  const fileTagList = content.match(/<bdg-minio=(.*?)\/>/g)
-  if (fileTagList === null) return content
-  const convertMap: Map<string, string> = new Map()
-  for (const fileTag of fileTagList) {
-    const fileUID = fileTag.replace('<bdg-minio=', '').replace('/>', '')
-    const url = await api.onLoadPresignedUrl(fileUID)
-    const imageTag = `<Image  src="${url}" alt="thumbnail"/>`
-    convertMap.set(fileTag, imageTag)
-  }
-  return content.replace(/<bdg-minio=(.*?)\/>/g, (matched) => {
-    return convertMap.get(matched) || 'not-found'
-  })
-}
-
 const PostMarkdown: React.FunctionComponent<Props> = (props) => {
   const components: Partial<NormalComponents & SpecialComponents> = {
     code({ node, inline, className, children, ...props }: any) {
@@ -58,16 +43,7 @@ const PostMarkdown: React.FunctionComponent<Props> = (props) => {
     }
   }
 
-  const [content, setContent] = useState(props.content)
-  const api = useApi<IApi>(TYPES.Api)
-
-  const updateContent = useCallback(async () => {
-    setContent(await reloadImage(props.content, api))
-  }, [props.content, api])
-
-  useEffect(() => {
-    updateContent()
-  }, [props.content, updateContent])
+  // const [content, setContent] = useState(props.content)
 
   return (
     <div className="markdown-body">
@@ -75,7 +51,7 @@ const PostMarkdown: React.FunctionComponent<Props> = (props) => {
         components={components}
         rehypePlugins={[rehypeRaw]}
         remarkPlugins={[remarkGfm]}>
-        {content}
+        {props.content}
       </ReactMarkdown>
     </div>
   )

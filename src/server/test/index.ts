@@ -66,7 +66,6 @@ export const describeServiceWithRollback = async (
         const repo = repoFactory(p)
         const sto = stoFactory(minio)
         const service = new Service(repo, sto)
-        console.log('runtest')
         for (const testBlock of testBlocks) {
           test(testBlock.msg, async () => {
             await testBlock.func(service)

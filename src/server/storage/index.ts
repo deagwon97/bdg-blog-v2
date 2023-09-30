@@ -14,13 +14,4 @@ export class Storage implements IStorage {
     )) as string
     return presignedUrl
   }
-
-  getPresignedUrl = async (filename: string) => {
-    const presignedUrl = await this.minio.presignedGetObject(
-      'bdg-blog',
-      filename,
-      60 * 60 * 24 * 7
-    )
-    return presignedUrl
-  }
 }

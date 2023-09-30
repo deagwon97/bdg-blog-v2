@@ -23,15 +23,6 @@ import useApi from 'context/hook'
 
 type Post = Prisma.PostGetPayload<{}>
 
-const getImageUrl = async (imageTag: string, api: IApi) => {
-  const imageUID = imageTag.replace('<bdg-minio=', '').replace('/>', '')
-  if (imageUID === null || imageUID === undefined || imageUID === '') {
-    return ''
-  }
-  const presignedUrl = await api.onLoadPresignedUrl(imageUID)
-  return presignedUrl
-}
-
 type PostProps = {
   category: string
   posts: Post[]
@@ -169,21 +160,17 @@ const PostCards: React.FC<PostProps> = (props) => {
     }
   }, [currentPageIdx])
 
-  const updateTagUrlMap = useCallback(async (posts: Post[]) => {
+  useEffect(() => {
     const newTagUrlMap = new Map()
     for (let i = 0; i < posts.length; i++) {
       const post = posts[i]
       if (post.thumbnail === '') continue
-      const imageTag = post.thumbnail as string
-      const imageUrl = await getImageUrl(imageTag, api)
-      newTagUrlMap.set(imageTag, imageUrl)
+      const fileUid = post.thumbnail as string
+      const imageUrl = `https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}`
+      newTagUrlMap.set(fileUid, imageUrl)
     }
     setTagUrlMap(newTagUrlMap)
-  }, [])
-
-  useEffect(() => {
-    updateTagUrlMap(posts)
-  }, [updateTagUrlMap, posts])
+  }, [posts])
 
   useEffect(() => {
     setCurrentPageIdx(1)

@@ -21,7 +21,6 @@ import useApi from 'context/hook'
 
 export default function PostCreatePage() {
   useEffect(() => {
-    console.log('scroll to top')
     window.scroll({ top: 0, left: 0, behavior: 'smooth' })
   })
   const api = useApi<IApi>(TYPES.Api)
@@ -82,7 +81,7 @@ export default function PostCreatePage() {
 
         if (res.status === 200) {
           const cursorPosition = contentRef.current?.selectionStart as number
-          const bdgMinioTag = `\n<bdg-minio=${uid}/>\n`
+          const bdgMinioTag = `\n<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${uid}"/>\n`
           setPost({
             ...post,
             content:
@@ -109,16 +108,19 @@ export default function PostCreatePage() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [imageList, setImageList] = useState<string[][]>([])
-  const getImageList = async (content: string): Promise<string[][]> => {
-    const tagList = content.match(/<bdg-minio=(.*?)\/>/g) as string[]
-    if (tagList === null) return []
-    const imageList = await Promise.all(
-      tagList.map(async (tag) => {
-        const fileUID = tag.replace('<bdg-minio=', '').replace('/>', '')
-        const url = await api.onLoadPresignedUrl(fileUID)
-        return [tag, url]
-      })
+  const getImageList = (content: string): string[][] => {
+    const regex = new RegExp(
+      `<img alt="image" src="https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/(.*?)"\\/?>`,
+      'g'
     )
+
+    const imageTagList = content.match(regex) as string[]
+    if (imageTagList === null) return []
+    const imageList = imageTagList.map((tag) => {
+      const fileUid = tag.replace(regex, '$1')
+      const url = `https://${process.env.NEXT_PUBLIC_MINIO_ENDPOINT}/${process.env.NEXT_PUBLIC_MINIO_BUCKET_NAME}/${fileUid}`
+      return [url, fileUid]
+    })
     return imageList
   }
 
@@ -137,7 +139,7 @@ export default function PostCreatePage() {
     p: 4
   }
 
-  const savePost = async (imageTag: string) => {
+  const savePost = async (thumbnailUid: string) => {
     if (post.categoryName === '+') {
       await api.onCreateCategory(newCategory)
     }
@@ -145,7 +147,7 @@ export default function PostCreatePage() {
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,
-      (post.thumbnail = imageTag)
+      (post.thumbnail = thumbnailUid)
     )
 
     window.location.href = '/'
@@ -167,7 +169,7 @@ export default function PostCreatePage() {
               className={styles.saveButton}
               onClick={async () => {
                 post.content
-                const imageList = await getImageList(post.content || '')
+                const imageList = getImageList(post.content || '')
                 setImageList(imageList)
                 if (imageList.length < 1) {
                   await savePost('')
@@ -215,21 +217,16 @@ export default function PostCreatePage() {
           <div className={styles.modalBackground}>
             <div className={styles.modalImageContainer}>
               <h3>썸네일 이미지 선택</h3>
-              {imageList.map((tagImage) => {
-                const [tag, image] = tagImage
+              {imageList.map((image) => {
+                const [url, fileUid] = image
                 return (
                   <div
-                    key={tag}
+                    key={fileUid}
                     className={styles.modalImage}
                     onClick={async () => {
-                      await savePost(tag)
+                      await savePost(fileUid)
                     }}>
-                    <Image
-                      alt="postImage"
-                      src={image}
-                      width={100}
-                      height={100}
-                    />
+                    <Image alt="postImage" src={url} width={300} height={300} />
                   </div>
                 )
               })}

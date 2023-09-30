@@ -14,7 +14,6 @@ export type LoginResult = {
 export type Login = (email: string, password: string) => Promise<LoginResult>
 export type LoadUser = (id: number) => Promise<User>
 
-export type LoadPresignedUrl = (filename: string) => Promise<string>
 export type LoadPresignedUrlPutObject = (filename: string) => Promise<string>
 export type LoadPostListPageSortByDate = (
   pageSize: number,
@@ -70,7 +69,6 @@ export interface IService {
   connect: Connect
   login: Login
   loadUser: LoadUser
-  loadPresignedUrl: LoadPresignedUrl
   loadPresignedUrlPutObject: LoadPresignedUrlPutObject
   loadPostListPageSortByDate: LoadPostListPageSortByDate
   loadPostListPageSortByDateByCategory: LoadPostListPageSortByDateByCategory
