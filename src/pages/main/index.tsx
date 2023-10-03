@@ -13,6 +13,7 @@ import Head from 'next/head'
 
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
+import Portfolio from 'components/portfolio'
 
 type SearchBarProps = {
   searchKeyword: string
@@ -120,6 +121,7 @@ export default function MainPage() {
           // placeholder="blur" alt="right" src={chevron} />
           </div>
           <MainCards /> */}
+          <Portfolio />
           <ToyProjects />
           <div className={styles.head}>
             <span>Posts</span>
