@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
@@ -6,8 +6,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { NormalComponents } from 'react-markdown/lib/complex-types'
 import { SpecialComponents } from 'react-markdown/lib/ast-to-react'
-import { IApi, TYPES } from 'apiClient/interface'
-import useApi from 'context/hook'
 
 type Props = {
   content: string
@@ -42,8 +40,6 @@ const PostMarkdown: React.FunctionComponent<Props> = (props) => {
       )
     }
   }
-
-  // const [content, setContent] = useState(props.content)
 
   return (
     <div className="markdown-body">

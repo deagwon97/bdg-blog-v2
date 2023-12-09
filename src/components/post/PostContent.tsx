@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Prisma } from '@prisma/client'
 import styles from './PostContent.module.scss'
 import PostMarkdown from './PostView'
