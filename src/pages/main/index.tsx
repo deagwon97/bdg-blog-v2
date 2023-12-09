@@ -121,7 +121,7 @@ export default function MainPage() {
           // placeholder="blur" alt="right" src={chevron} />
           </div>
           <MainCards /> */}
-          <Portfolio />
+          {/* <Portfolio /> */}
           <ToyProjects />
           <div className={styles.head}>
             <span>Posts</span>
