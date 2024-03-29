@@ -55,6 +55,22 @@ export class Service implements IService {
     }
   }
 
+  checkAccessToken = async (accessToken: string) => {
+    const userName = await this.repo.userRepo.checkAccessToken(accessToken)
+    if (userName === '') {
+      return false
+    }
+    return true
+  }
+  getAccessTokenByRefreshToken = async (refreshToken: string) => {
+    const userName = await this.repo.userRepo.checkRefreshToken(refreshToken)
+    if (userName === '') {
+      return ''
+    }
+    const accessToken = auth.generateAccessToken(userName)
+    return accessToken
+  }
+
   loadPresignedUrlPutObject = async (filename: string) => {
     return await this.sto.getPresignedUrlPutObject(filename)
   }

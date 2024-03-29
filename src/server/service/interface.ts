@@ -14,6 +14,11 @@ export type LoginResult = {
 export type Login = (email: string, password: string) => Promise<LoginResult>
 export type LoadUser = (id: number) => Promise<User>
 
+export type CheckAccessToken = (accessToken: string) => Promise<boolean>
+export type GetAccessTokenByRefreshToken = (
+  refreshToekn: string
+) => Promise<string>
+
 export type LoadPresignedUrlPutObject = (filename: string) => Promise<string>
 export type LoadPostListPageSortByDate = (
   pageSize: number,
@@ -69,6 +74,8 @@ export interface IService {
   connect: Connect
   login: Login
   loadUser: LoadUser
+  checkAccessToken: CheckAccessToken
+  getAccessTokenByRefreshToken: GetAccessTokenByRefreshToken
   loadPresignedUrlPutObject: LoadPresignedUrlPutObject
   loadPostListPageSortByDate: LoadPostListPageSortByDate
   loadPostListPageSortByDateByCategory: LoadPostListPageSortByDateByCategory

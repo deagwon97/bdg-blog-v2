@@ -5,6 +5,10 @@ import * as ci from 'server/service/controlInterface'
 export const onConnect: ci.OnConnect = service.connect
 export const onLoadUser: ci.OnLoadUser = service.loadUser
 export const onLogin: ci.OnLogin = service.login
+export const onCheckAccessToken: ci.OnCheckAccessToken =
+  service.checkAccessToken
+export const onLoadAccessTokenByRefreshToken: ci.OnLoadAccessTokenByRefreshToken =
+  service.getAccessTokenByRefreshToken
 export const onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject =
   service.loadPresignedUrlPutObject
 export const onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate =

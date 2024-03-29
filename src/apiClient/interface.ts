@@ -1,3 +1,4 @@
+import { onCheckAccessToken } from './../server/control/index.telefunc'
 import * as ci from 'server/service/controlInterface'
 
 export const TYPES = {
@@ -8,6 +9,8 @@ export interface IApi {
   onConnect: ci.OnConnect
   onLoadUser: ci.OnLoadUser
   onLogin: ci.OnLogin
+  onCheckAccessToken: ci.OnCheckAccessToken
+  onLoadAccessTokenByRefreshToken: ci.OnLoadAccessTokenByRefreshToken
   onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject
   onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate
   onLoadPostListPageSortByDateByCategory: ci.OnLoadPostListPageSortByDateByCategory

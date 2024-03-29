@@ -5,8 +5,10 @@ import logoutIcon from 'assets/header/logout-icon.svg'
 import writeIcon from 'assets/header/write-icon.svg'
 import tempPostListIcon from 'assets/header/temp-post-list-icon.svg'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { IApi, TYPES } from 'apiClient/interface'
+import useApi from 'context/hook'
 
 type HeaderItemProps = {
   accessToken: string
@@ -75,14 +77,42 @@ export type HeaderProps = {
   title: string | undefined
 }
 export const Header: React.FC<HeaderProps> = (props) => {
+  const api = useApi<IApi>(TYPES.Api)
   const [accessToken, setAccessToken] = useState<string>('')
 
-  useEffect(() => {
-    let token = localStorage.getItem('accessToken')
-    if (token !== null) {
-      setAccessToken(token)
+  // // TODO 오류 해결 필요
+  const checkAccessTokenCallback = useCallback(async () => {
+    let refreshToken = localStorage.getItem('refreshToken')
+    let nowAccesstoken = localStorage.getItem('accessToken')
+
+    if (nowAccesstoken === null && refreshToken === null) {
+      localStorage.clear()
+      return
     }
+
+    if (nowAccesstoken !== null) {
+      const isValid = await api.onCheckAccessToken(nowAccesstoken)
+      if (isValid) {
+        return
+      }
+    }
+
+    if (refreshToken === null) {
+      localStorage.clear()
+      return
+    }
+    nowAccesstoken = await api.onLoadAccessTokenByRefreshToken(refreshToken)
+    if (nowAccesstoken === '') {
+      localStorage.clear()
+      return
+    }
+    setAccessToken(nowAccesstoken)
+    localStorage.setItem('accessToken', nowAccesstoken)
   }, [])
+
+  useEffect(() => {
+    checkAccessTokenCallback()
+  }, [checkAccessTokenCallback])
 
   const clearLocalStorage = () => {
     localStorage.clear()
