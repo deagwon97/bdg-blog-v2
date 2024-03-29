@@ -25,4 +25,5 @@ COPY --from=builder /workdir/src/public /build/public
 COPY --from=builder /workdir/src/node_modules /build/node_modules
 ENV NODE_ENV=production
 EXPOSE 3000
+
 CMD ["node_modules/.bin/next", "start"]
