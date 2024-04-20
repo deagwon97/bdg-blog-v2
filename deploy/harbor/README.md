@@ -25,7 +25,6 @@ persistence.persistentVolumeClaim.trivy.existingClaim:"harbor-trivy"
 persistence.persistentVolumeClaim.database.existingClaim:"harbor-database"
 harborAdminPassword: "newpassowrd"
 ```
-
 ### c. Install
 
 ```

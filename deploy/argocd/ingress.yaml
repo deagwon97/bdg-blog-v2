@@ -1,6 +1,7 @@
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
+  namespace: bdg-blog-argocd
   name: argocd-issuer
 spec:
   acme:
@@ -16,6 +17,7 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  namespace: bdg-blog-argocd
   name: argocd-certificate
 spec:
   secretName: argocd-crt-secret
@@ -28,6 +30,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
+  namespace: bdg-blog-argocd
   name: redirectscheme
 spec:
   redirectScheme:
@@ -38,6 +41,7 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
+  namespace: bdg-blog-argocd
   name: ingressroute-argocd-redirect
 spec:
   entryPoints:
@@ -55,7 +59,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: ingressroute-argocd
-  
+  namespace: bdg-blog-argocd
   annotations:
     cert-manager.io/issuer: argocd-issuer
 spec:
