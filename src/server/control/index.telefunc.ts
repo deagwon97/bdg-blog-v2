@@ -39,10 +39,7 @@ export const onUpdatePost: ci.OnUpdatePost = async (
   thumbnail: string,
   published: boolean
 ) => {
-  console.log('??')
   let { accessToken } = getContext()
-  console.log('??')
-  console.log(accessToken)
   accessToken = accessToken as string
   return await service.updatePost(
     accessToken,
