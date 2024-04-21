@@ -5,7 +5,7 @@ import logoutIcon from 'assets/header/logout-icon.svg'
 import writeIcon from 'assets/header/write-icon.svg'
 import tempPostListIcon from 'assets/header/temp-post-list-icon.svg'
 import Head from 'next/head'
-import { useCallback, useEffect, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
@@ -80,7 +80,6 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const api = useApi<IApi>(TYPES.Api)
   const [accessToken, setAccessToken] = useState<string>('')
 
-  // // TODO 오류 해결 필요
   const checkAccessTokenCallback = useCallback(async () => {
     let refreshToken = localStorage.getItem('refreshToken')
     let nowAccesstoken = localStorage.getItem('accessToken')
@@ -93,6 +92,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
     if (nowAccesstoken !== null) {
       const isValid = await api.onCheckAccessToken(nowAccesstoken)
       if (isValid) {
+        setAccessToken(nowAccesstoken)
         return
       }
     }
