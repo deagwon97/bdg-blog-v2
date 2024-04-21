@@ -38,7 +38,7 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
         className={styles.searchInput}
         type="search"
         value={searchKeyword}
-        placeholder="검색어를 입력하지마"
+        placeholder="검색어를 입력하세요"
         onChange={handleSearchKeyword}
         onKeyDown={(e) => {
           const key = e.code || e.key
