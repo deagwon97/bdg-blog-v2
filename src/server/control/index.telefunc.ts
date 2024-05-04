@@ -48,7 +48,8 @@ export const onCreatePost: ci.OnCreatePost = async (
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => {
   let { accessToken } = getContext()
   accessToken = accessToken as string
@@ -57,7 +58,8 @@ export const onCreatePost: ci.OnCreatePost = async (
     title,
     content,
     categoryName,
-    thumbnail
+    thumbnail,
+    published
   )
 }
 export const onUpdatePost: ci.OnUpdatePost = async (

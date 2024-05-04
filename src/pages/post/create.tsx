@@ -147,7 +147,8 @@ export default function PostCreatePage() {
       post.title,
       post.content || '',
       post.categoryName === '+' ? newCategory : post.categoryName,
-      (post.thumbnail = thumbnailUid)
+      (post.thumbnail = thumbnailUid),
+      post.published
     )
 
     window.location.href = '/'

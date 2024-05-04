@@ -45,7 +45,8 @@ testServiceWithRollback('onCreatePost', async (service) => {
     'title',
     'content',
     'category',
-    'thumbnail'
+    'thumbnail',
+    true
   )
   const createdPost = (await service.repo.prisma.post.findUnique({
     where: {

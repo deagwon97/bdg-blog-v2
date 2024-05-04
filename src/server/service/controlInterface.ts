@@ -24,7 +24,8 @@ export type OnCreatePost = (
   title: string,
   content: string,
   categoryName: string,
-  thumbnail: string
+  thumbnail: string,
+  published: boolean
 ) => Promise<Post>
 
 export type OnUpdatePost = (

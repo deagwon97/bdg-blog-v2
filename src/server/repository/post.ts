@@ -76,7 +76,8 @@ export class PostRepo implements IPostRepo {
     title: string,
     content: string,
     categoryName: string,
-    thumbnail: string
+    thumbnail: string,
+    published: boolean
   ) => {
     let post = await this.prisma.post.create({
       data: {
@@ -84,7 +85,7 @@ export class PostRepo implements IPostRepo {
         uriTitle: createUriTitle(title),
         content: content,
         thumbnail: thumbnail,
-        published: true,
+        published: published,
         category: {
           connectOrCreate: {
             where: {

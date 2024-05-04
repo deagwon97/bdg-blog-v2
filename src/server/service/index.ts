@@ -134,7 +134,8 @@ export class Service implements IService {
     title: string,
     content: string,
     categoryName: string,
-    thumbnail: string
+    thumbnail: string,
+    published: boolean
   ) => {
     const name = await this.repo.userRepo.checkAccessToken(
       accessToken as string
@@ -144,7 +145,8 @@ export class Service implements IService {
         title,
         content,
         categoryName,
-        thumbnail
+        thumbnail,
+        published
       )) as Post
       return post
     }
