@@ -29,7 +29,7 @@ export default function PostCreatePage() {
     title: '',
     uriTitle: '',
     content: '',
-    categoryName: '',
+    categoryName: '기타',
     thumbnail: '',
     createdAt: null,
     updatedAt: null,
@@ -167,6 +167,13 @@ export default function PostCreatePage() {
             />
             <div
               className={styles.saveButton}
+              onClick={() => {
+                setPost({ ...post, published: !post.published })
+              }}>
+              {post.published ? '공개' : '비공개'}
+            </div>
+            <div
+              className={styles.saveButton}
               onClick={async () => {
                 post.content
                 const imageList = getImageList(post.content || '')
@@ -182,7 +189,7 @@ export default function PostCreatePage() {
           </div>
 
           <CategoryDropDown
-            value={'React'}
+            value={'기타'}
             handler={(value: string) => {
               setPost({ ...post, categoryName: value })
             }}
