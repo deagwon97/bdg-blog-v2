@@ -13,24 +13,15 @@ export default async function telefuncMiddleware(
   let httpResponse: HttpResponse
   const { url, method, body } = req
   assert(url && method)
+  let accessToken = (await parseAccessToken(req)) as string
 
-  const accessToken = await parseAccessToken(req)
-
-  if (accessToken) {
-    httpResponse = await telefunc({
-      url: url,
-      method: method,
-      body: body,
-      context: {
-        accessToken: accessToken
-      } as Telefunc.Context
-    })
-  } else {
-    httpResponse = await telefunc({
-      url: url,
-      method: method,
-      body: body
-    })
-  }
+  httpResponse = await telefunc({
+    url: url,
+    method: method,
+    body: body,
+    context: {
+      accessToken: accessToken
+    } as Telefunc.Context
+  })
   res.status(httpResponse.statusCode).send(httpResponse.body)
 }

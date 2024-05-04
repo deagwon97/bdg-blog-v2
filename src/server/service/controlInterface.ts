@@ -8,9 +8,18 @@ export type OnCheckAccessToken = service.CheckAccessToken
 export type OnLoadAccessTokenByRefreshToken =
   service.GetAccessTokenByRefreshToken
 export type OnLoadPresignedUrlPutObject = service.LoadPresignedUrlPutObject
-export type OnLoadPostListPageSortByDate = service.LoadPostListPageSortByDate
-export type OnLoadPostListPageSortByDateByCategory =
-  service.LoadPostListPageSortByDateByCategory
+export type OnLoadPostListPageSortByDate = (
+  pageSize: number,
+  pageIdx: number,
+  published: boolean
+) => Promise<Post[]>
+export type OnLoadPostListPageSortByDateByCategory = (
+  pageSize: number,
+  pageIdx: number,
+  categoryName: string,
+  published: boolean,
+  searchKeyword: string
+) => Promise<Post[]>
 export type OnCreatePost = (
   title: string,
   content: string,

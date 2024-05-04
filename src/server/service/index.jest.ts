@@ -34,7 +34,7 @@ test('onLoadPresignedUrlPutObject', async () => {
 })
 
 test('onLoadPostListPageSortByDate', async () => {
-  const result = await service.loadPostListPageSortByDate(10, 1, true)
+  const result = await service.loadPostListPageSortByDate('', 10, 1, true)
   expect(result).not.toEqual([])
 })
 

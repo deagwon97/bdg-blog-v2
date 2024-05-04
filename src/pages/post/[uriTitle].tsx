@@ -8,7 +8,7 @@ import PostContent from 'components/post/PostContent'
 import styles from './post.module.scss'
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
-
+import nookies from 'nookies'
 import { NextSeo } from 'next-seo'
 
 const getSummary = (content: string) => {
@@ -58,9 +58,32 @@ const HeadMeta: React.FC<MetaData> = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { uriTitle } = context.query
+  const cookies = nookies.get(context)
+  const accessToken = cookies.accessToken
   const postUriTitle = uriTitle as string
   let post = (await repo.postRepo.getPostByUriTitle(postUriTitle)) as Post
   post = JSON.parse(JSON.stringify(post))
+  if (post.published === false && accessToken !== accessToken) {
+    alert('비공개된 글입니다.')
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+  if (post.published === false) {
+    const userName = await repo.userRepo.checkAccessToken(accessToken)
+    if (userName === '') {
+      return {
+        redirect: {
+          destination: '/',
+          permanent: false
+        }
+      }
+    }
+  }
+
   const fileUid = post.thumbnail as string
   post.thumbnail = `<img alt="image" src="https://${process.env.MINIO_ENDPOINT}/${process.env.MINIO_BUCKET_NAME}/${fileUid}"/>`
   return {

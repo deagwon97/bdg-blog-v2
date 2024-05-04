@@ -12,9 +12,38 @@ export const onLoadAccessTokenByRefreshToken: ci.OnLoadAccessTokenByRefreshToken
 export const onLoadPresignedUrlPutObject: ci.OnLoadPresignedUrlPutObject =
   service.loadPresignedUrlPutObject
 export const onLoadPostListPageSortByDate: ci.OnLoadPostListPageSortByDate =
-  service.loadPostListPageSortByDate
+  async (pageSize: number, pageIdx: number, published: boolean) => {
+    let { accessToken } = getContext()
+    accessToken = accessToken as string
+    const postList = await service.loadPostListPageSortByDate(
+      accessToken,
+      pageSize,
+      pageIdx,
+      published
+    )
+    return postList
+  }
 export const onLoadPostListPageSortByDateByCategory: ci.OnLoadPostListPageSortByDateByCategory =
-  service.loadPostListPageSortByDateByCategory
+  async (
+    pageSize: number,
+    pageIdx: number,
+    categoryName: string,
+    published: boolean,
+    searchKeyword: string
+  ) => {
+    let { accessToken } = getContext()
+    accessToken = accessToken as string
+    const postList = await service.loadPostListPageSortByDateByCategory(
+      accessToken,
+      pageSize,
+      pageIdx,
+      categoryName,
+      published,
+      searchKeyword
+    )
+    return postList
+  }
+
 export const onCreatePost: ci.OnCreatePost = async (
   title: string,
   content: string,

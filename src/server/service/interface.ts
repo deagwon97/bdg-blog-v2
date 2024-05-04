@@ -21,12 +21,14 @@ export type GetAccessTokenByRefreshToken = (
 
 export type LoadPresignedUrlPutObject = (filename: string) => Promise<string>
 export type LoadPostListPageSortByDate = (
+  accessToken: string,
   pageSize: number,
   pageIdx: number,
   published: boolean
 ) => Promise<Post[]>
 
 export type LoadPostListPageSortByDateByCategory = (
+  accessToken: string,
   pageSize: number,
   pageIdx: number,
   categoryName: string,

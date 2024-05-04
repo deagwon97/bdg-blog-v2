@@ -75,23 +75,42 @@ export class Service implements IService {
     return await this.sto.getPresignedUrlPutObject(filename)
   }
   loadPostListPageSortByDate = async (
+    accessToken: string,
     pageSize: number,
     pageIdx: number,
     published: boolean
   ) => {
+    if (published === false) {
+      const userName = (await this.repo.userRepo.checkAccessToken(
+        accessToken
+      )) as string
+      if (userName !== 'bdg') {
+        return []
+      }
+    }
     return await this.repo.postRepo.getPostListPageSortByDate(
       pageSize,
       pageIdx,
       published
     )
   }
+
   loadPostListPageSortByDateByCategory = async (
+    accessToken: string,
     pageSize: number,
     pageIdx: number,
     categoryName: string,
     published: boolean,
     searchKeyword: string
   ) => {
+    if (published === false) {
+      const userName = (await this.repo.userRepo.checkAccessToken(
+        accessToken
+      )) as string
+      if (userName !== 'bdg') {
+        return []
+      }
+    }
     if (categoryName === '') {
       return await this.repo.postRepo.getPostListPageSortByDateCategory(
         pageSize,
@@ -109,6 +128,7 @@ export class Service implements IService {
       searchKeyword
     )
   }
+
   createPost = async (
     accessToken: string,
     title: string,

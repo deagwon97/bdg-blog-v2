@@ -13,7 +13,7 @@ import Head from 'next/head'
 
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
-import Portfolio from 'components/portfolio'
+// import Portfolio from 'components/portfolio'
 
 type SearchBarProps = {
   searchKeyword: string

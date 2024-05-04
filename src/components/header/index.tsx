@@ -5,10 +5,11 @@ import logoutIcon from 'assets/header/logout-icon.svg'
 import writeIcon from 'assets/header/write-icon.svg'
 import tempPostListIcon from 'assets/header/temp-post-list-icon.svg'
 import Head from 'next/head'
-import { use, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { IApi, TYPES } from 'apiClient/interface'
 import useApi from 'context/hook'
+import { setCookie, destroyCookie } from 'nookies'
 
 type HeaderItemProps = {
   accessToken: string
@@ -93,6 +94,10 @@ export const Header: React.FC<HeaderProps> = (props) => {
       const isValid = await api.onCheckAccessToken(nowAccesstoken)
       if (isValid) {
         setAccessToken(nowAccesstoken)
+        setCookie(null, 'accessToken', nowAccesstoken, {
+          maxAge: 60 * 60 * 24,
+          path: '/'
+        })
         return
       }
     }
@@ -108,6 +113,10 @@ export const Header: React.FC<HeaderProps> = (props) => {
     }
     setAccessToken(nowAccesstoken)
     localStorage.setItem('accessToken', nowAccesstoken)
+    setCookie(null, 'accessToken', nowAccesstoken, {
+      maxAge: 60 * 60 * 24,
+      path: '/'
+    })
   }, [])
 
   useEffect(() => {
@@ -117,6 +126,7 @@ export const Header: React.FC<HeaderProps> = (props) => {
   const clearLocalStorage = () => {
     localStorage.clear()
     setAccessToken('')
+    destroyCookie(null, 'accessToken')
     window.location.reload()
   }
 
