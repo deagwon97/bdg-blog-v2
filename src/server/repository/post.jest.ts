@@ -36,7 +36,8 @@ testRepoWithRollback(
       'test&!@#Title',
       'testContent',
       'testCategory',
-      'testThumbnail'
+      'testThumbnail',
+      true
     )
     const createdPost = (await p.post.findUnique({
       where: {
